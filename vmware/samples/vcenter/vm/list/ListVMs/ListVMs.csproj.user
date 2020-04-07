@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartArguments>--server servername --lletnar.adm
+administrator%40vsphere.local --Service%40123
+password --skip-server-verification --cleardata</StartArguments>
+  </PropertyGroup>
+</Project>
