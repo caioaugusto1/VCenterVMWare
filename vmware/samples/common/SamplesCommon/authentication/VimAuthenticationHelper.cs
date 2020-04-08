@@ -13,15 +13,10 @@
 namespace vmware.samples.common.authentication
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using vmware.vim25;
-    using vmware;
+    using System.IdentityModel.Tokens;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
-    using System.IdentityModel.Tokens;
+    using vmware.vim25;
 
     /// <summary>
     /// VIM API helper class which provides methods for login/logout using
