@@ -38,6 +38,7 @@
       <HintPath>..\..\..\..\packages\STSService.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.XML" />
     <Reference Include="vapi-client-bindings">
