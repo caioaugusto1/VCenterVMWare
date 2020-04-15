@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using VCenter.Models;
 using VSphere.Models;
 
 namespace VCenterVMWare.Application.Inteface

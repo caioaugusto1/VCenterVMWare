@@ -1,7 +1,4 @@
-﻿using VCenter.Models;
-using System.Web;
-
-namespace VSphere.Utils.SessionFilters
+﻿namespace VSphere.Utils.SessionFilters
 {
     public class SessionManager
     {

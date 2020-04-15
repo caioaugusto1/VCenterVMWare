@@ -15,7 +15,10 @@ using VCenter.Services.Inteface;
 using VCenter.Utils;
 using VCenterVMWare.Application;
 using VCenterVMWare.Application.Inteface;
+using VSphere.Application;
+using VSphere.Application.Interface;
 using VSphere.AutoMapper;
+using VSphere.Repositories.Interfaces;
 
 namespace VCenterVMWare
 {
@@ -45,6 +48,9 @@ namespace VCenterVMWare
 
             services.AddTransient<IUserApplication, UserApplication>();
             services.AddTransient<IUserRepository, UserRepository>();
+
+            services.AddTransient<IVMApplication, VMApplication>();
+            services.AddTransient<IVMRepository, VMRepository>();
 
             services.AddHttpClient<IService<Object>, Service<Object>>();
 

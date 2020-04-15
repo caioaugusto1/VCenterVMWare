@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using VCenter.Models;
-using VCenter.Services;
 using VCenter.Services.Inteface;
 using VCenter.Utils;
 using VCenterVMWare.Application.Inteface;
@@ -39,6 +35,8 @@ namespace VCenter.Controllers
         [HttpPost]
         public IActionResult LogIn(string email, string password)
         {
+            return RedirectToAction("Index", "Home");
+
             if (String.IsNullOrWhiteSpace(email) || String.IsNullOrWhiteSpace(password))
                 return null;
 
