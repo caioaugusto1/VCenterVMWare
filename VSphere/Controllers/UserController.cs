@@ -29,7 +29,7 @@ namespace VCenter.Controllers
         {
             List<UserEntity> users = new List<UserEntity>();
 
-            var teste = _service.GetAllAsync();
+            _service.Run();
 
             //users = _userApplication.GetAll();
 

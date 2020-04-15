@@ -20,11 +20,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="STSService">
+      <HintPath>..\packages\STSService.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web">
       <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.Web.dll</HintPath>
     </Reference>
     <Reference Include="vapi-client-bindings">
-      <HintPath>..\vmware\samples\vcenter\vm\hardware\MemoryConfiguration\bin\Debug\vapi-client-bindings.dll</HintPath>
+      <HintPath>..\packages\vapi-client-bindings.dll</HintPath>
+    </Reference>
+    <Reference Include="vapi-runtime">
+      <HintPath>..\packages\vapi-runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Vim25Service">
+      <HintPath>..\packages\Vim25Service.dll</HintPath>
+    </Reference>
+    <Reference Include="vsphereautomation-lookupservice">
+      <HintPath>..\packages\vsphereautomation-lookupservice.dll</HintPath>
     </Reference>
   </ItemGroup>
 
