@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ using VCenter.Services.Inteface;
 using VCenter.Utils;
 using VCenterVMWare.Application;
 using VCenterVMWare.Application.Inteface;
+using VSphere.AutoMapper;
 
 namespace VCenterVMWare
 {
@@ -46,6 +48,13 @@ namespace VCenterVMWare
 
             services.AddHttpClient<IService<Object>, Service<Object>>();
 
+            var mapperConfiguration = new MapperConfiguration(config =>
+            {
+                config.AddProfile(new MappingsProfile());
+            });
+
+            var mapper = mapperConfiguration.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -71,7 +80,7 @@ namespace VCenterVMWare
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=User}/{action=MainLogin}/{id?}");
             });
         }
     }

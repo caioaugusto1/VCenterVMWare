@@ -1,40 +1,46 @@
-﻿using System;
+﻿using AutoMapper;
 using System.Collections.Generic;
-using VCenter.Models;
+using VCenter.Entities;
 using VCenter.Repositories.Interfaces;
-using VCenter.Services;
-using VCenter.Services.Inteface;
+using VCenter.Utils;
 using VCenterVMWare.Application.Inteface;
+using VSphere.Models;
 
 namespace VCenterVMWare.Application
 {
     public class UserApplication : IUserApplication
     {
-
         private readonly IUserRepository _userRepository;
-        public UserApplication(IUserRepository userRepository)
+        private readonly IMapper _mapper;
+
+        public UserApplication(IMapper mapper, IUserRepository userRepository)
         {
-            _userRepository = userRepository;          
+            _mapper = mapper;
+            _userRepository = userRepository;
         }
 
-        public List<UserEntity> GetAll()
+        public List<UserViewModel> GetAll()
         {
-            return _userRepository.GetAll();
+            return _mapper.Map<List<UserEntity>, List<UserViewModel>>(_userRepository.GetAll());
         }
 
-        public UserEntity GetById(string id)
+        public UserViewModel GetById(string id)
         {
-            return _userRepository.GetById(id);
+            return _mapper.Map<UserEntity, UserViewModel>(_userRepository.GetById(id));
         }
 
-        public List<UserEntity> GetUserAndPassword(string user, string password)
+        public UserViewModel GetByUserAndPassword(string user, string password)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<UserEntity, UserViewModel>(_userRepository.GetByUserAndPassword(user, Crypto.CryptoMd5(password)));
         }
 
-        public void Insert(UserEntity user)
+        public void Insert(UserViewModel user)
         {
-            _userRepository.Insert(user);
+            user.Password = Crypto.CryptoMd5(user.Password);
+
+            var entity = new UserEntity(user.FullName, user.Email, user.Password);
+
+            _userRepository.Insert(entity);
         }
     }
 }

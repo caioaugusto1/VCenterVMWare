@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using VCenter.Models;
+using VSphere.Models;
 
 namespace VCenterVMWare.Application.Inteface
 {
     public interface IUserApplication
     {
-        List<UserEntity> GetUserAndPassword(string user, string password);
+        UserViewModel GetByUserAndPassword(string user, string password);
 
-        List<UserEntity> GetAll();
+        List<UserViewModel> GetAll();
 
-        UserEntity GetById(string id);
+        UserViewModel GetById(string id);
 
-        void Insert(UserEntity user);
+        void Insert(UserViewModel user);
     }
 }

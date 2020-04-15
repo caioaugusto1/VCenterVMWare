@@ -1,4 +1,4 @@
-﻿@model IEnumerable<UserEntity>
+﻿@model IEnumerable<UserViewModel>
 
 <div class="content-wrapper" style="min-height: 976.4px;">
 
@@ -100,9 +100,11 @@
                         <table id="dataTable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Fullname</th>
+                                    <th>FullName</th>
                                     <th>Email</th>
                                     <th>Insert</th>
+                                    <th>Active</th>
+                                    <th>Block</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -111,22 +113,23 @@
                                 @foreach (var user in Model)
                                 {
                                     <tr>
-                                        <td>@user.FirstName @user.Surname</td>
+                                        <td>@user.FullName</td>
                                         <td>
                                             @user.Email
                                         </td>
                                         <td>@user.Insert</td>
+                                        <td>@user.Active</td>
+                                        <td>@user.Block</td>
                                         <td>
                                             <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-info btn-circle btn-sm"><i class="fas fa-edit"></i></a>
 
                                             <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-facebook btn-circle btn-sm"><i class="fas fa-info"></i></a>
 
-                                            <a asp-action="Delete" asp-route-accomodationId="@user.Id" class="btn btn-light btn-circle btn-sm"><i class="fas fa-plus"></i></a>
+                                            <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-light btn-circle btn-sm"><i class="fas fa-plus"></i></a>
 
                                         </td>
                                     </tr>
                                 }
-
                             </tbody>
 
                         </table>

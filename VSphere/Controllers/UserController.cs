@@ -8,6 +8,7 @@ using VCenter.Services;
 using VCenter.Services.Inteface;
 using VCenter.Utils;
 using VCenterVMWare.Application.Inteface;
+using VSphere.Models;
 
 namespace VCenter.Controllers
 {
@@ -27,13 +28,7 @@ namespace VCenter.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            List<UserEntity> users = new List<UserEntity>();
-
-            _service.Run();
-
-            //users = _userApplication.GetAll();
-
-            return View(users);
+            return View(_userApplication.GetAll());
         }
 
         public IActionResult MainLogin()
@@ -41,103 +36,59 @@ namespace VCenter.Controllers
             return View();
         }
 
+        [HttpPost]
         public IActionResult LogIn(string email, string password)
         {
-            string cryptoPassword = Crypto.CryptoMd5(password);
+            if (String.IsNullOrWhiteSpace(email) || String.IsNullOrWhiteSpace(password))
+                return null;
 
-            //var validarAcesso = _loginApplication.AutenticarAcesso(email, cryptoPassword);
+            var user = _userApplication.GetByUserAndPassword(email, password);
 
-            //if (validarAcesso == null)
-            //{
-            //    ModelState.AddModelError("login.Invalido", "Usuário ou senha Inválido, tente novamente!");
-            //}
-            //else
-            //{
-            //    ViewBag.Error = false;
-            //    SessionManager.UsuarioLogado = validarAcesso;
-            //    System.Web.Security.FormsAuthentication.SetAuthCookie(validarAcesso.Email, true);
+            if (user == null)
+            {
+                ModelState.AddModelError("login.Invalido", "Incorrect User or Password, Try again!");
+            }
+            else
+            {
+                ViewBag.Error = false;
+                //SessionManager.UsuarioLogado = user;
+                //System.Web.Security.FormsAuthentication.SetAuthCookie(user.Email, true);
 
-            //    return RedirectToAction("Index", "Home");
-            //}
+                return RedirectToAction("Index", "Home");
+            }
 
             return View();
         }
 
-        // GET: Login/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Logout()
+        {
+            return null;
+            //Session.Abandon();
+            //Session.RemoveAll();
+            //return View("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Create()
         {
             return View();
         }
 
-        // GET: Login/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Login/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Create(UserViewModel user)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
+                _userApplication.Insert(user);
+                return RedirectToAction("Index", "Home");
             }
-            catch
+            else
             {
-                return View();
+                ModelState.AddModelError("key", "message");
             }
-        }
 
-        // GET: Login/Edit/5
-        public IActionResult Edit(string id)
-        {
-            var login = _userApplication.GetById(id);
-
-            return View(login);
-        }
-
-        // POST: Login/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Login/Delete/5
-        public ActionResult Delete(int id)
-        {
             return View();
-        }
-
-        // POST: Login/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
