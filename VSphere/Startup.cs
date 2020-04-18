@@ -52,6 +52,9 @@ namespace VSphere
             services.AddTransient<IHostApplication, HostApplication>();
             services.AddTransient<IHostRepository, HostRepository>();
 
+            services.AddTransient<IServerApplication, ServerApplication>();
+            services.AddTransient<IServerRepository, ServerRepository>();
+
             services.AddHttpClient<IService<Object>, Service<Object>>();
 
             var mapperConfiguration = new MapperConfiguration(config =>

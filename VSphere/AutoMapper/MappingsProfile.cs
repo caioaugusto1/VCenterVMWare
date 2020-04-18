@@ -38,6 +38,13 @@ namespace VSphere.AutoMapper
                 .ForMember(x => x.Power, y => y.MapFrom(f => f.Power))
                 .ForMember(x => x.Origem, y => y.MapFrom(f => f.Origem))
                 .ForMember(x => x.Insert, y => y.MapFrom(f => DateTime.Parse(f.Insert.ToString(), new CultureInfo("pt-BR"))));
+
+            CreateMap<ServerEntity, ServerViewModel>()
+                .ForMember(x => x.Id, y => y.MapFrom(f => f.Id))
+                .ForMember(x => x.IP, y => y.MapFrom(f => f.IP))
+                .ForMember(x => x.UserName, y => y.MapFrom(f => f.UserName))
+                .ForMember(x => x.Password, y => y.MapFrom(f => f.Password))
+                .ForMember(x => x.Description, y => y.MapFrom(f => f.Description));
         }
     }
 }

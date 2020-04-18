@@ -1,74 +1,78 @@
-﻿
-<div class="content-wrapper">
+﻿@model UserViewModel
+
+
+@await Html.PartialAsync("~/Views/Shared/_partial/_cssImportBootstrap.cshtml")
+
+
+<div class="content-wrapper" style="min-height: 976.4px;">
 
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>General Form</h1>
+                    <h1>User</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">General Form</li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "User")">Index</a></li>
+                        <li class="breadcrumb-item active">Edit</li>
                     </ol>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
     </section>
 
-
-
     <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <!-- left column -->
-                <div class="col-md-6">
-                    <!-- general form elements -->
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Quick Example</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        <form role="form">
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Email address</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Password</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputFile">File input</label>
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="exampleInputFile">
-                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="">Upload</span>
-                                        </div>
+        <div class="row">
+            <div class="col-8">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Edit - @Model.FullName</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+
+                        <form asp-action="Edit" method="post">
+
+                            <input hidden asp-for="Id" value="@Model.Id" />
+
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            @await Html.PartialAsync("~/Views/User/_partial/_createEdit.cshtml")
+
+
+                            <div class="input-group mb-3">
+                                @Html.EditorFor(model => model.Block, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-calendar-alt"></span>
                                     </div>
                                 </div>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                    @Html.CheckBoxFor(model => model.Active, new { @class = "custom-control-input", @id = "active", @name = "active" })
+                                    <label class="custom-control-label" for="active">Active?</label>
                                 </div>
                             </div>
-                            <!-- /.card-body -->
 
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                            <div class="row">
+                                <div class="col-4">
+                                    <button type="submit" class="btn btn-primary btn-block">Edit</button>
+                                </div>
+                                <!-- /.col -->
                             </div>
                         </form>
+
                     </div>
+
                 </div>
 
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 </div>
+
+

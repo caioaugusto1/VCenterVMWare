@@ -6,9 +6,9 @@ namespace VSphere.Utils
 {
     static class Crypto
     {
-        public static string CryptoMd5(string password)
+        public static string EncryptMd5(string password)
         {
-            MD5 md5 = System.Security.Cryptography.MD5.Create();
+            MD5 md5 = MD5.Create();
             byte[] s = md5.ComputeHash(Encoding.UTF8.GetBytes(password));
 
             return BitConverter.ToString(s).ToLower();

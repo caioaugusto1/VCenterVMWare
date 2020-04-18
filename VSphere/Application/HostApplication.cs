@@ -21,7 +21,7 @@ namespace VSphere.Application
 
         public List<HostViewModel> GetAll()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<List<HostViewModel>>(_hostRepository.GetAll());
         }
     }
 }

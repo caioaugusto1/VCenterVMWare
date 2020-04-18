@@ -21,22 +21,22 @@ namespace VSphere.Application
 
         public List<UserViewModel> GetAll()
         {
-            return _mapper.Map<List<UserEntity>, List<UserViewModel>>(_userRepository.GetAll());
+            return _mapper.Map<List<UserViewModel>>(_userRepository.GetAll());
         }
 
         public UserViewModel GetById(string id)
         {
-            return _mapper.Map<UserEntity, UserViewModel>(_userRepository.GetById(id));
+            return _mapper.Map<UserViewModel>(_userRepository.GetById(id));
         }
 
         public UserViewModel GetByUserAndPassword(string user, string password)
         {
-            return _mapper.Map<UserEntity, UserViewModel>(_userRepository.GetByUserAndPassword(user, Crypto.CryptoMd5(password)));
+            return _mapper.Map<UserViewModel>(_userRepository.GetByUserAndPassword(user, Crypto.EncryptMd5(password)));
         }
 
         public void Insert(UserViewModel user)
         {
-            user.Password = Crypto.CryptoMd5(user.Password);
+            user.Password = Crypto.EncryptMd5(user.Password);
 
             var entity = new UserEntity(user.FullName, user.Email, user.Password);
 

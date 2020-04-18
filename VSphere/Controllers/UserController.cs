@@ -88,5 +88,24 @@ namespace VCenter.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            return View(_userApplication.GetById(id));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(string id, UserViewModel user)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return null;
+
+            if (user.Id != id)
+                return null;
+
+            return View();
+        }
     }
 }
