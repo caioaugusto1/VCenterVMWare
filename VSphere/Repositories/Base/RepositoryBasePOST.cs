@@ -1,12 +1,15 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using System.Threading.Tasks;
-using VCenter.Repositories.Interfaces.Base;
+using VSphere.Repositories.Interfaces.Base;
 
-namespace VCenter.Repositories.Base
+namespace VSphere.Repositories.Base
 {
     public class RepositoryBasePOST<TEntity> : Repository<TEntity>, IRepositoryBasePOST<TEntity> where TEntity : class
     {
+        public RepositoryBasePOST(string collectionName) : base(collectionName)
+        {
+        }
+
         public void Insert(TEntity obj)
         {
             _mongoCollection.InsertOne(obj);

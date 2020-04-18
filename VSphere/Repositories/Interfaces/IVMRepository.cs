@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using VCenter.Repositories.Interfaces.Base;
 using VSphere.Entities;
+using VSphere.Repositories.Interfaces.Base;
 
 namespace VSphere.Repositories.Interfaces
 {

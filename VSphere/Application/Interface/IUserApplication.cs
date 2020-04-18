@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using VSphere.Models;
 
-namespace VCenterVMWare.Application.Inteface
+namespace VSphere.Application.Interface
 {
     public interface IUserApplication
     {

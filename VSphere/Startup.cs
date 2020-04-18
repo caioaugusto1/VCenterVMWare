@@ -6,21 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using VCenter.Repositories;
-using VCenter.Repositories.Base;
-using VCenter.Repositories.Interfaces;
-using VCenter.Repositories.Interfaces.Base;
-using VCenter.Services;
-using VCenter.Services.Inteface;
-using VCenter.Utils;
-using VCenterVMWare.Application;
-using VCenterVMWare.Application.Inteface;
 using VSphere.Application;
 using VSphere.Application.Interface;
 using VSphere.AutoMapper;
+using VSphere.Repositories;
+using VSphere.Repositories.Base;
 using VSphere.Repositories.Interfaces;
+using VSphere.Repositories.Interfaces.Base;
+using VSphere.Services;
+using VSphere.Services.Inteface;
+using VSphere.Utils;
 
-namespace VCenterVMWare
+namespace VSphere
 {
     public class Startup
     {
@@ -51,6 +48,9 @@ namespace VCenterVMWare
 
             services.AddTransient<IVMApplication, VMApplication>();
             services.AddTransient<IVMRepository, VMRepository>();
+
+            services.AddTransient<IHostApplication, HostApplication>();
+            services.AddTransient<IHostRepository, HostRepository>();
 
             services.AddHttpClient<IService<Object>, Service<Object>>();
 

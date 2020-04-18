@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace VCenter.Repositories.Interfaces.Base
+namespace VSphere.Repositories.Interfaces.Base
 {
     public interface IRepositoryBaseGET<TEntity> where TEntity : class
     {

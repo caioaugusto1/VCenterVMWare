@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using System.Collections.Generic;
-using VCenter.Entities;
-using VCenter.Repositories.Interfaces;
-using VCenter.Utils;
-using VCenterVMWare.Application.Inteface;
+using VSphere.Application.Interface;
+using VSphere.Entities;
 using VSphere.Models;
+using VSphere.Repositories.Interfaces;
+using VSphere.Utils;
 
-namespace VCenterVMWare.Application
+namespace VSphere.Application
 {
     public class UserApplication : IUserApplication
     {

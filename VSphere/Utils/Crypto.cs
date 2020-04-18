@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace VCenter.Utils
+namespace VSphere.Utils
 {
     static class Crypto
     {

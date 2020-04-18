@@ -4,12 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using VCenter.Repositories.Interfaces.Base;
+using VSphere.Repositories.Interfaces.Base;
 
-namespace VCenter.Repositories.Base
+namespace VSphere.Repositories.Base
 {
     public class RepositoryBaseGET<TEntity> : Repository<TEntity>, IRepositoryBaseGET<TEntity> where TEntity : class
     {
+        public RepositoryBaseGET(string collectionName) : base(collectionName)
+        {
+        }
+
         public List<TEntity> FindByFilter(Expression<Func<TEntity, bool>> predicate)
         {
             throw new NotImplementedException();

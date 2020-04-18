@@ -1,7 +1,7 @@
-﻿using VCenter.Entities;
-using VCenter.Repositories.Interfaces.Base;
+﻿using VSphere.Entities;
+using VSphere.Repositories.Interfaces.Base;
 
-namespace VCenter.Repositories.Interfaces
+namespace VSphere.Repositories.Interfaces
 {
     public interface IUserRepository : IRepositoryBaseGET<UserEntity>, IRepositoryBasePOST<UserEntity>
     {

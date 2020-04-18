@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace VCenter.Entities.Base
+namespace VSphere.Entities.Base
 {
     public abstract class EntityBase
     {

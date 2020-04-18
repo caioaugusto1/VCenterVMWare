@@ -1,4 +1,4 @@
-﻿namespace VCenter.Utils
+﻿namespace VSphere.Utils
 {
     public class AppSettings
     {

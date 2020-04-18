@@ -1,6 +1,4 @@
-using System;
-
-namespace VCenterVMWare.Models
+namespace VSphere.Models
 {
     public class ErrorViewModel
     {

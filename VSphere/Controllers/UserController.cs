@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
-using VCenter.Services.Inteface;
-using VCenter.Utils;
-using VCenterVMWare.Application.Inteface;
+using VSphere.Application.Interface;
 using VSphere.Models;
+using VSphere.Services.Inteface;
+using VSphere.Utils;
 
 namespace VCenter.Controllers
 {

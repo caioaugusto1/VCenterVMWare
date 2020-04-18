@@ -5,10 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
-using VCenter.Repositories.Interfaces.Base;
+using VSphere.Repositories.Interfaces.Base;
 
-namespace VCenter.Repositories.Base
+namespace VSphere.Repositories.Base
 {
     public abstract class Repository<TEntity> : IDisposable,
         IRepositoryConnection<TEntity>,
@@ -19,18 +18,18 @@ namespace VCenter.Repositories.Base
 
         protected readonly IConfiguration configuration;
 
-        public IMongoCollection<TEntity> Connection()
+        public IMongoCollection<TEntity> Connection(string collectionName)
         {
             //MongoClient client = new MongoClient(configuration.GetConnectionString("VCenterMongoDBDatabase"));
             MongoClient client = new MongoClient("mongodb://localhost:27017");
             IMongoDatabase database = client.GetDatabase("VCenter");
 
-            return database.GetCollection<TEntity>("mongodb://localhost:27017");
+            return database.GetCollection<TEntity>(collectionName);
         }
 
-        protected Repository()
+        protected Repository(string collectionName)
         {
-            _mongoCollection = Connection();
+            _mongoCollection = Connection(collectionName);
         }
 
         public void Delete(string id)

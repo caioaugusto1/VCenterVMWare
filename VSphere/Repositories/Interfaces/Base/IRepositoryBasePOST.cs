@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace VCenter.Repositories.Interfaces.Base
+namespace VSphere.Repositories.Interfaces.Base
 {
     public interface IRepositoryBasePOST<TEntity> where TEntity : class
     {

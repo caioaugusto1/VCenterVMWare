@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace VCenter.Services.Inteface
+namespace VSphere.Services.Inteface
 {
     public interface IService<Object>
     {

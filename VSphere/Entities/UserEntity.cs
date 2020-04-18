@@ -1,8 +1,8 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
-using VCenter.Entities.Base;
+using VSphere.Entities.Base;
 
-namespace VCenter.Entities
+namespace VSphere.Entities
 {
     public class UserEntity : EntityBase
     {

@@ -1,19 +1,13 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using VCenter.Services.Inteface;
 using vmware.samples.common;
 using vmware.samples.common.authentication;
-using vmware.samples.vcenter.vm.list;
-using vmware.vapi.core;
-using vmware.vapi.security;
 using vmware.vcenter;
+using VSphere.Services.Inteface;
 
-namespace VCenter.Services
+namespace VSphere.Services
 {
     public class Service<Object> : SamplesBase, IService<Object>
     {

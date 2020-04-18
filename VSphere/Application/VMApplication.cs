@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using VSphere.Application.Interface;
+using VSphere.Entities;
 using VSphere.Models;
 using VSphere.Repositories.Interfaces;
 
@@ -20,7 +21,7 @@ namespace VSphere.Application
 
         public List<VMViewModel> GetAll()
         {
-            return _mapper.Map<List<VMViewModel>>(_vmRepository.GetAll());
+            return _mapper.Map<List<VMEntity>, List<VMViewModel>>(_vmRepository.GetAll());
         }
 
         public List<VMViewModel> GetAllByDate(DateTime from, DateTime to)
