@@ -1,0 +1,27 @@
+﻿@model IEnumerable<VMViewModel>
+
+<table id="dataTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Memory Size MiB</th>
+            <th>VM</th>
+            <th>Name</th>
+            <th>Power</th>
+            <th>CPU</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var vm in Model)
+        {
+            <tr>
+                <td>@vm.Memory</td>
+                <td>@vm.VM</td>
+                <td>@vm.Name</td>
+                <td>@vm.Power</td>
+                <td>@vm.CPU</td>
+            </tr>
+        }
+
+    </tbody>
+</table>

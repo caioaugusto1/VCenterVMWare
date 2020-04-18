@@ -22,7 +22,29 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
-                <div class="col-lg-3 col-6">
+
+                <div class="col-sm-4 col-6">
+
+                    <select required class="form-control" id="dropDownServers">
+                        <option value="">Please select one</option>
+
+                        @foreach (var server in ViewBag.Servers)
+                        {
+                            <option value="@server.IP">@server.IP</option>
+                        }
+
+                    </select>
+
+                    <br />
+
+                    <button type="button" id="btn-search-by-ip" class="btn btn-secondary" style="float: right;" data-toggle="modal" data-target="#modal-secondary">
+                        Search
+                    </button>
+
+                    <!-- small box -->
+                </div>
+
+                <div class="col-sm-2 col-6">
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
@@ -37,7 +59,7 @@
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-6">
+                <div class="col-sm-2 col-6">
                     <!-- small box -->
                     <div class="small-box bg-success">
                         <div class="inner">
@@ -52,7 +74,7 @@
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-6">
+                <div class="col-sm-2 col-6">
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
@@ -67,7 +89,7 @@
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-6">
+                <div class="col-sm-2 col-6">
                     <!-- small box -->
                     <div class="small-box bg-danger">
                         <div class="inner">
@@ -93,35 +115,12 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Users</h3>
+                        <h3 class="card-title">VM</h3>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body">
-                        <table id="dataTable" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Memory Size MiB</th>
-                                    <th>VM</th>
-                                    <th>Name</th>
-                                    <th>Power</th>
-                                    <th>CPU</th>
-                                </tr>
-                            </thead>
-                            <tbody>
 
-                                @foreach (var vm in Model)
-                                {
-                                    <tr>
-                                        <td>@vm.Memory</td>
-                                        <td>@vm.VM</td>
-                                        <td>@vm.Name</td>
-                                        <td>@vm.Power</td>
-                                        <td>@vm.CPU</td>
-                                    </tr>
-                                }
-                            </tbody>
-
-                        </table>
+                    <div id="div-table" class="card-body">
+                        
                     </div>
 
                 </div>
@@ -130,3 +129,8 @@
         </div>
     </section>
 </div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/Ultil/Util.js"></script>
+<script src="~/js/VM/VM.js"></script>

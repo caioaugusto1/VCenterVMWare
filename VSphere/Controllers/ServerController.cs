@@ -19,24 +19,44 @@ namespace VSphere.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create(ServerViewModel server)
+        public IActionResult Create()
         {
-            if (ModelState.IsValid)
-            {
-                
-            }
-            else
-            {
-
-            }
-
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(string id)
+        public IActionResult Create(ServerViewModel serverVM)
         {
+            if (ModelState.IsValid)
+            {
+                _serverApplication.Insert(serverVM);
+                return RedirectToAction("Index", "Server");
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return null;
+
+            return View(_serverApplication.GetById(id));
+        }
+
+        [HttpPost]
+        public IActionResult Edit(string id, ServerViewModel serverViewModel)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return null;
+
+            if (serverViewModel.Id != id)
+                return null;
+
+
+
             return View();
         }
     }

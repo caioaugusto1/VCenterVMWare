@@ -5,6 +5,5 @@ namespace VSphere.Repositories.Interfaces
 {
     public interface IServerRepository : IRepositoryBaseGET<ServerEntity>, IRepositoryBasePOST<ServerEntity>
     {
-
     }
 }

@@ -1,15 +1,20 @@
-﻿using VSphere.Models.Base;
+﻿using System.ComponentModel.DataAnnotations;
+using VSphere.Models.Base;
 
 namespace VSphere.Models
 {
     public class ServerViewModel : BaseViewModel
     {
-        public string IP { get; private set; }
+        [Required(ErrorMessage = "Server IP is required")]
+        public string IP { get; set; }
 
-        public string UserName { get; private set; }
+        [Required(ErrorMessage = "Username is required")]
+        public string UserName { get; set; }
 
-        public string Password { get; private set; }
+        [Required(ErrorMessage = "Password is required")]
+        public string Password { get; set; }
 
-        public string Description { get; private set; }
+        [Required(ErrorMessage = "Description is required")]
+        public string Description { get; set; }
     }
 }
