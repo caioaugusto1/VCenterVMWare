@@ -12,9 +12,9 @@ namespace VCenter.Controllers
     {
         private readonly IOptions<AppSettings> _appSetttings;
         private readonly IUserApplication _userApplication;
-        private readonly IService<Object> _service;
+        private readonly IService _service;
 
-        public UserController(IOptions<AppSettings> appSetttings, IUserApplication userApplication, IService<Object> service)
+        public UserController(IOptions<AppSettings> appSetttings, IUserApplication userApplication, IService service)
         {
             _userApplication = userApplication;
             _appSetttings = appSetttings;
@@ -29,6 +29,10 @@ namespace VCenter.Controllers
 
         public IActionResult MainLogin()
         {
+            _service.CreateClient();
+            var sessionId = _service.GetSession();
+            var vms = _service.GetAllAsync();
+
             return View();
         }
 

@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 namespace VSphere.Services.Inteface
 {
-    public interface IService<Object>
+    public interface IService
     {
-        void Run();
-        Task<List<Object>> GetAllAsync();
-        Task<Object> GetByIdAsync(int id);
-        Task<Object> CreateAsync(Object task);
-        Task<Object> UpdateAsync(Object task);
-        Task RemoveAsync(int id);
+        object GetAllAsync();
+
+        void CreateClient();
+        string GetSession();
+
+        string UserStringBase64();
     }
 }

@@ -1,101 +1,76 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
+﻿using Newtonsoft.Json.Linq;
+using RestSharp;
+using System;
+using System.Net;
+using System.Text;
 using System.Threading.Tasks;
-using vmware.samples.common;
-using vmware.samples.common.authentication;
-using vmware.vcenter;
 using VSphere.Services.Inteface;
 
 namespace VSphere.Services
 {
-    public class Service<Object> : SamplesBase, IService<Object>
+    public class Service : IService
     {
-        private readonly HttpClient _httpClient;
+        RestClient _httpClient;
 
-        private const string BaseUrl = "192.168.100.102";
+        string BaseUrl = "https://10.100.11.37";
 
-        VM vmService;
+        string session;
+        string username = "lletnar.adm";
+        string password = "Service@123";
 
-        public Service(HttpClient httpClient)
+        public Service()
         {
-            _httpClient = httpClient;
-            this.SkipServerVerification = true;
+
         }
 
-        public Task<Object> CreateAsync(Object task)
+        public string UserStringBase64()
         {
-            throw new NotImplementedException();
+            //Encode user and pwd base64
+            string authInfo = username + ":" + password;
+            authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
+            return authInfo;
         }
 
-        public async Task<List<Object>> GetAllAsync()
+        public void CreateClient()
         {
-          
+            _httpClient = new RestClient();
+
+            _httpClient.BaseUrl = new Uri(BaseUrl);
+            _httpClient.Timeout = -1;
+            _httpClient.CookieContainer = new CookieContainer();
+            // Self Signed Cert ???
+            _httpClient.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+        }
+
+        public object GetAllAsync()
+        {
+            var _restRequest = new RestRequest(Method.GET);
+            
+            _restRequest.Resource = "rest/vcenter/vm";
+
+            _restRequest.AddHeader("Authorization", "Basic " + UserStringBase64());
+            _restRequest.AddHeader("Content-Type", "application/json");
+
+            // In theory this crap should use the cookie container that has the session ID
+            //request.AddHeader("Cookie", "vmware-api-session-id=" + session);
+            IRestResponse response = _httpClient.Execute(_restRequest);
+
             return null;
-
-
-            ////var vms = new ListVMs();
-            ////var testeeee = vms.Get("192.168.100.102", "administrator@vsphere.local", "W@ster123");
-            //string username = "administrator@vsphere.local";
-            //string password = "W@ster123";
-            //ExecutionContext.SecurityContext securityContext =
-            //   new UserPassSecurityContext(
-            //       username, password.ToCharArray());
-
-            ////_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("administrator@vsphere.local", "W@ster123");
-
-            //var httpResponse = await _httpClient.GetAsync(BaseUrl);        
-
-            //if (!httpResponse.IsSuccessStatusCode)
-            //    throw new Exception("Cannot retrieve tasks");
-
-            //var content = await httpResponse.Content.ReadAsStringAsync();
-
-            //var tasks = JsonConvert.DeserializeObject<List<Object>>(content);
-
-            //return tasks;
-
-            //return null;
         }
 
-        public Task<Object> GetByIdAsync(int id)
+        public string GetSession()
         {
-            throw new NotImplementedException();
-        }
+            var _restRequest = new RestRequest(Method.POST);
+            _restRequest.Resource = "rest/com/vmware/cis/session";
+            _restRequest.AddHeader("Authorization", "Basic " + UserStringBase64());
 
-        public Task<Object> UpdateAsync(Object task)
-        {
-            throw new NotImplementedException();
-        }
+            IRestResponse response = _httpClient.Execute(_restRequest);
 
-        public System.Threading.Tasks.Task RemoveAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+            var temp = JObject.Parse(response.Content);
 
-        public override async void Run()
-        {
-            string username = "administrator@vsphere.local";
-            string password = "W@ster123";
+            session = temp["value"].ToString();
 
-            SetupSslTrustForServer();
-
-            this.VapiAuthHelper = new VapiAuthenticationHelper();
-
-            this.SessionStubConfiguration =
-                await this.VapiAuthHelper.LoginByUsernameAndPasswordAsync(
-                    BaseUrl, username, password);
-
-            this.vmService =
-                this.VapiAuthHelper.StubFactory.CreateStub<VM>(this.SessionStubConfiguration);
-
-            List<VMTypes.Summary> vmList = await vmService.ListAsync(new VMTypes.FilterSpec());
-
-        }
-
-        public override void Cleanup()
-        {
-            throw new NotImplementedException();
+            return session;
         }
     }
 }
