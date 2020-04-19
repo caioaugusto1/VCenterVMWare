@@ -7,6 +7,7 @@
     });
 
     var loadingPage = function () {
+        console.log('passei aqui');
 
         //$('.dateRangePicker').daterangepicker({
         //    locale: {

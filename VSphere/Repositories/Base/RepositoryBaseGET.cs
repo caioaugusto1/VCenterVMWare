@@ -14,11 +14,6 @@ namespace VSphere.Repositories.Base
         {
         }
 
-        public List<TEntity> FindByFilter(Expression<Func<TEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<TEntity> GetAll()
         {
             return _mongoCollection.Find<TEntity>(x => true).ToList();

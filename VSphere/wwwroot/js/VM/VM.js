@@ -6,8 +6,15 @@
 
             const ip = $('#dropDownServers').val();
 
-            Util.request('/VM/GetAllByFilter', 'GET', { "ip": ip }, 'html', false, function (data) {
+            var api = "";
 
+            if ($('#pageValueIdentity').val() === "GetByAPI") {
+                api = '/VM/GetAllByAPI';
+            } else {
+                api = "/VM/GetAllByFilterHistory";
+            }
+
+            Util.request(api, 'GET', { "apiId": ip }, 'html', false, function (data) {
 
                 $('#dataTable').remove();
 
@@ -15,13 +22,14 @@
                     alert('Please, let me know what IP server would you like to get VMs');
                     return;
                 }
-                
+
                 $('#div-table').append(data);
+
+                $('#dataTable').DataTable();
 
             }, function (request, status, error) {
 
             });
-
         });
     };
 

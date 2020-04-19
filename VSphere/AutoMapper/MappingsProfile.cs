@@ -25,9 +25,9 @@ namespace VSphere.AutoMapper
                .ForMember(x => x.VM, y => y.MapFrom(f => f.VM))
                .ForMember(x => x.Name, y => y.MapFrom(f => f.Name))
                .ForMember(x => x.CPU, y => y.MapFrom(f => f.CPU))
-               .ForMember(x => x.Power, y => y.MapFrom(f => f.Power))
-               .ForMember(x => x.Origem, y => y.MapFrom(f => f.Origem))
-               .ForMember(x => x.Insert, y => y.MapFrom(f => DateTime.Parse(f.Insert.ToString(), new CultureInfo("pt-BR"))));
+               .ForMember(x => x.Power, y => y.MapFrom(f => f.Power));
+            //.ForMember(x => x.Origem, y => y.MapFrom(f => f.Origem))
+            //.ForMember(x => x.Insert, y => y.MapFrom(f => DateTime.Parse(f.Insert.ToString(), new CultureInfo("pt-BR"))));
 
 
             CreateMap<HostEntity, HostViewModel>()

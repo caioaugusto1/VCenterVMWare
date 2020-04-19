@@ -1,15 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using VSphere.Models.JsonConvert;
 
 namespace VSphere.Services.Inteface
 {
     public interface IService
     {
-        object GetAllAsync();
-
-        void CreateClient();
-        string GetSession();
-
-        string UserStringBase64();
+        Task<VMConvert> GetVMsAPI(string url, string username, string password);
     }
 }

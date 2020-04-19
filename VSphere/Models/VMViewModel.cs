@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using VSphere.Models.Base;
 
 namespace VSphere.Models

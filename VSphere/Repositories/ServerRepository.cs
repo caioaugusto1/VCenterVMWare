@@ -7,7 +7,7 @@ namespace VSphere.Repositories
 {
     public class ServerRepository : Repository<ServerEntity>, IServerRepository
     {
-        public ServerRepository() : base("Server")
+        public ServerRepository() : base("server")
         {
         }
     }

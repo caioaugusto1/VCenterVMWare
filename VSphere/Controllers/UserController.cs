@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using System;
 using VSphere.Application.Interface;
 using VSphere.Models;
-using VSphere.Services.Inteface;
 using VSphere.Utils;
 
 namespace VCenter.Controllers
@@ -12,13 +11,11 @@ namespace VCenter.Controllers
     {
         private readonly IOptions<AppSettings> _appSetttings;
         private readonly IUserApplication _userApplication;
-        private readonly IService _service;
 
-        public UserController(IOptions<AppSettings> appSetttings, IUserApplication userApplication, IService service)
+        public UserController(IOptions<AppSettings> appSetttings, IUserApplication userApplication)
         {
             _userApplication = userApplication;
             _appSetttings = appSetttings;
-            _service = service;
         }
 
         // GET: Login
@@ -29,10 +26,6 @@ namespace VCenter.Controllers
 
         public IActionResult MainLogin()
         {
-            _service.CreateClient();
-            var sessionId = _service.GetSession();
-            var vms = _service.GetAllAsync();
-
             return View();
         }
 
