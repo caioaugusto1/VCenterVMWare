@@ -3,13 +3,12 @@
 <table id="dataTable" class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>Memory Size MiB</th>
-            <th>VM</th>
-            <th>Name</th>
-            <th>Power</th>
+            <th>Nome</th>
+            <th>Memória</th>
             <th>CPU</th>
+            <th>Status</th>
             <th>Origem</th>
-            <th>Insert</th>
+            <th>Inserido</th>
         </tr>
     </thead>
     <tbody>
@@ -17,11 +16,17 @@
         @foreach (var vm in Model)
         {
             <tr>
-                <td>@vm.Memory</td>
-                <td>@vm.VM</td>
                 <td>@vm.Name</td>
-                <td>@vm.Power</td>
+                <td>@vm.Memory</td>
                 <td>@vm.CPU</td>
+                @if (vm.Power == "POWERED_ON")
+                {
+                    <td>ON</td>
+                }
+                else
+                {
+                    <td>OFF</td>
+                }
                 <td>@vm.Origem</td>
                 <td>@vm.Insert</td>
             </tr>

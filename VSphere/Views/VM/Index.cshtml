@@ -6,19 +6,47 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>DataTables</h1>
+                    <h1>Inventário</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">DataTables</li>
+                        <li class="breadcrumb-item active">Inventário</li>
                     </ol>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
     </section>
 
-    @await Html.PartialAsync("~/Views/VM/_partial/_IndexTop.cshtml", Model)
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+
+                <div class="col-sm-4 col-6">
+
+                    <select required class="form-control" id="dropDownServers">
+                        <option value="">Selecione um vCenter</option>
+
+                        @foreach (var server in ViewBag.Servers)
+                        {
+                            <option value="@server.Id">@server.IP</option>
+                        }
+
+                    </select>
+
+
+                    <!-- small box -->
+                </div>
+                <button type="button" id="btn-search-by-ip" class="btn btn-secondary" style="float: right;" data-toggle="modal" data-target="#modal-secondary">
+                    Search
+                </button>
+                <!-- ./col -->
+            </div>
+
+            </br>
+        </div><!-- /.container-fluid -->
+    </section>
 
     <section class="content">
         <div class="row">
@@ -26,7 +54,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">VM</h3>
+                        <h3 class="card-title"></h3>
                     </div>
                     <!-- /.card-header -->
 
@@ -46,4 +74,4 @@
 <script src="~/theme/plugins/jquery/jquery.js"></script>
 <script src="~/theme/plugins/datatables/jquery.dataTables.js"></script>
 <script src="~/js/Ultil/Util.js"></script>
-<script src="~/js/VM/VM.js"></script>
+<script src="~/js/VM/vm.js"></script>

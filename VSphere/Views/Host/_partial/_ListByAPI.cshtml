@@ -1,0 +1,29 @@
+﻿@model IEnumerable<HostViewModel>
+
+<table id="dataTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Host</th>
+            <th>Name</th>
+            <th>Conn. State</th>
+            <th>Power State</th>
+            <th>Origem</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var vm in Model)
+        {
+            <tr>
+                <td>@vm.Host</td>
+                <td>@vm.Name</td>
+                <td>@vm.State</td>
+                <td>@vm.Power</td>
+                <td>@vm.Origem</td>
+                <td>@vm.Insert</td>
+            </tr>
+        }
+    </tbody>
+
+</table>

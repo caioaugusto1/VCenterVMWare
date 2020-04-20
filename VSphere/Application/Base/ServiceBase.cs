@@ -42,5 +42,13 @@ namespace VSphere.Application.Base
             // Self Signed Cert ???
             _httpClient.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
         }
+
+        protected void AddDefaultHeader(RestRequest restRequest, string resource, string username, string password)
+        {
+            restRequest.Resource = resource;
+
+            restRequest.AddHeader("Authorization", "Basic " + UserStringBase64(username, password));
+            restRequest.AddHeader("Content-Type", "application/json");
+        }
     }
 }
