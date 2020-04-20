@@ -1,13 +1,10 @@
-﻿using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper.Configuration;
+using MongoDB.Driver;
 
 namespace VSphere.Repositories.Interfaces.Base
 {
     public interface IRepositoryConnection<TEntity>
     {
-        IMongoCollection<TEntity> Connection(string collectioName);
+        IMongoCollection<TEntity> Connection(Microsoft.Extensions.Configuration.IConfiguration configuration, string collectioName);
     }
 }

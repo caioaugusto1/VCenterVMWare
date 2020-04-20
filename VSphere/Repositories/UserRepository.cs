@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 using VSphere.Entities;
 using VSphere.Repositories.Base;
 using VSphere.Repositories.Interfaces;
@@ -7,8 +8,8 @@ namespace VSphere.Repositories
 {
     public class UserRepository : Repository<UserEntity>, IUserRepository
     {
-        public UserRepository()
-            : base("user")
+        public UserRepository(IConfiguration configuration)
+            : base(configuration, "user")
         {
 
         }

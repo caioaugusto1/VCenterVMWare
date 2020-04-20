@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace VSphere.Repositories.Base
 {
     public class RepositoryBaseGET<TEntity> : Repository<TEntity>, IRepositoryBaseGET<TEntity> where TEntity : class
     {
-        public RepositoryBaseGET(string collectionName) : base(collectionName)
+        public RepositoryBaseGET(IConfiguration configuration, string collectionName) : base(configuration, collectionName)
         {
         }
 

@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,8 +11,8 @@ namespace VSphere.Repositories
 {
     public class VMRepository : Repository<VMEntity>, IVMRepository
     {
-        public VMRepository()
-            : base("vm")
+        public VMRepository(IConfiguration configuration)
+            : base(configuration, "vm")
         {
 
         }

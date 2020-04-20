@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using VSphere.Repositories.Interfaces.Base;
 
@@ -6,7 +7,7 @@ namespace VSphere.Repositories.Base
 {
     public class RepositoryBasePOST<TEntity> : Repository<TEntity>, IRepositoryBasePOST<TEntity> where TEntity : class
     {
-        public RepositoryBasePOST(string collectionName) : base(collectionName)
+        public RepositoryBasePOST(IConfiguration configuration, string collectionName) : base(configuration, collectionName)
         {
         }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AutoMapper.Configuration;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -16,20 +17,20 @@ namespace VSphere.Repositories.Base
     {
         protected readonly IMongoCollection<TEntity> _mongoCollection;
 
-        protected readonly IConfiguration configuration;
+        protected readonly Microsoft.Extensions.Configuration.IConfiguration _configuration;
 
-        public IMongoCollection<TEntity> Connection(string collectionName)
+        public IMongoCollection<TEntity> Connection(Microsoft.Extensions.Configuration.IConfiguration configuration, string collectionName)
         {
-            //MongoClient client = new MongoClient(configuration.GetConnectionString("VCenterMongoDBDatabase"));
-            MongoClient client = new MongoClient("mongodb://localhost:27017");
-            IMongoDatabase database = client.GetDatabase("VCenter");
+            MongoClient client = new MongoClient(configuration.GetConnectionString("VsphereMongoConnection"));
+            IMongoDatabase database = client.GetDatabase("VsphereMongoDatabaseName");
 
             return database.GetCollection<TEntity>(collectionName);
         }
 
-        protected Repository(string collectionName)
+        protected Repository(Microsoft.Extensions.Configuration.IConfiguration configuration, string collectionName)
         {
-            _mongoCollection = Connection(collectionName);
+            _configuration = configuration;
+            _mongoCollection = Connection(_configuration, collectionName);
         }
 
         public void Delete(string id)
