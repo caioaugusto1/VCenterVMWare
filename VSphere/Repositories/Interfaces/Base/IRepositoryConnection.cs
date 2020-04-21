@@ -1,5 +1,4 @@
-﻿using AutoMapper.Configuration;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 
 namespace VSphere.Repositories.Interfaces.Base
 {

@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using VSphere.Application;
 using VSphere.Application.Interface;
 using VSphere.AutoMapper;
+using VSphere.Context;
 using VSphere.Repositories;
 using VSphere.Repositories.Base;
 using VSphere.Repositories.Interfaces;
@@ -64,6 +65,9 @@ namespace VSphere
 
             var mapper = mapperConfiguration.CreateMapper();
             services.AddSingleton(mapper);
+
+            services.AddDbContext<VSphereContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString("VsphereSQLConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
