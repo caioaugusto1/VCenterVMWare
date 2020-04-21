@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VSphere.Application.Interface;
 using VSphere.Models;
 
 namespace VSphere.Controllers
 {
+    //[Authorize]
     public class ServerController : Controller
     {
         private readonly IServerApplication _serverApplication;

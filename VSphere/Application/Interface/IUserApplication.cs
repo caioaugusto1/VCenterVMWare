@@ -5,6 +5,7 @@ namespace VSphere.Application.Interface
 {
     public interface IUserApplication
     {
+
         UserViewModel GetByUserAndPassword(string user, string password);
 
         List<UserViewModel> GetAll();

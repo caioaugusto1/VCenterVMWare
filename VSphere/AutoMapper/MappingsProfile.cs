@@ -15,8 +15,8 @@ namespace VSphere.AutoMapper
                .ForMember(x => x.FullName, y => y.MapFrom(f => f.FullName))
                .ForMember(x => x.Email, y => y.MapFrom(f => f.Email))
                .ForMember(x => x.Password, y => y.MapFrom(f => f.Password))
-               .ForMember(x => x.Block, y => y.MapFrom(f => f.Block))
-               .ForMember(x => x.Active, y => y.MapFrom(f => f.Active))
+               //.ForMember(x => x.Block, y => y.MapFrom(f => f.Block))
+               //.ForMember(x => x.Active, y => y.MapFrom(f => f.Active))
                .ForMember(x => x.Insert, y => y.MapFrom(f => DateTime.Parse(f.Insert.ToString(), new CultureInfo("pt-BR"))));
 
             CreateMap<VMEntity, VMViewModel>()

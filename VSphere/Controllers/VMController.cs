@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
 using VSphere.Application.Interface;
-using VSphere.Models;
 
 namespace VSphere.Controllers
 {
+    //[Authorize]
     public class VMController : Controller
     {
         private readonly IVMApplication _vmApplication;

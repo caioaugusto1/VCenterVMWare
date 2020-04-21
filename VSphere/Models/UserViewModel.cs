@@ -22,12 +22,6 @@ namespace VSphere.Models
         public string Password { get; set; }
 
         [Display(Name = "Insert Date")]
-        public DateTime Insert { get; private set; }
-
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
-        [DataType(DataType.Date, ErrorMessage = "Incorrect format")]
-        public DateTime Block { get; private set; }
-
-        public bool Active { get; private set; }
+        public DateTime Insert { get; set; }
     }
 }

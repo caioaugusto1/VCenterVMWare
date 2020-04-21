@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using VSphere.Models;
 
 namespace VCenterVMWare.Controllers
 {
+    //[Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index()

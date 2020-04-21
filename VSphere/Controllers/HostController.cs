@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
 using VSphere.Application.Interface;
 
 namespace VSphere.Controllers
 {
+    //[Authorize]
     public class HostController : Controller
     {
         private readonly IHostApplication _hostApplication;

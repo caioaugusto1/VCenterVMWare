@@ -42,22 +42,6 @@
                             @await Html.PartialAsync("~/Views/User/_partial/_createEdit.cshtml")
 
 
-                            <div class="input-group mb-3">
-                                @Html.EditorFor(model => model.Block, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-calendar-alt"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                    @Html.CheckBoxFor(model => model.Active, new { @class = "custom-control-input", @id = "active", @name = "active" })
-                                    <label class="custom-control-label" for="active">Active?</label>
-                                </div>
-                            </div>
-
                             <div class="row">
                                 <div class="col-4">
                                     <button type="submit" class="btn btn-primary btn-block">Edit</button>
