@@ -45,6 +45,16 @@ namespace VSphere.AutoMapper
                 .ForMember(x => x.UserName, y => y.MapFrom(f => f.UserName))
                 .ForMember(x => x.Password, y => y.MapFrom(f => f.Password))
                 .ForMember(x => x.Description, y => y.MapFrom(f => f.Description));
+
+
+            CreateMap<DataStoreEntity, DataStoreViewModel>()
+                .ForMember(x => x.Id, y => y.MapFrom(f => f.Id))
+                .ForMember(x => x.Name, y => y.MapFrom(f => f.Name))
+                .ForMember(x => x.Type, y => y.MapFrom(f => f.Type))
+                .ForMember(x => x.FreeSpace, y => y.MapFrom(f => f.FreeSpace))
+                .ForMember(x => x.Capacity, y => y.MapFrom(f => f.Capacity))
+                .ForMember(x => x.Origem, y => y.MapFrom(f => f.Origem))
+                .ForMember(x => x.Insert, y => y.MapFrom(f => DateTime.Parse(f.Insert.ToString(), new CultureInfo("pt-BR"))));
         }
     }
 }

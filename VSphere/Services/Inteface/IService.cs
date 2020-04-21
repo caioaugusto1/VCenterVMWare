@@ -8,5 +8,7 @@ namespace VSphere.Services.Inteface
         Task<VMConvert> GetVMsAPI(string url, string username, string password);
 
         Task<HostConvert> GetHostsAPI(string url, string username, string password);
+        Task<DataStoreConvert> GetDataStoreAPI(string url, string username, string password);
+
     }
 }

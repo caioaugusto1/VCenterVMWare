@@ -12,6 +12,22 @@ namespace VSphere.Services
 {
     public class Service : ServiceBase, IService
     {
+        public async Task<DataStoreConvert> GetDataStoreAPI(string url, string username, string password)
+        {
+            ClientCreate(url);
+            GetSession(username, password);
+
+            var _restRequest = new RestRequest(Method.GET);
+
+            AddDefaultHeader(_restRequest, "rest/vcenter/datastore", username, password);
+            IRestResponse response = _httpClient.Execute(_restRequest);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+                return JsonConvert.DeserializeObject<DataStoreConvert>(response.Content);
+            else
+                return null;
+        }
+
         public async Task<HostConvert> GetHostsAPI(string url, string username, string password)
         {
             ClientCreate(url);
@@ -20,11 +36,7 @@ namespace VSphere.Services
             var _restRequest = new RestRequest(Method.GET);
 
             AddDefaultHeader(_restRequest, "rest/vcenter/vm", username, password);
-            //_restRequest.Resource = "rest/vcenter/host";
-
-            //_restRequest.AddHeader("Authorization", "Basic " + UserStringBase64(username, password));
-            //_restRequest.AddHeader("Content-Type", "application/json");
-
+         
             // In theory this crap should use the cookie container that has the session ID
             //request.AddHeader("Cookie", "vmware-api-session-id=" + session);
             IRestResponse response = _httpClient.Execute(_restRequest);
@@ -43,14 +55,6 @@ namespace VSphere.Services
             var _restRequest = new RestRequest(Method.GET);
 
             AddDefaultHeader(_restRequest, "rest/vcenter/vm", username, password);
-
-            //_restRequest.Resource = "rest/vcenter/vm";
-
-            //_restRequest.AddHeader("Authorization", "Basic " + UserStringBase64(username, password));
-            //_restRequest.AddHeader("Content-Type", "application/json");
-
-            // In theory this crap should use the cookie container that has the session ID
-            //request.AddHeader("Cookie", "vmware-api-session-id=" + session);
             IRestResponse response = _httpClient.Execute(_restRequest);
 
             if (response.StatusCode == HttpStatusCode.OK)
