@@ -9,7 +9,7 @@ namespace VSphere.Repositories
 {
     public class DataStoreRepository : Repository<DataStoreEntity>, IDataStoreRepository
     {
-        public DataStoreRepository(IConfiguration configuration, string collectionName)
+        public DataStoreRepository(IConfiguration configuration)
             : base(configuration, "datastore")
         {
         }
