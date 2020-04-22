@@ -1,0 +1,15 @@
+﻿@model dynamic
+
+
+<label>Server</label>
+<div class="form-group">
+    <select required class="form-control" id="dropDownServers">
+        <option value="">Selecione um vCenter</option>
+
+        @foreach (var server in ViewBag.Servers)
+        {
+            <option value="@server.Id">@server.IP</option>
+        }
+
+    </select>
+</div>

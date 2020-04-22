@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using VSphere.Application.Interface;
@@ -25,9 +26,16 @@ namespace VSphere.Application
             _serverApplication = serverApplication;
         }
 
-        public List<DataStoreViewModel> GetAll(string apiId)
+        public List<DataStoreViewModel> GetAll(string apiId, DateTime from, DateTime to)
         {
+            var server = _serverApplication.GetById(apiId);
+
+            if (server == null)
+                return null;
+
             return _mapper.Map<List<DataStoreViewModel>>(_dataStoreRepository.GetAll());
+
+            //return _mapper.Map<List<DataStoreViewModel>>(_dataStoreRepository.GetByOrigem(server.IP, from, to));
         }
 
         public async Task<List<DataStoreViewModel>> GetAllByApi(string apiId)

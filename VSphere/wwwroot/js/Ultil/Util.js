@@ -3,21 +3,14 @@
     $('#document').ready(function () {
 
         loadingPage();
-
     });
 
     var loadingPage = function () {
-        console.log('passei aqui');
 
-        //$('.dateRangePicker').daterangepicker({
-        //    locale: {
-        //        format: 'DD/MM/YYYY'
-        //    }
-        //});
-
-        //$('.dateRangePicker').val('');
+        $('#reservation').daterangepicker({
+            dateFormat: 'dd-mm-yy'
+        });
     };
-
 
     function request(endpoint, type, param, dataType, async, callbackSuccess, callbackError) {
 

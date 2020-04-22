@@ -144,12 +144,24 @@
                                 <p>VM</p>
                             </a>
                         </li>
-                        @*<li class="nav-item">
+                        <li class="nav-item">
                             <a href="@Url.Action("Index", "Host")" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Host</p>
                             </a>
-                        </li>*@
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "DataStore")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>DataStore</p>
+                            </a>
+                        </li>
+                        @*<li class="nav-item">
+                                <a href="@Url.Action("Index", "Host")" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Host</p>
+                                </a>
+                            </li>*@
                         @*<li class="nav-item">
                                 <a href="pages/UI/buttons.html" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -204,9 +216,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="@Url.Action("Index", "Host")" class="nav-link">
+                            <a href="@Url.Action("AllByAPI", "Host")" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Host</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("AllByAPI", "DataStore")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>DataStore</p>
                             </a>
                         </li>
                         @*<li class="nav-item">
