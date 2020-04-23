@@ -47,9 +47,6 @@ namespace VSphere
             services.AddSingleton(typeof(IRepositoryBaseGET<>), typeof(RepositoryBaseGET<>));
             services.AddSingleton(typeof(IRepositoryBasePOST<>), typeof(RepositoryBasePOST<>));
 
-            services.AddTransient<IUserApplication, UserApplication>();
-            services.AddTransient<IUserRepository, UserRepository>();
-
             services.AddTransient<IVMApplication, VMApplication>();
             services.AddTransient<IVMRepository, VMRepository>();
 
@@ -94,33 +91,38 @@ namespace VSphere
             services.Configure<AppSettings>(appSettingsSection);
 
             var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
-            {
-                //Aceitação de chamada HTTP/HTML/XML
-                x.RequireHttpsMetadata = true;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    //Validando quem foi o emissor do Token
-                    ValidateIssuerSigningKey = true,
-                    //Inserindo a Key de autenticação 
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    //Indica que eu vou validar o emissor do token 
-                    ValidateIssuer = true,
-                    //validar que eu vou validar a audiencia 
-                    ValidateAudience = true,
-                    //Inserindo a audiencia
-                    ValidAudience = appSettings.ValidationIn,
-                    //Inserindo a emissão do token
-                    ValidIssuer = appSettings.Issuer
-                };
-            });
+            #region If you would like to use JWT Authentication and you will change the .NET just to working with WebAPI
+
+            //var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+            //services.AddAuthentication(x =>
+            //{
+            //    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //}).AddJwtBearer(x =>
+            //{
+            //    //Aceitação de chamada HTTP/HTML/XML
+            //    x.RequireHttpsMetadata = true;
+            //    x.SaveToken = true;
+            //    x.TokenValidationParameters = new TokenValidationParameters()
+            //    {
+            //        //Validando quem foi o emissor do Token
+            //        ValidateIssuerSigningKey = true,
+            //        //Inserindo a Key de autenticação 
+            //        IssuerSigningKey = new SymmetricSecurityKey(key),
+            //        //Indica que eu vou validar o emissor do token 
+            //        ValidateIssuer = true,
+            //        //validar que eu vou validar a audiencia 
+            //        ValidateAudience = true,
+            //        //Inserindo a audiencia
+            //        ValidAudience = appSettings.ValidationIn,
+            //        //Inserindo a emissão do token
+            //        ValidIssuer = appSettings.Issuer
+            //    };
+            //});
+
+            #endregion
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

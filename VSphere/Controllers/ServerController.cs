@@ -5,7 +5,7 @@ using VSphere.Models;
 
 namespace VSphere.Controllers
 {
-    //[Authorize]
+    //[Authorize(Roles = "Admin, Manager")]
     public class ServerController : Controller
     {
         private readonly IServerApplication _serverApplication;

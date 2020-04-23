@@ -1,32 +1,28 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using VSphere.Application.Interface;
 using VSphere.Models;
 using VSphere.Models.Identity;
 using VSphere.Utils;
 
 namespace VCenter.Controllers
 {
+    //[Authorize(Roles = "Admin, Manager")]
     public class UserController : Controller
     {
         private readonly IOptions<AppSettings> _appSetttings;
-        private readonly IUserApplication _userApplication;
         private readonly UserManager<ApplicationIdentityUser> _userManager;
         private readonly SignInManager<ApplicationIdentityUser> _singManager;
 
-        public UserController(IOptions<AppSettings> appSetttings, IUserApplication userApplication,
+        public UserController(IOptions<AppSettings> appSetttings,
             UserManager<ApplicationIdentityUser> userManager, SignInManager<ApplicationIdentityUser> singManager)
         {
-            _userApplication = userApplication;
             _appSetttings = appSetttings;
             _userManager = userManager;
             _singManager = singManager;
@@ -49,15 +45,17 @@ namespace VCenter.Controllers
                 });
             });
 
-            return View(_userApplication.GetAll());
+            return View(users);
         }
 
+        [AllowAnonymous]
         public IActionResult MainLogin()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> LogIn(string email, string password)
         {
             if (String.IsNullOrWhiteSpace(email) || String.IsNullOrWhiteSpace(password))
@@ -72,19 +70,22 @@ namespace VCenter.Controllers
 
             if (result.Succeeded)
             {
-                var token = await JwtCreate(user.Email);
+                //var token = await JwtCreate(user.Email);
                 return RedirectToAction("Index", "Home");
             }
 
             return View();
         }
 
-        public void Logout()
+        [AllowAnonymous]
+        public async Task<IActionResult> Logout()
         {
-            _singManager.SignOutAsync();
+            await _singManager.SignOutAsync();
+            return RedirectToAction("MainLogin", "User");
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Create()
         {
             return View();
@@ -92,6 +93,7 @@ namespace VCenter.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Create(UserViewModel user)
         {
             if (!ModelState.IsValid)
@@ -110,13 +112,15 @@ namespace VCenter.Controllers
 
             await _singManager.SignInAsync(userIdentity, false);
 
-            return Ok(await JwtCreate(user.Email));
+            return Ok();
+
+            //return Ok(await JwtCreate(user.Email));
         }
 
         [HttpGet]
         public IActionResult Edit(string id)
         {
-            return View(_userApplication.GetById(id));
+            return View(_userManager.FindByIdAsync(id));
         }
 
         [HttpPost]
@@ -132,24 +136,32 @@ namespace VCenter.Controllers
             return View();
         }
 
-        private async Task<string> JwtCreate(string email)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
+        #region If you would like to use JWT Authentication and you will change the .NET just to working with WebAPI
 
-            var jwtTokenHeadler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSetttings.Value.Secret);
+        //private async Task<string> JwtCreate(string email)
+        //{
+        //    var user = await _userManager.FindByEmailAsync(email);
 
-            var tokenDescription = new SecurityTokenDescriptor
-            {
-                Issuer = _appSetttings.Value.Issuer,
-                Audience = _appSetttings.Value.ValidationIn,
-                Expires = DateTime.UtcNow.AddHours(_appSetttings.Value.HoursToExpire),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                     SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = jwtTokenHeadler.CreateToken(tokenDescription);
+        //    var identityClaims = new ClaimsIdentity();
+        //    identityClaims.AddClaims(await _userManager.GetClaimsAsync(user));
 
-            return jwtTokenHeadler.WriteToken(token);
-        }
+        //    var jwtTokenHeadler = new JwtSecurityTokenHandler();
+        //    var key = Encoding.ASCII.GetBytes(_appSetttings.Value.Secret);
+
+        //    var tokenDescription = new SecurityTokenDescriptor
+        //    {
+        //        Subject = identityClaims,
+        //        Issuer = _appSetttings.Value.Issuer,
+        //        Audience = _appSetttings.Value.ValidationIn,
+        //        Expires = DateTime.UtcNow.AddHours(_appSetttings.Value.HoursToExpire),
+        //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+        //             SecurityAlgorithms.HmacSha256Signature)
+        //    };
+        //    var token = jwtTokenHeadler.CreateToken(tokenDescription);
+
+        //    return jwtTokenHeadler.WriteToken(token);
+        //}
+
+        #endregion
     }
 }

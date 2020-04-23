@@ -40,7 +40,7 @@
 
                     $('#main-speed-div').append(`<div id='speedDiv_${value.id}' class='col-md-3'><br/></div>`);
 
-                    buildDivSpeedDataStore(12, value.id, value.datastore, value.name, value.type);
+                    buildDivSpeedDataStore(40, value.id, value.name);
                 });
 
             }, function (request, status, error) {
@@ -49,7 +49,7 @@
         });
     };
 
-    function buildDivSpeedDataStore(value, divId, dataStore, name, type) {
+    function buildDivSpeedDataStore(value, divId, name) {
 
         var data = [
             {
@@ -57,7 +57,7 @@
                 value: value,
                 delta: { reference: 70 },
                 title: {
-                    text: `${dataStore}<br><span style='font-size:0.8em;color:gray'>${name}</span><br><span style='font-size:0.8em;color:gray'>${type}</span>`
+                    text: `${name}<br>`
                 },
                 showlegend: false,
                 gauge: { axis: { visible: true, range: [0, 100] } },

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using VSphere.Application.Interface;
 
 namespace VSphere.Controllers
 {
+    //[Authorize(Roles = "Admin, Manager")]
     public class DataStoreController : Controller
     {
         private readonly IDataStoreApplication _dataStoreApplication;
