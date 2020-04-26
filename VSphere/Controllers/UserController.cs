@@ -13,7 +13,7 @@ using VSphere.Utils;
 
 namespace VCenter.Controllers
 {
-    //[Authorize(Roles = "Admin, Manager")]
+    [Authorize(Roles = "Admin, Manager")]
     public class UserController : Controller
     {
         private readonly IOptions<AppSettings> _appSetttings;

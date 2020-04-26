@@ -3,6 +3,8 @@
 @inject SignInManager<ApplicationIdentityUser> _signInManager
 @inject UserManager<ApplicationIdentityUser> _userManager
 
+@using VSphere.Enums;
+
 @{
     var user = await _userManager.GetUserAsync(User);
     var roles = await _userManager.GetRolesAsync(user);
@@ -44,75 +46,90 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-                            VM
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "VM")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>History</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("AllByAPI", "VM")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Online</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-chart-pie"></i>
-                        <p>
-                            Host
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "Host")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>History</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("AllByAPI", "Host")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Online</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-database"></i>
-                        <p>
-                            Datastore
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "DataStore")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>History</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("AllByAPI", "DataStore")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Online</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+
+                @if (roles.Contains(RolesTypes.VM.ToString()) || roles.Contains(RolesTypes.Admin.ToString()) || roles.Contains(RolesTypes.Manager.ToString()))
+                {
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                VM
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "VM")" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>History</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("AllByAPI", "VM")" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Online</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                @if (roles.Contains(RolesTypes.Host.ToString()) || roles.Contains(RolesTypes.Admin.ToString()) || roles.Contains(RolesTypes.Manager.ToString()))
+                {
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-chart-pie"></i>
+                            <p>
+                                Host
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "Host")" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>History</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("AllByAPI", "Host")" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Online</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+
+                @if (roles.Contains(RolesTypes.Datastore.ToString()) || roles.Contains(RolesTypes.Admin.ToString()) || roles.Contains(RolesTypes.Manager.ToString()))
+                {
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-database"></i>
+                            <p>
+                                Datastore
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "DataStore")" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>History</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("AllByAPI", "DataStore")" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Online</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+
                 @*<li class="nav-item has-shopware">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-table"></i>
@@ -136,89 +153,100 @@
                             </li>
                         </ul>
                     </li>*@
-                <li class="nav-item has-shopware">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-heart"></i>
-                        <p>
-                            Health Check
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Index</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-header">CONFIGURATION</li>
 
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-user"></i>
-                        <p>
-                            User
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "User")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Index</p>
-                            </a>
-                        </li>
 
-                        <li class="nav-item">
-                            <a href="@Url.Action("Create", "User")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>New</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-server"></i>
-                        <p>
-                            Server
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "Server")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Index</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Create", "Server")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>New</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-map"></i>
-                        <p>
-                            Role
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "Role")" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Index</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @if (roles.Contains(RolesTypes.HealthCheck.ToString()) || roles.Contains(RolesTypes.Admin.ToString()) || roles.Contains(RolesTypes.Manager.ToString()))
+                {
+                    <li class="nav-item has-shopware">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-heart"></i>
+                            <p>
+                                Health Check
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Index</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                @if (roles.Contains(RolesTypes.Admin.ToString()) || roles.Contains(RolesTypes.Manager.ToString()))
+                {
+                    <li class="nav-header">CONFIGURATION</li>
+
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>
+                                User
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "User")" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Index</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("Create", "User")" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>New</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-server"></i>
+                            <p>
+                                Server
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "Server")" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Index</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Create", "Server")" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>New</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-map"></i>
+                            <p>
+                                Role
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "Role")" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Index</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
 
                 <li class="nav-header">LABELS</li>
                 <li class="nav-item">

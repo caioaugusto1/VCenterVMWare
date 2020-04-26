@@ -7,7 +7,7 @@ using VSphere.Application.Interface;
 
 namespace VSphere.Controllers
 {
-    //[Authorize(Roles = "Admin, Manager")]
+    [Authorize(Roles = "Admin, Manager, VM")]
     public class VMController : Controller
     {
         private readonly IVMApplication _vmApplication;

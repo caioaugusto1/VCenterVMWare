@@ -7,7 +7,7 @@ using VSphere.Utils;
 
 namespace VSphere.Controllers
 {
-    //[Authorize]
+    [Authorize(Roles = "Admin, Manager, Host")]
     public class HostController : Controller
     {
         private readonly IHostApplication _hostApplication;

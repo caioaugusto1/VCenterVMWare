@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace VSphere.Enums
+﻿namespace VSphere.Enums
 {
     public enum RolesTypes
     {
         Admin,
         Manager,
+        Datastore,
+        HealthCheck,
         Server, 
         Host, 
         VM

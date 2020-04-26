@@ -11,7 +11,7 @@ using VSphere.Models.Identity;
 
 namespace VSphere.Controllers
 {
-    //[Authorize(Roles = "Admin, Manager")]
+    [Authorize(Roles = "Admin, Manager, Role")]
     public class RoleController : Controller
     {
 

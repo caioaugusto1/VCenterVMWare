@@ -1,19 +1,5 @@
 ﻿@model List<VMViewModel>
 
-@{
-    var totalOn = 0;
-    var totalOff = 0;
-    var total = 0;
-
-    if (Model != null)
-    {
-        totalOn = Model.Select(x => x.Power == "POWERED_ON").Count();
-        totalOff = Model.Select(x => x.Power == "POWERED_OFF").Count();
-        total = Model.Count();
-    }
-
-}
-
 <section class="content">
     <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
@@ -25,7 +11,7 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>@totalOn</h3>
+                        <h3 id="totalOn">0</h3>
 
                         <p>Total Ligadas</p>
                     </div>
@@ -36,7 +22,7 @@
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h3>@totalOff</h3>
+                        <h3 id="totalOff">0</h3>
 
                         <p>Total de Desligadas</p>
                     </div>
@@ -46,7 +32,7 @@
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>@total</h3>
+                        <h3 id="totalVMS">0</h3>
                         <p>Total de VMs</p>
                     </div>
                 </div>

@@ -95,8 +95,7 @@ namespace VSphere
             #endregion
 
 
-            services.AddDefaultIdentity<ApplicationIdentityUser>()
-                .AddRoles<IdentityRole>()
+            services.AddIdentity<ApplicationIdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<VSphereContext>();
 
             //var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -142,6 +141,8 @@ namespace VSphere
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseDatabaseErrorPage();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -163,7 +164,6 @@ namespace VSphere
             });
 
             app.UseAuthentication();
-
 
             app.UseMvc(routes =>
             {

@@ -5,7 +5,6 @@ using VSphere.Models;
 
 namespace VCenterVMWare.Controllers
 {
-    //[Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index()

@@ -45,6 +45,10 @@
 
             buildList(data);
 
+            $('#totalOn').text();
+            $('#totalOff').text();
+            $('#totalVMS').text();
+
         }, function (request, status, error) {
 
         });
@@ -52,16 +56,6 @@
 
     var buildList = function (data) {
 
-        $('#dataTable').remove();
-
-        if (data == 409) {
-            alert('Please, let me know what IP server would you like to get VMs');
-            return;
-        }
-
-        $('#div-table').append(data);
-
-        $('#dataTable').DataTable();
 
     };
 
