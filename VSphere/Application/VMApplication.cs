@@ -26,18 +26,6 @@ namespace VSphere.Application
             _serverApplication = serverApplication;
         }
 
-        public List<VMViewModel> GetAll(string apiId)
-        {
-            var server = _serverApplication.GetById(apiId);
-
-            if (server == null)
-                return null;
-
-            var vmsViewModel = _vmRepository.GetByOrigem(server.IP).Result;
-
-            return _mapper.Map<List<VMViewModel>>(vmsViewModel);
-        }
-
         public async Task<List<VMViewModel>> GetAllByApi(string apiId)
         {
             var server = _serverApplication.GetById(apiId);
@@ -74,9 +62,21 @@ namespace VSphere.Application
             return VMView;
         }
 
-        public List<VMViewModel> GetAllByDate(DateTime from, DateTime to)
+        public async Task<List<VMViewModel>> GetAllByDate(string apiId, string from, string to)
         {
-            return _mapper.Map<List<VMViewModel>>(_vmRepository.GetAll());
+            var server = _serverApplication.GetById(apiId);
+
+            if (server == null)
+                return null;
+
+            DateTime dateFrom = Convert.ToDateTime(from);
+            DateTime dateTo = Convert.ToDateTime(to);
+            dateFrom = dateFrom.AddMinutes(-1);
+            dateTo = dateTo.AddMinutes(1);
+
+            var vmsViewModel = await _vmRepository.GetByDate(server.IP, dateFrom, dateTo);
+
+            return _mapper.Map<List<VMViewModel>>(vmsViewModel);
         }
     }
 }

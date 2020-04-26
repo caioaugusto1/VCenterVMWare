@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -8,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using VSphere.Application;
 using VSphere.Application.Interface;
 using VSphere.AutoMapper;
@@ -44,6 +41,40 @@ namespace VSphere
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 2;
+                options.Password.RequiredUniqueChars = 0;
+            });
+
+
+            var mapperConfiguration = new MapperConfiguration(config =>
+            {
+                config.AddProfile(new MappingsProfile());
+            });
+
+            var mapper = mapperConfiguration.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                //options.LoginPath = "/Login";
+                //options.ExpireTimeSpan = TimeSpan.FromSeconds(15);
+            });
+
+            services.AddDbContext<VSphereContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString("VsphereSQLConnection")));
+
+            #region injection dependency
+
             services.AddSingleton(typeof(IRepositoryBaseGET<>), typeof(RepositoryBaseGET<>));
             services.AddSingleton(typeof(IRepositoryBasePOST<>), typeof(RepositoryBasePOST<>));
 
@@ -61,36 +92,17 @@ namespace VSphere
 
             services.AddTransient<IService, Service>();
 
-            var mapperConfiguration = new MapperConfiguration(config =>
-            {
-                config.AddProfile(new MappingsProfile());
-            });
+            #endregion
 
-            var mapper = mapperConfiguration.CreateMapper();
-            services.AddSingleton(mapper);
-
-            services.AddDbContext<VSphereContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString("VsphereSQLConnection")));
 
             services.AddDefaultIdentity<ApplicationIdentityUser>()
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<VSphereContext>()
-                .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<VSphereContext>();
 
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.Password.RequireLowercase = false;
-                options.Password.RequireDigit = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 2;
-                options.Password.RequiredUniqueChars = 0;
-            });
+            //var appSettingsSection = Configuration.GetSection("AppSettings");
+            //services.Configure<AppSettings>(appSettingsSection);
 
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-
-            var appSettings = appSettingsSection.Get<AppSettings>();
+            //var appSettings = appSettingsSection.Get<AppSettings>();
 
             #region If you would like to use JWT Authentication and you will change the .NET just to working with WebAPI
 
@@ -124,7 +136,7 @@ namespace VSphere
 
             #endregion
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -144,7 +156,14 @@ namespace VSphere
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = context =>
+                context.Context.Response.Headers.Add("Cache-Control", "no-cache")
+            });
+
             app.UseAuthentication();
+
 
             app.UseMvc(routes =>
             {

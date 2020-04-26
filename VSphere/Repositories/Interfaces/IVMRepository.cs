@@ -8,7 +8,7 @@ namespace VSphere.Repositories.Interfaces
 {
     public interface IVMRepository : IRepositoryBaseGET<VMEntity>, IRepositoryBasePOST<VMEntity>
     {
-        List<VMEntity> GetByDate(DateTime from, DateTime to);
+        Task<List<VMEntity>> GetByDate(string ip, DateTime from, DateTime to);
 
         Task<List<VMEntity>> GetByOrigem(string ip);
 

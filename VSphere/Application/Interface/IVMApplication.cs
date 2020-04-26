@@ -8,9 +8,7 @@ namespace VSphere.Application.Interface
 {
     public interface IVMApplication
     {
-        List<VMViewModel> GetAll(string apiId);
-
-        List<VMViewModel> GetAllByDate(DateTime from, DateTime to);
+        Task<List<VMViewModel>> GetAllByDate(string apiId, string from, string to);
 
         Task<List<VMViewModel>> GetAllByApi(string apiId);
     }

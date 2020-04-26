@@ -8,7 +8,7 @@
     function getDivSpeedDataStore() {
 
         $('#btn-search-by-ip').click(function () {
-
+           
             const ip = $('#dropDownServers').val();
 
             if (ip == "") {
@@ -28,8 +28,6 @@
             }
 
             Util.request(api, 'GET', { "apiId": ip, "from": 10 / 10 / 2010, "to": 23 / 10 / 2020 }, 'json', false, function (data) {
-
-                $('#dataTable').remove();
 
                 if (data == 409) {
                     alert('Please, let me know what IP server would you like to get DataStores');

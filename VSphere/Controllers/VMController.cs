@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using VSphere.Application.Interface;
@@ -26,12 +27,12 @@ namespace VSphere.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllByFilterHistory(string apiId)
+        public async Task<IActionResult> GetAllByFilterHistory(string apiId, string datetimeFrom, string datetimeTo)
         {
-            if (string.IsNullOrWhiteSpace(apiId))
+            if (string.IsNullOrWhiteSpace(apiId) || string.IsNullOrWhiteSpace(datetimeFrom) || string.IsNullOrWhiteSpace(datetimeTo))
                 return Json(HttpStatusCode.Conflict);
 
-            return PartialView("~/Views/VM/_partial/_List.cshtml", _vmApplication.GetAll(apiId));
+            return PartialView("~/Views/VM/_partial/_List.cshtml", await _vmApplication.GetAllByDate(apiId, datetimeFrom, datetimeTo));
         }
 
         [HttpGet]

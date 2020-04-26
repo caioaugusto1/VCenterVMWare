@@ -7,7 +7,7 @@ using VSphere.Application.Interface;
 
 namespace VSphere.Controllers
 {
-    //[Authorize(Roles = "Admin, Manager")]
+    //[Authorize(Roles = "Admin")]
     public class DataStoreController : Controller
     {
         private readonly IDataStoreApplication _dataStoreApplication;

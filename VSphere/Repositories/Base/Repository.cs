@@ -24,6 +24,7 @@ namespace VSphere.Repositories.Base
             MongoClient client = new MongoClient(configuration.GetConnectionString("VsphereMongoConnection"));
             IMongoDatabase database = client.GetDatabase("VsphereMongoDatabaseName");
 
+            //IMongoDatabase database = client.GetDatabase(configuration.GetConnectionString("VsphereMongoDatabaseName"));
             return database.GetCollection<TEntity>(collectionName);
         }
 

@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using VSphere.Entities;
 using VSphere.Repositories.Base;
@@ -17,9 +18,13 @@ namespace VSphere.Repositories
 
         }
 
-        public List<VMEntity> GetByDate(DateTime from, DateTime to)
+        public async Task<List<VMEntity>> GetByDate(string ip, DateTime from, DateTime to)
         {
-            return _mongoCollection.Find<VMEntity>(vm => vm.Insert >= from && vm.Insert <= to).ToList();
+            var allColletioctions = await _mongoCollection.Find<VMEntity>(vm => vm.Origem == ip).ToListAsync();
+
+            allColletioctions = allColletioctions.Where(x => x.Insert >= from && x.Insert <= to).ToList();
+
+            return allColletioctions;
         }
 
         public async Task<List<VMEntity>> GetByOrigem(string ip)

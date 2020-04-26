@@ -7,10 +7,27 @@
 
     var loadingPage = function () {
 
-        $('#reservation').daterangepicker({
-            dateFormat: 'dd-mm-yy'
-        });
     };
+
+    function getCurrentYear() {
+        return getToday().getFullYear();
+    }
+
+    function getCurrentMonth() {
+        return getToday().getMonth() + 1;
+    }
+
+    function getCurrentDay() {
+        return getToday().getDate();
+    }
+
+    function getToday() {
+        return new Date();
+    }
+
+    function getCurrentDate() {
+        return new Date(getCurrentYear(), getCurrentMonth(), getCurrentDay());
+    }
 
     function request(endpoint, type, param, dataType, async, callbackSuccess, callbackError) {
 
@@ -29,6 +46,6 @@
         });
     };
 
-    return { request };
+    return { request, getCurrentDate };
 
 }();
