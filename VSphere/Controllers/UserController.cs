@@ -56,17 +56,20 @@ namespace VCenter.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> LogIn(string email, string password)
+        public async Task<IActionResult> MainLogin(UserLoginViewModel userLoginViewModel)
         {
-            if (String.IsNullOrWhiteSpace(email) || String.IsNullOrWhiteSpace(password))
-                return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
+            if (!ModelState.IsValid)
+                return View(userLoginViewModel);
 
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(userLoginViewModel.Email);
 
             if (user == null)
-                return BadRequest("Usuário não encontrado");
+            {
+                ModelState.AddModelError("UserNotFound", "User not found!");
+                return View(userLoginViewModel);
+            }
 
-            var result = await _singManager.PasswordSignInAsync(user.UserName, password, false, true);
+            var result = await _singManager.PasswordSignInAsync(user.UserName, userLoginViewModel.Password, false, true);
 
             if (result.Succeeded)
             {
@@ -74,7 +77,7 @@ namespace VCenter.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            return View();
+            return View(userLoginViewModel);
         }
 
         [AllowAnonymous]
@@ -97,7 +100,7 @@ namespace VCenter.Controllers
         public async Task<IActionResult> Create(UserViewModel user)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState.Values.SelectMany(x => x.Errors));
+                return View(user);
 
             var userIdentity = new ApplicationIdentityUser
             {
@@ -106,13 +109,22 @@ namespace VCenter.Controllers
                 EmailConfirmed = true,
             };
 
+            var findByEmail = await _userManager.FindByEmailAsync(user.Email);
+
+            if (findByEmail != null)
+            {
+                ModelState.AddModelError("UserFound", "User has already created!");
+                return View(user);
+            }
+
             var result = await _userManager.CreateAsync(userIdentity, user.Password);
 
-            if (!result.Succeeded) return BadRequest(result.Errors);
+            if (!result.Succeeded)
+                return View(user);
 
             await _singManager.SignInAsync(userIdentity, false);
 
-            return Ok();
+            return RedirectToAction("Home", "Index");
 
             //return Ok(await JwtCreate(user.Email));
         }

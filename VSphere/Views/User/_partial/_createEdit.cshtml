@@ -1,5 +1,9 @@
 ﻿@model UserViewModel
 
+@Html.ValidationMessage("UserNotFound", new { @class = "text-danger" })
+
+@Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+
 <div class="input-group mb-3">
     @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control", @placeholder = "FullName", @type = "text" } })
     <div class="input-group-append">
@@ -8,6 +12,9 @@
         </div>
     </div>
 </div>
+
+@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
 <div class="input-group mb-3">
     @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "example@provider.com", @type = "email" } })
     <div class="input-group-append">
@@ -16,6 +23,9 @@
         </div>
     </div>
 </div>
+
+@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
 <div class="input-group mb-3">
     @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Password", @type = "password" } })
     <div class="input-group-append">
