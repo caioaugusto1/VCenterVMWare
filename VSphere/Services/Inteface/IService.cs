@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using VSphere.Models.JsonConvert;
 
 namespace VSphere.Services.Inteface
@@ -11,6 +12,7 @@ namespace VSphere.Services.Inteface
         Task<DataStoreConvert> GetDataStoreAPI(string url, string username, string password);
 
         bool SendEmail();
+        byte[] PdfCreate(string html);
 
     }
 }

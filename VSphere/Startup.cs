@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO;
 using VSphere.Application;
 using VSphere.Application.Interface;
 using VSphere.AutoMapper;
@@ -64,6 +67,7 @@ namespace VSphere
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
+            
             services.ConfigureApplicationCookie(options =>
             {
                 //options.LoginPath = "/Login";
@@ -73,10 +77,16 @@ namespace VSphere
             services.AddDbContext<VSphereContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("VsphereSQLConnection")));
 
+            var customAssemblyContext = new CustomAssemblyLoadContext();
+            customAssemblyContext.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
+
+
             #region injection dependency
 
             services.AddSingleton(typeof(IRepositoryBaseGET<>), typeof(RepositoryBaseGET<>));
             services.AddSingleton(typeof(IRepositoryBasePOST<>), typeof(RepositoryBasePOST<>));
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             services.AddTransient<IVMApplication, VMApplication>();
             services.AddTransient<IVMRepository, VMRepository>();
