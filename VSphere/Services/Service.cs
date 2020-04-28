@@ -1,10 +1,12 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
-using System.Collections.Generic;
+using System;
+using System.IO;
 using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using VSphere.Application.Base;
-using VSphere.Models;
 using VSphere.Models.JsonConvert;
 using VSphere.Services.Inteface;
 
@@ -36,7 +38,7 @@ namespace VSphere.Services
             var _restRequest = new RestRequest(Method.GET);
 
             AddDefaultHeader(_restRequest, "rest/vcenter/vm", username, password);
-         
+
             // In theory this crap should use the cookie container that has the session ID
             //request.AddHeader("Cookie", "vmware-api-session-id=" + session);
             IRestResponse response = _httpClient.Execute(_restRequest);
@@ -61,6 +63,30 @@ namespace VSphere.Services
                 return JsonConvert.DeserializeObject<VMConvert>(response.Content);
             else
                 return null;
+        }
+
+        public bool SendEmail()
+        {
+            using (MailMessage message = new MailMessage("From", "To"))
+            {
+                message.Subject = "Email de teste com anexo";
+                message.Body = "Esse e-mail foi enviado diretamente do novo sistema";
+                message.IsBodyHtml = false;
+                message.Attachments.Add(new Attachment(@"filename.pdf"));
+
+                using (SmtpClient smtp = new SmtpClient())
+                {
+                    smtp.Host = "smtp.live.com";
+                    smtp.EnableSsl = true;
+                    NetworkCredential cred = new NetworkCredential("email", "password");
+                    smtp.UseDefaultCredentials = true;
+                    smtp.Credentials = cred;
+                    smtp.Port = 587;
+                    smtp.Send(message);
+                }
+            };
+
+            return true;
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VSphere.Models;
 using VSphere.Models.Identity;
+using VSphere.Services.Inteface;
 using VSphere.Utils;
 
 namespace VCenter.Controllers
@@ -16,16 +17,16 @@ namespace VCenter.Controllers
     [Authorize(Roles = "Admin, Manager")]
     public class UserController : Controller
     {
-        private readonly IOptions<AppSettings> _appSetttings;
         private readonly UserManager<ApplicationIdentityUser> _userManager;
         private readonly SignInManager<ApplicationIdentityUser> _singManager;
+        private readonly IService _service;
 
-        public UserController(IOptions<AppSettings> appSetttings,
-            UserManager<ApplicationIdentityUser> userManager, SignInManager<ApplicationIdentityUser> singManager)
+        public UserController(UserManager<ApplicationIdentityUser> userManager,
+            SignInManager<ApplicationIdentityUser> singManager, IService service)
         {
-            _appSetttings = appSetttings;
             _userManager = userManager;
             _singManager = singManager;
+            _service = service;
         }
 
         // GET: Login
@@ -51,6 +52,8 @@ namespace VCenter.Controllers
         [AllowAnonymous]
         public IActionResult MainLogin()
         {
+            //_service.SendEmail();
+
             return View();
         }
 
@@ -124,7 +127,7 @@ namespace VCenter.Controllers
 
             await _singManager.SignInAsync(userIdentity, false);
 
-            return RedirectToAction("Home", "Index");
+            return RedirectToAction("Index", "Home");
 
             //return Ok(await JwtCreate(user.Email));
         }

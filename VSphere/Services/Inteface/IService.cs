@@ -10,5 +10,7 @@ namespace VSphere.Services.Inteface
         Task<HostConvert> GetHostsAPI(string url, string username, string password);
         Task<DataStoreConvert> GetDataStoreAPI(string url, string username, string password);
 
+        bool SendEmail();
+
     }
 }
