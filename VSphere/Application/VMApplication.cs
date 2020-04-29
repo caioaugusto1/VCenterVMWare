@@ -44,7 +44,7 @@ namespace VSphere.Application
                 entityList.Add(new VMEntity(x.Memory, x.VM, x.Name, x.Power, x.CPU, server.IP));
             });
 
-            var insertManyResult = _vmRepository.InsertMany(entityList);
+            //var insertManyResult = _vmRepository.InsertMany(entityList);
 
             var VMView = new List<VMViewModel>();
             dataFromAPI.Value.ForEach(x =>

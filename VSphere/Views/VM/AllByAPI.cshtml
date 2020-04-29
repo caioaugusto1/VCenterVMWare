@@ -31,6 +31,19 @@
                     <!-- /.card-header -->
 
                     <div id="div-table" class="card-body">
+                        <table id="dataTable" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Memória</th>
+                                    <th>CPU</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-tableInformation">
+
+                            </tbody>
+                        </table>
 
                     </div>
 
@@ -44,7 +57,11 @@
 <input hidden id="pageValueIdentity" value="GetByAPI" />
 
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="~/theme/plugins/jquery/jquery.js"></script>
+
+<script src="~/theme/plugins/moment/moment.min.js"></script>
+<script src="~/theme/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<script src="~/theme/plugins/daterangepicker/daterangepicker.js"></script>
+
 <script src="~/js/Ultil/Util.js"></script>
-<script src="~/js/VM/VM.js"></script>
+<script src="~/js/VM/vm.js"></script>

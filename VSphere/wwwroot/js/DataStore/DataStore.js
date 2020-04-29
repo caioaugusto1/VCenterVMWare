@@ -8,7 +8,7 @@
     function getDivSpeedDataStore() {
 
         $('#btn-search-by-ip').click(function () {
-           
+
             const ip = $('#dropDownServers').val();
 
             if (ip == "") {
@@ -38,7 +38,7 @@
 
                     $('#main-speed-div').append(`<div id='speedDiv_${value.id}' class='col-md-3'><br/></div>`);
 
-                    buildDivSpeedDataStore(40, value.id, value.name);
+                    buildDivSpeedDataStore((value.capacity - value.freeSpace) % 100, value.id, value.name);
                 });
 
             }, function (request, status, error) {

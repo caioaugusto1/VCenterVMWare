@@ -22,9 +22,9 @@ namespace VSphere.Repositories.Base
         public IMongoCollection<TEntity> Connection(Microsoft.Extensions.Configuration.IConfiguration configuration, string collectionName)
         {
             MongoClient client = new MongoClient(configuration.GetConnectionString("VsphereMongoConnection"));
-            IMongoDatabase database = client.GetDatabase("VsphereMongoDatabaseName");
+            //IMongoDatabase database = client.GetDatabase("VsphereMongoDatabaseName");
 
-            //IMongoDatabase database = client.GetDatabase(configuration.GetConnectionString("VsphereMongoDatabaseName"));
+            IMongoDatabase database = client.GetDatabase(configuration.GetConnectionString("VsphereMongoDatabaseName"));
             return database.GetCollection<TEntity>(collectionName);
         }
 

@@ -41,13 +41,36 @@
 
     var getAllByAPI = function (apiId) {
 
-        Util.request('/VM/GetAllByAPI', 'GET', { "apiId": apiId }, 'html', false, function (data) {
+        Util.request('/VM/GetAllByAPI', 'GET', { "apiId": apiId }, 'json', false, function (data) {
 
-            buildList(data);
+            if (data.statusCode == "200") {
 
-            $('#totalOn').text();
-            $('#totalOff').text();
-            $('#totalVMS').text();
+                var countTotal = Object.keys(data.data).length;
+                var totalOn = 0;
+
+                $.each(data.data, function (index, value) {
+
+                    var power = "OFF";
+
+                    if (value.power == "POWERED_ON") {
+                        power = "ON";
+                        totalOn++;
+                    };
+
+                    var tr = `<tr><td>${value.name}</td><td>${value.memory}</td><td>${value.cpu}</td><td>${power}</td></tr>`;
+
+                    $('#tbody-tableInformation').append(tr);
+                });
+
+                $('#totalOn').text(totalOn);
+                $('#totalOff').text(countTotal - totalOn);
+                $('#totalVMS').text(countTotal);
+
+                $('#dataTable').DataTable();
+
+            } else {
+                return;
+            }
 
         }, function (request, status, error) {
 

@@ -51,7 +51,9 @@ namespace VSphere.Controllers
 
             var dataFromAPI = await _vmApplication.GetAllByApi(apiId);
 
-            return PartialView("~/Views/VM/_partial/_ListByAPI.cshtml", dataFromAPI);
+            return Json(new { data = dataFromAPI, statusCode = HttpStatusCode.OK });
+
+            //return PartialView("~/Views/VM/_partial/_ListByAPI.cshtml", dataFromAPI);
         }
     }
 }
