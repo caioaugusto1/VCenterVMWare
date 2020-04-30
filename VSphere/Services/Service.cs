@@ -107,7 +107,7 @@ namespace VSphere.Services
 
         public void SendEmail(string to, string filename = "", string extension = "")
         {
-            using (MailMessage message = new MailMessage("", to))
+            using (MailMessage message = new MailMessage("vmwarevshare@outlook.com", to))
             {
                 message.Subject = "Email de teste com anexo";
                 message.Body = "Esse e-mail foi enviado diretamente do novo sistema";
@@ -116,7 +116,6 @@ namespace VSphere.Services
                 if (!string.IsNullOrWhiteSpace(filename) && !string.IsNullOrWhiteSpace(extension))
                 {
                     message.Attachments.Add(new Attachment(@"Employee_Report.pdf"));
-                    message.Attachments.Add(new Attachment(@"image.jpg"));
                 }
 
                 //message.Attachments.Add(new Attachment(String.Format("{0}.{1}", filename, extension)));
@@ -125,7 +124,7 @@ namespace VSphere.Services
                 {
                     smtp.Host = "smtp.live.com";
                     smtp.EnableSsl = true;
-                    NetworkCredential cred = new NetworkCredential("", "");
+                    NetworkCredential cred = new NetworkCredential("vmwarevshare@outlook.com", "Service@123");
                     smtp.UseDefaultCredentials = true;
                     smtp.Credentials = cred;
                     smtp.Port = 587;
