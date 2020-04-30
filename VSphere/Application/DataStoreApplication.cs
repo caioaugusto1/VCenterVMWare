@@ -26,12 +26,17 @@ namespace VSphere.Application
             _serverApplication = serverApplication;
         }
 
-        public List<DataStoreViewModel> GetAll(string apiId, DateTime from, DateTime to)
+        public List<DataStoreViewModel> GetAll(string apiId, string from, string to)
         {
             var server = _serverApplication.GetById(apiId);
 
             if (server == null)
                 return null;
+
+            DateTime dateFrom = Convert.ToDateTime(from);
+            DateTime dateTo = Convert.ToDateTime(to);
+            dateFrom = dateFrom.AddMinutes(-1);
+            dateTo = dateTo.AddMinutes(1);
 
             return _mapper.Map<List<DataStoreViewModel>>(_dataStoreRepository.GetAll());
 

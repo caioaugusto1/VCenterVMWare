@@ -9,6 +9,27 @@
 
     };
 
+    function request(endpoint, type, param, dataType, async, callbackSuccess, callbackError) {
+
+        $.ajax({
+            url: endpoint,
+            type: type,
+            data: param,
+            dataType: dataType,
+            async: async,
+            //cache: false,
+            success: function (data) {
+                callbackSuccess(data);
+            }, error: function (request, status, error) {
+                callbackError(request, status, error);
+            }
+        });
+    };
+
+    function setDateRange() {
+      
+    }
+
     function getCurrentYear() {
         return getToday().getFullYear();
     }
@@ -29,23 +50,70 @@
         return new Date(getCurrentYear(), getCurrentMonth(), getCurrentDay());
     }
 
-    function request(endpoint, type, param, dataType, async, callbackSuccess, callbackError) {
+    function showSuccessModal(description, subDescription) {
 
-        $.ajax({
-            url: endpoint,
-            type: type,
-            data: param,
-            dataType: dataType,
-            async: async,
-            //cache: false,
-            success: function (data) {
-                callbackSuccess(data);
-            }, error: function (request, status, error) {
-                callbackError(request, status, error);
-            }
-        });
-    };
+        if (!description) {
+            $('#description').text('Successo');
+        } else {
+            $('#description').text(description);
+        }
 
-    return { request, getCurrentDate };
+        if (!subDescription) {
+            $('#sub-description').text('Requesição concluída');
+        } else {
+            $('#sub-description').text(subDescription);
+        }
+
+        $('#modalSuccess').modal('show');
+    }
+
+    function closeSuccessModal() {
+        $('#modalSuccess').modal('hide');
+    }
+
+    function showAlertModal(description, subDescription) {
+
+        if (!description) {
+            $('#description').text('Alerta!');
+        } else {
+            $('#description').text(description);
+        }
+
+        if (!subDescription) {
+            $('#sub-description').text('Há algo de errado!');
+        } else {
+            $('#sub-description').text(subDescription);
+        }
+
+        $('#modalAlert').modal('show');
+    }
+
+    function closeAlertModal() {
+        $('#modalAlert').modal('hide');
+    }
+
+    function showDeleteModal(description, subDescription) {
+
+        if (!description) {
+            $('#description').text('Alerta!');
+        } else {
+            $('#description').text(description);
+        }
+
+        if (!subDescription) {
+            $('#sub-description').text('Há algo de errado!');
+        } else {
+            $('#sub-description').text(subDescription);
+        }
+
+        $('#modalDelete').modal('show');
+    }
+
+    function closeDeleteModal() {
+        $('#modalDelete').modal('hide');
+    }
+
+
+    return { request, getCurrentDate, showSuccessModal, closeSuccessModal, showAlertModal, closeAlertModal, showDeleteModal, closeDeleteModal, setDateRange };
 
 }();

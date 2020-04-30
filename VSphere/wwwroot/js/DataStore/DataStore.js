@@ -2,48 +2,80 @@
 
     function loadingPage() {
 
+        $('#rangeDateTime').daterangepicker({
+            timePicker: true,
+            timePicker24Hour: true,
+            minDate: new Date(Util.getCurrentDate().getFullYear(), Util.getCurrentDate().getMonth(), Util.getCurrentDate().getDate() - 10),
+            maxDate: new Date(Util.getCurrentDate().getFullYear(), Util.getCurrentDate().getMonth(), Util.getCurrentDate().getDate()),
+            locale: {
+                format: 'DD/MM/YYYY HH:mm'
+            }
+        });
+
+        $('#btn-clean').click(function () {
+            $("#dropDownServers ").val($("#dropDownServers  option:first").val());
+        });
+
+
         getDivSpeedDataStore();
     };
 
     function getDivSpeedDataStore() {
 
-        $('#btn-search-by-ip').click(function () {
+        $('#btn-search').click(function () {
 
             const ip = $('#dropDownServers').val();
 
-            if (ip == "") {
+            if (!ip) {
+                Util.showAlertModal('Por favor!', 'Selecione algum server!');
                 return;
             }
 
             var api = "";
 
             if ($('#pageValueIdentity').val() === "GetByAPI") {
-                api = '/DataStore/GetAllByAPI';
+                getAllByAPI(ip);
             } else {
-                //var days = $('#reservation').val().split('-');
-                //var from = days[0].trim(); 
-                //var to = days[1].trim();
-
-                api = "/DataStore/GetAllByFilterHistory";
+                getAllByHistory(ip);
             }
+        });
+    };
 
-            Util.request(api, 'GET', { "apiId": ip, "from": 10 / 10 / 2010, "to": 23 / 10 / 2020 }, 'json', false, function (data) {
+    function getAllByAPI(apiId) {
 
-                if (data == 409) {
-                    alert('Please, let me know what IP server would you like to get DataStores');
-                    return;
-                }
+        Util.request('/DataStore/GetAllByAPI', 'GET', { apiId }, 'json', false, function (data) {
 
-                $.each(data, function (index, value) {
+            var idCount = 0;
+            $.each(data, function (index, value) {
 
-                    $('#main-speed-div').append(`<div id='speedDiv_${value.id}' class='col-md-3'><br/></div>`);
+                idCount++;
 
-                    buildDivSpeedDataStore((value.capacity - value.freeSpace) % 100, value.id, value.name);
-                });
+                $('#main-speed-div').append(`<div id='speedDiv_${idCount}' class='col-md-3'><br/></div>`);
 
-            }, function (request, status, error) {
-
+                buildDivSpeedDataStore((value.capacity - value.freeSpace) % 100, idCount, value.name, value.type);
             });
+
+        }, function (request, status, error) {
+        });
+    };
+
+
+    function getAllByHistory(apiId) {
+
+        var rangeDate = $('#rangeDateTime').val().split('-');
+        var datetimeFrom = rangeDate[0].trim();
+        var datetimeTo = rangeDate[1].trim();
+
+        Util.request('/DataStore/GetAllByFilterHistory', 'GET', { apiId, datetimeFrom, datetimeTo }, 'json', false, function (data) {
+
+            $.each(data, function (index, value) {
+
+                $('#main-speed-div').append(`<div id='speedDiv_${value.id}' class='col-md-3'><br/></div>`);
+
+                buildDivSpeedDataStore((value.capacity - value.freeSpace) % 100, value.id, value.name, value.name);
+            });
+
+        }, function (request, status, error) {
         });
     };
 

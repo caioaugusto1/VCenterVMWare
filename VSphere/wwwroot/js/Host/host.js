@@ -2,9 +2,18 @@
 
     function loadingPage() {
 
-        $('#btn-search-by-ip').click(function () {
+        $('#btn-clean').click(function () {
+            $("#dropDownServers ").val($("#dropDownServers  option:first").val());
+        });
+
+        $('#btn-search').click(function () {
 
             const ip = $('#dropDownServers').val();
+
+            if (!ip) {
+                Util.showAlertModal('Por favor!', 'Selecione algum server!');
+                return;
+            }
 
             Util.request('/Host/GetAllByAPI', 'GET', { "apiId": ip }, 'html', false, function (data) {
 

@@ -18,7 +18,74 @@
         </div><!-- /.container-fluid -->
     </section>
 
-    @await Html.PartialAsync("~/Views/VM/_partial/_IndexTop.cshtml", Model)
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+
+            <div class="row">
+
+                <!-- ./col -->
+                <div class="col-md-4">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3 id="totalOn">0</h3>
+
+                            <p>Total Ligadas</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-md-4">
+                    <!-- small box -->
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3 id="totalOff">0</h3>
+
+                            <p>Total de Desligadas</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3 id="totalVMS">0</h3>
+                            <p>Total de VMs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+
+                <div class="col-md-4">
+                    @await Html.PartialAsync("~/Views/Shared/_partial/_filter/_ServerDropBox.cshtml", new { servers = ViewBag.Servers })
+                </div>
+
+                <div style="margin-right:5px;">
+                    @await Html.PartialAsync("~/Views/Shared/_partial/_filter/_SearchBtn.cshtml")
+                </div>
+
+                <div style="margin-right:5px;">
+                    <div class="form-group">
+                        <label></label>
+                        <div class="input-group">
+                            <button type="button" id="btn-export" class="btn btn-secondary" disabled style="margin-top: 9%;" data-toggle="modal" data-target="#modal-secondary">
+                                Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    @await Html.PartialAsync("~/Views/Shared/_partial/_filter/_cleanBtn.cshtml")
+                </div>
+            </div>
+        </div>
+    </section>
+
 
     <section class="content">
         <div class="row">
@@ -41,7 +108,6 @@
                                 </tr>
                             </thead>
                             <tbody id="tbody-tableInformation">
-
                             </tbody>
                         </table>
 
@@ -56,6 +122,7 @@
 
 <input hidden id="pageValueIdentity" value="GetByAPI" />
 
+@await Html.PartialAsync("~/Views/Shared/_partial/_modalAlert.cshtml")
 
 <script src="~/theme/plugins/jquery/jquery.js"></script>
 

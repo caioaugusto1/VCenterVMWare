@@ -7,7 +7,7 @@ namespace VSphere.Application.Interface
 {
     public interface IDataStoreApplication
     {
-        List<DataStoreViewModel> GetAll(string apiId, DateTime from, DateTime to);
+        List<DataStoreViewModel> GetAll(string apiId, string from, string to);
 
         Task<List<DataStoreViewModel>> GetAllByApi(string apiId);
     }

@@ -16,11 +16,23 @@
             pdfExport();
         });
 
-        $('#btn-search-by-ip').click(function () {
+        $('#btn-clean').click(function () {
+            $("#dropDownServers ").val($("#dropDownServers  option:first").val());
+        });
+
+        $('#btn-search').click(function () {
 
             const ip = $('#dropDownServers').val();
 
+            if (!ip) {
+                Util.showAlertModal('Por favor!', 'Selecione algum server!');
+                return;
+            }
+
             if ($('#pageValueIdentity').val() === "GetByAPI") {
+
+                $('#btn-export').removeAttr("disabled");
+
                 getAllByAPI(ip);
             } else {
                 getAllByHistory(ip);

@@ -46,12 +46,12 @@ namespace VSphere.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllByFilterHistory(string apiId, DateTime from, DateTime to)
+        public async Task<IActionResult> GetAllByFilterHistory(string apiId, string datetimeFrom, string datetimeTo)
         {
             if (string.IsNullOrWhiteSpace(apiId))
                 return Json(HttpStatusCode.Conflict);
 
-            return Json(_dataStoreApplication.GetAll(apiId, to, from));
+            return Json(_dataStoreApplication.GetAll(apiId, datetimeFrom, datetimeTo));
         }
     }
 }

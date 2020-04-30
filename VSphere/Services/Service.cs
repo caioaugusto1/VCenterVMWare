@@ -125,7 +125,7 @@ namespace VSphere.Services
                 {
                     smtp.Host = "smtp.live.com";
                     smtp.EnableSsl = true;
-                    NetworkCredential cred = new NetworkCredential("caiio_augustto@hotmail.com", "Caio050496");
+                    NetworkCredential cred = new NetworkCredential("", "");
                     smtp.UseDefaultCredentials = true;
                     smtp.Credentials = cred;
                     smtp.Port = 587;
