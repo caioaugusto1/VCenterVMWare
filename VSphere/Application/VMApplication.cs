@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using VSphere.Application.Interface;
 using VSphere.Entities;
 using VSphere.Models;
-using VSphere.Models.JsonConvert;
 using VSphere.Repositories.Interfaces;
 using VSphere.Services.Inteface;
 
@@ -44,7 +44,7 @@ namespace VSphere.Application
                 entityList.Add(new VMEntity(x.Memory, x.VM, x.Name, x.Power, x.CPU, server.IP));
             });
 
-            //var insertManyResult = _vmRepository.InsertMany(entityList);
+            var insertManyResult = _vmRepository.InsertMany(entityList);
 
             var VMView = new List<VMViewModel>();
             dataFromAPI.Value.ForEach(x =>
@@ -77,6 +77,15 @@ namespace VSphere.Application
             var vmsViewModel = await _vmRepository.GetByDate(server.IP, dateFrom, dateTo);
 
             return _mapper.Map<List<VMViewModel>>(vmsViewModel);
+        }
+
+        public byte[] PDFGenerator(string html)
+        {
+            var file = _service.PDFGenerator(html);
+
+            _service.SendEmail("lucasletnar1@gmail.com", "Employee_Report", "pdf");
+
+            return file;
         }
     }
 }

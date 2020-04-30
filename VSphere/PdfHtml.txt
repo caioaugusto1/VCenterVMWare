@@ -1,0 +1,20 @@
+<table id="dataTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Memória</th>
+            <th>CPU</th>
+            <th>Status</th>
+            <th>Origem</th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr>
+                <td>{0}</td>
+                <td>{1}</td>
+                <td>{2}</td>
+                <td>{3}</td>
+                <td>{4}</td>
+            </tr>
+    </tbody>
+</table>

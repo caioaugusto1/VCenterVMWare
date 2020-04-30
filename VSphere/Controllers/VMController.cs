@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using VSphere.Application.Interface;
+using VSphere.Models;
+using VSphere.Services.Inteface;
 
 namespace VSphere.Controllers
 {
@@ -29,6 +32,8 @@ namespace VSphere.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllByFilterHistory(string apiId, string datetimeFrom, string datetimeTo)
         {
+            datetimeFrom = "20/04/2020";
+
             if (string.IsNullOrWhiteSpace(apiId) || string.IsNullOrWhiteSpace(datetimeFrom) || string.IsNullOrWhiteSpace(datetimeTo))
                 return Json(HttpStatusCode.Conflict);
 
@@ -54,6 +59,15 @@ namespace VSphere.Controllers
             return Json(new { data = dataFromAPI, statusCode = HttpStatusCode.OK });
 
             //return PartialView("~/Views/VM/_partial/_ListByAPI.cshtml", dataFromAPI);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PDFGenerator(string html)
+        {
+            var teste = _vmApplication.PDFGenerator(html);
+
+
+            return null;
         }
     }
 }

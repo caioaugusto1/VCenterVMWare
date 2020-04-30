@@ -2,7 +2,7 @@
 using DinkToPdf.Contracts;
 using Newtonsoft.Json;
 using RestSharp;
-using System.IO;
+using System;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -72,7 +72,7 @@ namespace VSphere.Services
                 return null;
         }
 
-        public byte[] PdfCreate(string html)
+        public byte[] PDFGenerator(string html)
         {
             var globalSettings = new GlobalSettings
             {
@@ -80,7 +80,7 @@ namespace VSphere.Services
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Top = 10 },
-                DocumentTitle = "PDF Report",
+                DocumentTitle = "PDF VM Report",
                 Out = @"C:\Users\caiio\Desktop\PDFCreator\Employee_Report.pdf"
             };
 
@@ -88,7 +88,8 @@ namespace VSphere.Services
             {
                 PagesCount = true,
                 HtmlContent = html,
-                //WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css") },
+                //WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "assets", "adminlte.css") },
+                WebSettings = { DefaultEncoding = "utf-8" },
                 HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = true },
                 FooterSettings = { FontName = "Arial", FontSize = 9, Line = true, Center = "Report Footer" }
             };
@@ -100,23 +101,31 @@ namespace VSphere.Services
             };
 
             var file = _converter.Convert(pdf);
+
             return file;
         }
 
-        public bool SendEmail()
+        public void SendEmail(string to, string filename = "", string extension = "")
         {
-            using (MailMessage message = new MailMessage("From", "To"))
+            using (MailMessage message = new MailMessage("", to))
             {
                 message.Subject = "Email de teste com anexo";
                 message.Body = "Esse e-mail foi enviado diretamente do novo sistema";
                 message.IsBodyHtml = false;
-                message.Attachments.Add(new Attachment(@"filename.pdf"));
+
+                if (!string.IsNullOrWhiteSpace(filename) && !string.IsNullOrWhiteSpace(extension))
+                {
+                    message.Attachments.Add(new Attachment(@"Employee_Report.pdf"));
+                    message.Attachments.Add(new Attachment(@"image.jpg"));
+                }
+
+                //message.Attachments.Add(new Attachment(String.Format("{0}.{1}", filename, extension)));
 
                 using (SmtpClient smtp = new SmtpClient())
                 {
                     smtp.Host = "smtp.live.com";
                     smtp.EnableSsl = true;
-                    NetworkCredential cred = new NetworkCredential("email", "password");
+                    NetworkCredential cred = new NetworkCredential("caiio_augustto@hotmail.com", "Caio050496");
                     smtp.UseDefaultCredentials = true;
                     smtp.Credentials = cred;
                     smtp.Port = 587;
@@ -124,7 +133,6 @@ namespace VSphere.Services
                 }
             };
 
-            return true;
         }
     }
 }

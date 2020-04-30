@@ -2,15 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
 using VSphere.Models;
 using VSphere.Models.Identity;
 using VSphere.Services.Inteface;
-using VSphere.Utils;
 
 namespace VCenter.Controllers
 {
@@ -53,6 +50,7 @@ namespace VCenter.Controllers
         public IActionResult MainLogin()
         {
             //_service.SendEmail();
+     
 
             return View();
         }

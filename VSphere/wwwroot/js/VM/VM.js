@@ -12,6 +12,9 @@
             }
         });
 
+        $('#btn-export').click(function () {
+            pdfExport();
+        });
 
         $('#btn-search-by-ip').click(function () {
 
@@ -33,7 +36,7 @@
 
         Util.request('/VM/GetAllByFilterHistory', 'GET', { apiId, datetimeFrom, datetimeTo }, 'html', false, function (data) {
 
-            buildList(data);
+            $('#div-table').append(data);
 
         }, function (request, status, error) {
         });
@@ -73,6 +76,15 @@
             }
 
         }, function (request, status, error) {
+
+        });
+    };
+
+    var pdfExport = function () {
+
+        var htmlBody = $('#sectionTable').html();
+
+        Util.request('/VM/PDFGenerator', 'POST', { 'html': htmlBody }, 'html', false, function (data) {
 
         });
     };

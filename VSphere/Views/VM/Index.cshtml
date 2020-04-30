@@ -33,6 +33,16 @@
                 <div class="col-md-4">
                     @await Html.PartialAsync("~/Views/Shared/_partial/_filter/_ServerDropBox.cshtml", new { servers = ViewBag.Servers })
                 </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label></label>
+                        <div class="input-group">
+                            <button type="button" id="btn-export" style="margin-top: 2%;" class="btn btn-secondary" data-toggle="modal" data-target="#modal-secondary">
+                                Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-md-4">
                     @await Html.PartialAsync("~/Views/Shared/_partial/_filter/_SearchBtn.cshtml")
@@ -44,7 +54,7 @@
         </div><!-- /.container-fluid -->
     </section>
 
-    <section class="content">
+    <section class="content" id="sectionTable">
         <div class="row">
             <div class="col-12">
 
