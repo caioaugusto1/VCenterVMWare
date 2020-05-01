@@ -85,8 +85,6 @@ namespace VSphere.Services
                 Margins = new MarginSettings { Top = 10 },
                 DocumentTitle = "PDF Report",
                 Out = String.Format(@"{0}\\{1}", _appSetttings.Value.OutPDFSave, documentName)
-                DocumentTitle = documentName,
-                Out = documentLocation,
             };
 
             var objectSettings = new ObjectSettings
@@ -113,7 +111,7 @@ namespace VSphere.Services
         public void SendEmail(string to, string filename = "")
         {
             string emailFrom = _appSetttings.Value.Email;
-           
+
             using (MailMessage message = new MailMessage(emailFrom, to))
             {
                 message.Subject = "Email de teste com anexo";

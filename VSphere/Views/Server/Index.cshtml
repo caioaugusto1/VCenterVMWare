@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<ServerViewModel>
 
+<link rel="stylesheet" href="~/theme/plugins/datatables-bs4/css/dataTables.bootstrap4.css" />
+
 <div class="content-wrapper" style="min-height: 976.4px;">
 
     <section class="content-header">
@@ -28,7 +30,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="dataTable" class="table table-bordered table-striped">
+                        <table id="list-servers-datatable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>IP</th>
@@ -71,7 +73,12 @@
     </section>
 </div>
 
+<script src="~/theme/plugins/jquery/jquery.js"></script>
+
 @await Html.PartialAsync("~/Views/Shared/_partial/_scriptDataTables.cshtml")
+
+<script src="~/js/Ultil/Util.js"></script>
+<script src="~/js/Server/server.js"></script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
