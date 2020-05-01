@@ -98,7 +98,7 @@
                     <!-- /.card-header -->
 
                     <div id="div-table" class="card-body">
-                        <table id="dataTable" class="table table-bordered table-striped">
+                        <table id="list-vms-table" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Nome</th>
@@ -123,6 +123,7 @@
 <input hidden id="pageValueIdentity" value="GetByAPI" />
 
 @await Html.PartialAsync("~/Views/Shared/_partial/_modalAlert.cshtml")
+@await Html.PartialAsync("~/Views/Shared/_partial/_modalSuccess.cshtml")
 
 <script src="~/theme/plugins/jquery/jquery.js"></script>
 

@@ -26,62 +26,28 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>150</h3>
+                            <h3>@Model.Count()</h3>
 
-                            <p>New Orders</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-bag"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-success">
-                        <div class="inner">
-                            <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                            <p>Bounce Rate</p>
+                            <p>Total de Usuários</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <!-- ./col -->
+
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>44</h3>
-
-                            <p>User Registrations</p>
+                            <h3>@Model.Where(x => !x.Enable).Count()</h3>
+                            <p>Pendentes</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-danger">
-                        <div class="inner">
-                            <h3>65</h3>
-
-                            <p>Unique Visitors</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-pie-graph"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <!-- ./col -->
             </div>
         </div><!-- /.container-fluid -->
     </section>
@@ -103,7 +69,7 @@
                                     <th>FullName</th>
                                     <th>Email</th>
                                     <th>Insert</th>
-                                   
+                                    <th>Enable</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -113,17 +79,24 @@
                                 {
                                     <tr>
                                         <td>@user.FullName</td>
-                                        <td>
-                                            @user.Email
-                                        </td>
+                                        <td>@user.Email</td>
                                         <td>@user.Insert</td>
-                                       
+
+                                        <td>
+                                            @if (user.Enable)
+                                            {
+                                                @:Bloqueado
+                                            }
+                                            else
+                                            {
+                                                @:Disponível
+                                            }
+                                        </td>
+
                                         <td>
                                             <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-info btn-circle btn-sm"><i class="fas fa-edit"></i></a>
 
-                                            <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-facebook btn-circle btn-sm"><i class="fas fa-info"></i></a>
-
-                                            <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-light btn-circle btn-sm"><i class="fas fa-plus"></i></a>
+                                            <a href="javascript:userJs.openPopUpDeleteUser('@user.Id') " class="btn btn-light btn-circle btn-sm"><i class="fas fa-trash"></i></a>
 
                                         </td>
                                     </tr>
@@ -139,6 +112,13 @@
         </div>
     </section>
 </div>
+
+
+@await Html.PartialAsync("~/Views/Shared/_partial/_modalDelete.cshtml")
+
+<script src="~/theme/plugins/jquery/jquery.js"></script>
+<script src="~/js/Ultil/Util.js"></script>
+<script src="~/js/User/user.js"></script>
 
 @await Html.PartialAsync("~/Views/Shared/_partial/_scriptDataTables.cshtml")
 

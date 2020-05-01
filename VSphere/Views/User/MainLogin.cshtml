@@ -18,6 +18,8 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
 
+                @Html.ValidationMessage("UserBlocked", new { @class = "text-warning" })
+
                 <form asp-action="MainLogin" method="post">
 
                     @Html.ValidationMessage("UserNotFound", new { @class = "text-danger" })

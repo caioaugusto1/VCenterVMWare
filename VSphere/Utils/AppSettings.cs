@@ -10,5 +10,11 @@
 
         public string ValidationIn { get; set; }
 
+        public string OutPDFSave { get; set; }
+
+        public string Email { get; set; }
+
+        public string EmailPassword { get; set; }
+
     }
 }

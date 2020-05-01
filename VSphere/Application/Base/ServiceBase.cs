@@ -1,18 +1,25 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using DinkToPdf.Contracts;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Net;
 using System.Text;
+using VSphere.Utils;
 
 namespace VSphere.Application.Base
 {
     public abstract class ServiceBase
     {
         protected readonly RestClient _httpClient;
+        protected readonly IConverter _converter;
+        protected readonly IOptions<AppSettings> _appSetttings;
 
-        public ServiceBase()
+        public ServiceBase(IOptions<AppSettings> appSetttings, IConverter converter)
         {
             _httpClient = new RestClient();
+            _appSetttings = appSetttings;
+            _converter = converter;
         }
 
         protected string UserStringBase64(string userName, string password)

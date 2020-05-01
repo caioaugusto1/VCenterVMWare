@@ -1,24 +1,25 @@
 ﻿using DinkToPdf;
 using DinkToPdf.Contracts;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using VSphere.Application.Base;
 using VSphere.Models.JsonConvert;
 using VSphere.Services.Inteface;
+using VSphere.Utils;
 
 namespace VSphere.Services
 {
     public class Service : ServiceBase, IService
     {
-        private IConverter _converter;
-
-        public Service(IConverter converter)
+        public Service(IOptions<AppSettings> appSetttings, IConverter converter)
+            : base(appSetttings, converter)
         {
-            _converter = converter;
         }
 
         public async Task<DataStoreConvert> GetDataStoreAPI(string url, string username, string password)
@@ -72,16 +73,20 @@ namespace VSphere.Services
                 return null;
         }
 
-        public byte[] PDFGenerator(string html)
+        public string PDFGenerator(string html)
         {
+            var documentName = String.Format("{0}_{1}.pdf", "PDF_VM_Report", Guid.NewGuid());
+
             var globalSettings = new GlobalSettings
             {
                 ColorMode = ColorMode.Color,
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Top = 10 },
-                DocumentTitle = "PDF VM Report",
-                Out = @"C:\Users\caiio\Desktop\PDFCreator\Employee_Report.pdf"
+                DocumentTitle = "PDF Report",
+                Out = String.Format(@"{0}\\{1}", _appSetttings.Value.OutPDFSave, documentName)
+                DocumentTitle = documentName,
+                Out = documentLocation,
             };
 
             var objectSettings = new ObjectSettings
@@ -100,31 +105,29 @@ namespace VSphere.Services
                 Objects = { objectSettings }
             };
 
-            var file = _converter.Convert(pdf);
+            _converter.Convert(pdf);
 
-            return file;
+            return documentName;
         }
 
-        public void SendEmail(string to, string filename = "", string extension = "")
+        public void SendEmail(string to, string filename = "")
         {
-            using (MailMessage message = new MailMessage("vmwarevshare@outlook.com", to))
+            string emailFrom = _appSetttings.Value.Email;
+           
+            using (MailMessage message = new MailMessage(emailFrom, to))
             {
                 message.Subject = "Email de teste com anexo";
                 message.Body = "Esse e-mail foi enviado diretamente do novo sistema";
                 message.IsBodyHtml = false;
 
-                if (!string.IsNullOrWhiteSpace(filename) && !string.IsNullOrWhiteSpace(extension))
-                {
-                    message.Attachments.Add(new Attachment(@"Employee_Report.pdf"));
-                }
-
-                //message.Attachments.Add(new Attachment(String.Format("{0}.{1}", filename, extension)));
+                if (!string.IsNullOrWhiteSpace(filename))
+                    message.Attachments.Add(new Attachment(Path.GetFullPath(String.Format("{0}\\{1}", _appSetttings.Value.OutPDFSave, filename))));
 
                 using (SmtpClient smtp = new SmtpClient())
                 {
-                    smtp.Host = "smtp.live.com";
+                    smtp.Host = "smtp-mail.outlook.com";
                     smtp.EnableSsl = true;
-                    NetworkCredential cred = new NetworkCredential("vmwarevshare@outlook.com", "Service@123");
+                    NetworkCredential cred = new NetworkCredential(emailFrom, _appSetttings.Value.EmailPassword);
                     smtp.UseDefaultCredentials = true;
                     smtp.Credentials = cred;
                     smtp.Port = 587;
@@ -132,6 +135,11 @@ namespace VSphere.Services
                 }
             };
 
+        }
+
+        public byte[] GetFile(string fileName)
+        {
+            return File.ReadAllBytes(_appSetttings.Value.OutPDFSave + fileName);
         }
     }
 }

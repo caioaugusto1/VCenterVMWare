@@ -11,9 +11,11 @@ namespace VSphere.Services.Inteface
         Task<HostConvert> GetHostsAPI(string url, string username, string password);
         Task<DataStoreConvert> GetDataStoreAPI(string url, string username, string password);
 
-        void SendEmail(string to, string filename = "", string extension = "");
+        void SendEmail(string to, string filename = "");
 
-        byte[] PDFGenerator(string html);
+        byte[] GetFile(string fileName);
+
+        string PDFGenerator(string html);
 
     }
 }

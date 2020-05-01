@@ -24,5 +24,8 @@ namespace VSphere.Models
 
         [Display(Name = "Insert Date")]
         public DateTime Insert { get; set; }
+
+        [Display(Name = "Enable")]
+        public bool Enable { get; set; }
     }
 }

@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using VSphere.Models;
 using VSphere.Models.Identity;
@@ -39,7 +39,8 @@ namespace VCenter.Controllers
                     Id = x.Id,
                     FullName = x.FullName,
                     Email = x.Email,
-                    Insert = x.Insert
+                    Insert = x.Insert,
+                    Enable = x.LockoutEnabled
                 });
             });
 
@@ -50,7 +51,6 @@ namespace VCenter.Controllers
         public IActionResult MainLogin()
         {
             //_service.SendEmail();
-     
 
             return View();
         }
@@ -66,7 +66,13 @@ namespace VCenter.Controllers
 
             if (user == null)
             {
-                ModelState.AddModelError("UserNotFound", "User not found!");
+                ModelState.AddModelError("UserNotFound", "Usuário não encontrado!");
+                return View(userLoginViewModel);
+            }
+
+            if (user.LockoutEnabled)
+            {
+                ModelState.AddModelError("UserBlocked", "Seu usário está bloqueado, por favor, falar com o Administrador!");
                 return View(userLoginViewModel);
             }
 
@@ -105,9 +111,11 @@ namespace VCenter.Controllers
 
             var userIdentity = new ApplicationIdentityUser
             {
-                UserName = user.FullName,
+                UserName = user.Email,
+                FullName = user.FullName,
                 Email = user.Email,
-                EmailConfirmed = true,
+                Insert = DateTime.Now,
+                LockoutEnabled = true
             };
 
             var findByEmail = await _userManager.FindByEmailAsync(user.Email);
@@ -131,9 +139,58 @@ namespace VCenter.Controllers
         }
 
         [HttpGet]
+        public IActionResult InCreateUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> InCreateUser(UserViewModel user)
+        {
+            if (!ModelState.IsValid)
+                return View(user);
+
+            var userIdentity = new ApplicationIdentityUser
+            {
+                UserName = user.Email,
+                FullName = user.FullName,
+                Email = user.Email,
+                Insert = DateTime.Now,
+                PasswordHash = user.Password,
+                LockoutEnabled = user.Enable
+            };
+
+            var findByEmail = await _userManager.FindByEmailAsync(user.Email);
+
+            if (findByEmail != null)
+            {
+                ModelState.AddModelError("UserFound", "User has already created!");
+                return View(user);
+            }
+
+            var result = await _userManager.CreateAsync(userIdentity, user.Password);
+
+            if (!result.Succeeded)
+                return View(user);
+
+            return RedirectToAction("Index", "User");
+        }
+
+        [HttpGet]
         public IActionResult Edit(string id)
         {
-            return View(_userManager.FindByIdAsync(id));
+            var user = _userManager.FindByIdAsync(id);
+
+            var userViewModel = new UserViewModel();
+
+            userViewModel.Id = user.Result.Id.ToString();
+            userViewModel.FullName = user.Result.FullName;
+            userViewModel.Email = user.Result.Email;
+            userViewModel.Insert = user.Result.Insert;
+            userViewModel.Enable = user.Result.LockoutEnabled;
+
+            return View(userViewModel);
         }
 
         [HttpPost]
@@ -146,7 +203,53 @@ namespace VCenter.Controllers
             if (user.Id != id)
                 return null;
 
-            return View();
+            var userIdentity = new ApplicationIdentityUser
+            {
+                UserName = user.Email,
+                FullName = user.FullName,
+                Email = user.Email,
+                LockoutEnabled = user.Enable
+            };
+
+            if (!String.IsNullOrWhiteSpace(user.Password))
+                userIdentity.PasswordHash = user.Password;
+
+            _singManager.UserManager.UpdateAsync(userIdentity);
+
+            return RedirectToAction("Index", "User");
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return Json(Conflict());
+
+            var user = await _singManager.UserManager.FindByIdAsync(id);
+
+            if (user != null)
+                await _singManager.UserManager.DeleteAsync(user);
+
+            return Json(Ok());
+        }
+
+        [HttpGet]
+        public IActionResult GetById(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return null;
+
+            var user = _userManager.FindByIdAsync(id);
+
+            var userViewModel = new UserViewModel();
+
+            userViewModel.Id = user.Result.Id.ToString();
+            userViewModel.FullName = user.Result.FullName;
+            userViewModel.Email = user.Result.Email;
+            userViewModel.Insert = user.Result.Insert;
+            userViewModel.Enable = user.Result.LockoutEnabled;
+
+            return View(userViewModel);
         }
 
         #region If you would like to use JWT Authentication and you will change the .NET just to working with WebAPI

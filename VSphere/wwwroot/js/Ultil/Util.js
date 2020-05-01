@@ -51,7 +51,7 @@
     }
 
     function showSuccessModal(description, subDescription) {
-
+        
         if (!description) {
             $('#description').text('Successo');
         } else {
@@ -113,7 +113,15 @@
         $('#modalDelete').modal('hide');
     }
 
+    async function openLoadingModal() {
+        $('#loading').modal('show');
+    }
 
-    return { request, getCurrentDate, showSuccessModal, closeSuccessModal, showAlertModal, closeAlertModal, showDeleteModal, closeDeleteModal, setDateRange };
+    async function closeLoadingModal() {
+        $('#loading').modal('hide');
+    }
+
+
+    return { request, getCurrentDate, showSuccessModal, closeSuccessModal, showAlertModal, closeAlertModal, showDeleteModal, closeDeleteModal, setDateRange, openLoadingModal, closeLoadingModal };
 
 }();
