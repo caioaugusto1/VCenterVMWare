@@ -52,7 +52,10 @@
 
                 $('#main-speed-div').append(`<div id='speedDiv_${idCount}' class='col-md-3'><br/></div>`);
 
-                buildDivSpeedDataStore((value.capacity - value.freeSpace) % 100, idCount, value.name, value.type);
+                var used = value.capacity - value.freeSpace;
+                var result = (used * 100) / value.capacity;
+
+                buildDivSpeedDataStore(result, idCount, value.name, value.type);
             });
 
         }, function (request, status, error) {
@@ -72,7 +75,10 @@
 
                 $('#main-speed-div').append(`<div id='speedDiv_${value.id}' class='col-md-3'><br/></div>`);
 
-                buildDivSpeedDataStore((value.capacity - value.freeSpace) % 100, value.id, value.name, value.name);
+                var used = value.capacity - value.freeSpace;
+                var result = (used * 100) / value.total
+
+                buildDivSpeedDataStore(result, value.id, value.name, value.name);
             });
 
         }, function (request, status, error) {

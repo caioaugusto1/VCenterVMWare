@@ -15,6 +15,5 @@ namespace VSphere.Models
 
         public string Origem { get; set; }
 
-        public DateTime Insert { get; private set; }
     }
 }

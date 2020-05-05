@@ -72,8 +72,8 @@ namespace VCenter.Controllers
 
             if (user.LockoutEnabled)
             {
-                ModelState.AddModelError("UserBlocked", "Seu usário está bloqueado, por favor, falar com o Administrador!");
-                return View(userLoginViewModel);
+                //ModelState.AddModelError("UserBlocked", "Seu usário está bloqueado, por favor, falar com o Administrador!");
+                //return View(userLoginViewModel);
             }
 
             var result = await _singManager.PasswordSignInAsync(user.UserName, userLoginViewModel.Password, false, true);

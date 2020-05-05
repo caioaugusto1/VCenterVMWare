@@ -31,7 +31,7 @@ namespace VSphere.Controllers
             return View(roles);
         }
 
-
+        [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
             IdentityRole role = await _roleManager.FindByIdAsync(id);
@@ -51,7 +51,7 @@ namespace VSphere.Controllers
                 list.Add(user);
             }
 
-            return View(new EditRoleViewModel
+            return View("Edit", new EditRoleViewModel
             {
                 Role = role,
                 Members = members,
@@ -102,7 +102,7 @@ namespace VSphere.Controllers
                 }
             }
 
-            return View(modifyRole.RoleId);
+            return RedirectToAction("Index", "Role");
         }
 
     }

@@ -41,9 +41,22 @@ namespace VSphere.Application
             if (server == null)
                 return null;
 
-            var dataFromAPI = await _service.GetVMsAPI("https://" + server.IP, server.UserName, server.Password);
+            var dataFromAPI = await _service.GetHostsAPI("https://" + server.IP, server.UserName, server.Password);
 
-            return null;
+            var vmHost = new List<HostViewModel>();
+            dataFromAPI.Value.ForEach(x =>
+            {
+                vmHost.Add(new HostViewModel()
+                {
+                    Host = x.Host, 
+                    Name = x.Name, 
+                    Power = x.Power, 
+                    Origem = server.IP,
+                    State = x.Connection
+                });
+            });
+
+            return vmHost;
         }
     }
 }

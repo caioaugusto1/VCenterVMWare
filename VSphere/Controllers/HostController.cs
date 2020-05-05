@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
 using VSphere.Application.Interface;
-using VSphere.Utils;
 
 namespace VSphere.Controllers
 {

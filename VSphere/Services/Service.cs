@@ -45,7 +45,7 @@ namespace VSphere.Services
 
             var _restRequest = new RestRequest(Method.GET);
 
-            AddDefaultHeader(_restRequest, "rest/vcenter/vm", username, password);
+            AddDefaultHeader(_restRequest, "rest/vcenter/host", username, password);
 
             // In theory this crap should use the cookie container that has the session ID
             //request.AddHeader("Cookie", "vmware-api-session-id=" + session);
