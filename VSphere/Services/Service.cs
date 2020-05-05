@@ -123,7 +123,7 @@ namespace VSphere.Services
 
                 using (SmtpClient smtp = new SmtpClient())
                 {
-                    smtp.Host = "smtp-mail.outlook.com";
+                    smtp.Host = "smtp.gmail.com";
                     smtp.EnableSsl = true;
                     NetworkCredential cred = new NetworkCredential(emailFrom, _appSetttings.Value.EmailPassword);
                     smtp.UseDefaultCredentials = true;

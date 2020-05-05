@@ -113,20 +113,21 @@
 
         Util.request('/VM/PDFGenerator', 'POST', { 'html': htmlBody }, 'json', true, function (data) {
 
-            if (data == 409) {
+            Util.closeLoadingModal();
 
-                Util.closeLoadingModal();
+            if (data == 409) {
 
                 Util.showAlertModal('Requisição não foi finalizada', 'O PDF não foi enviado, por favor, tente novamente!');
                 return;
-            }
+            } else if (data == 400) {
 
-            Util.closeLoadingModal();
+                Util.showAlertModal('Requisição não foi finalizada', 'O servidor SMTP está fora do AR, por favor, mais tarde!');
+                return;
+            }
 
             Util.showSuccessModal('Requisição feita com sucesso', 'O PDF foi enviado para seu e-mail de cadastro!');
 
         }, function (request, status, error) {
-
         });
     };
 

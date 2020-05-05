@@ -81,18 +81,11 @@ namespace VSphere.Application
 
         public byte[] PDFGenerator(string html)
         {
-            //var fileName = _service.PDFGenerator(html);
+            var fileName = _service.PDFGenerator(html);
 
-            var fileName = string.Empty;
+            _service.SendEmail("lucasletnar1@gmail.com", fileName);
 
-            var to = "caiio_augustto@hotmail.com";
-
-            //_service.SendEmail(to, fileName);
-
-            //return _service.GetFile(fileName);
-            return null;
+            return _service.GetFile(fileName);
         }
-
-
     }
 }
