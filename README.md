@@ -21,7 +21,9 @@ This project gone to management of donations from animals who have any street pr
 Go to #backend folder and you should run Migrations command to create database.
 
 ```sh
-$ npx knex migrate:latest
+$ enable-migrations
+$ add-migration
+$ update-database
 ```
 
 ### [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
