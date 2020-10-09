@@ -8,6 +8,7 @@
         HealthCheck,
         Server, 
         Host, 
-        VM
+        VM, 
+        SnapShot
     }
 }

@@ -122,10 +122,11 @@
                         </ul>
                     </li>
                 }
-
-                @*<li class="nav-item has-shopware">
+                @if (roles.Contains(RolesTypes.SnapShot.ToString()) || roles.Contains(RolesTypes.Admin.ToString()) || roles.Contains(RolesTypes.Manager.ToString()))
+                {
+                    <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-table"></i>
+                            <i class="nav-icon fas fa-database"></i>
                             <p>
                                 Snapshot
                                 <i class="fas fa-angle-left right"></i>
@@ -133,19 +134,44 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="@Url.Action("Index", "SnapShot")" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>History</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="@Url.Action("AllByAPI", "SnapShot")" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Online</p>
                                 </a>
                             </li>
                         </ul>
-                    </li>*@
+                    </li>
+                }
+
+                @*<li class="nav-item has-shopware">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-table"></i>
+                <p>
+                    Snapshot
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>History</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Online</p>
+                    </a>
+                </li>
+            </ul>
+        </li>*@
 
 
                 @if (roles.Contains(RolesTypes.HealthCheck.ToString()) || roles.Contains(RolesTypes.Admin.ToString()) || roles.Contains(RolesTypes.Manager.ToString()))

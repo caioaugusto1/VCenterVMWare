@@ -178,24 +178,24 @@ namespace VCenter.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(string id)
+        public async Task<IActionResult> Edit(string id)
         {
-            var user = _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
 
             var userViewModel = new UserViewModel();
 
-            userViewModel.Id = user.Result.Id.ToString();
-            userViewModel.FullName = user.Result.FullName;
-            userViewModel.Email = user.Result.Email;
-            userViewModel.Insert = user.Result.Insert;
-            userViewModel.Enable = user.Result.LockoutEnabled;
+            userViewModel.Id = user.Id.ToString();
+            userViewModel.FullName = user.FullName;
+            userViewModel.Email = user.Email;
+            userViewModel.Insert = user.Insert;
+            userViewModel.Enable = user.LockoutEnabled;
 
             return View(userViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, UserViewModel user)
+        public async Task<IActionResult> Edit(string id, UserViewModel user)
         {
             if (string.IsNullOrWhiteSpace(id))
                 return null;
@@ -214,7 +214,7 @@ namespace VCenter.Controllers
             if (!String.IsNullOrWhiteSpace(user.Password))
                 userIdentity.PasswordHash = user.Password;
 
-            _singManager.UserManager.UpdateAsync(userIdentity);
+            await _singManager.UserManager.UpdateAsync(userIdentity);
 
             return RedirectToAction("Index", "User");
         }
@@ -234,20 +234,20 @@ namespace VCenter.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetById(string id)
+        public async Task<IActionResult> GetById(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
                 return null;
 
-            var user = _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
 
             var userViewModel = new UserViewModel();
 
-            userViewModel.Id = user.Result.Id.ToString();
-            userViewModel.FullName = user.Result.FullName;
-            userViewModel.Email = user.Result.Email;
-            userViewModel.Insert = user.Result.Insert;
-            userViewModel.Enable = user.Result.LockoutEnabled;
+            userViewModel.Id = user.Id.ToString();
+            userViewModel.FullName = user.FullName;
+            userViewModel.Email = user.Email;
+            userViewModel.Insert = user.Insert;
+            userViewModel.Enable = user.LockoutEnabled;
 
             return View(userViewModel);
         }

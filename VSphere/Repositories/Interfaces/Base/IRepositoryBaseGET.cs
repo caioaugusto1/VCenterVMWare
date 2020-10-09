@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace VSphere.Repositories.Interfaces.Base
 {
     public interface IRepositoryBaseGET<TEntity> where TEntity : class
     {
-        List<TEntity> GetAll();
+        Task<List<TEntity>> GetAll();
 
-        TEntity GetById(string id);
+        Task<TEntity> GetById(string id);
 
-        List<TEntity> FindByFilter(Expression<Func<TEntity, bool>> predicate);
+        Task<List<TEntity>> FindByFilter(Expression<Func<TEntity, bool>> predicate);
     }
 }

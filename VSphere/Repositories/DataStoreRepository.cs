@@ -18,12 +18,14 @@ namespace VSphere.Repositories
 
         public async Task<List<DataStoreEntity>> GetByOrigem(string ip, DateTime from, DateTime to)
         {
-            return await _mongoCollection.Find<DataStoreEntity>(dataStore => dataStore.Origem == ip && dataStore.Insert >= to && dataStore.Insert <= from).ToListAsync();
+            var getAll = await _mongoCollection.Find<DataStoreEntity>(dataStore => dataStore.Origem == ip && dataStore.Insert >= to && dataStore.Insert <= from).ToListAsync();
+
+            return getAll;
         }
 
-        public Task InsertMany(List<DataStoreEntity> entitys)
+        public async Task InsertMany(List<DataStoreEntity> entitys)
         {
-            return _mongoCollection.InsertManyAsync(entitys);
+            await _mongoCollection.InsertManyAsync(entitys);
         }
     }
 }

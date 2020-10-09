@@ -57,8 +57,6 @@ namespace VSphere.Controllers
             if (serverViewModel.Id != id)
                 return null;
 
-
-
             return View();
         }
     }

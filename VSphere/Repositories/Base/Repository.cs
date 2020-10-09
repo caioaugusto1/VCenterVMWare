@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using VSphere.Repositories.Interfaces.Base;
 
 namespace VSphere.Repositories.Base
@@ -44,30 +45,30 @@ namespace VSphere.Repositories.Base
 
         }
 
-        public List<TEntity> FindByFilter(Expression<Func<TEntity, bool>> predicate)
+        public async Task<List<TEntity>> FindByFilter(Expression<Func<TEntity, bool>> predicate)
         {
             return _mongoCollection.AsQueryable<TEntity>().AsQueryable()
                        .Where(predicate).ToList();
         }
 
-        public List<TEntity> GetAll()
+        public async Task<List<TEntity>> GetAll()
         {
             return _mongoCollection.Find<TEntity>(x => true).ToList();
         }
 
-        public TEntity GetById(string id)
+        public async Task<TEntity> GetById(string id)
         {
             return _mongoCollection.Find<TEntity>(Builders<TEntity>.Filter.AnyEq("_id", ObjectId.Parse(id))).FirstOrDefault();
         }
 
-        public void Insert(TEntity obj)
+        public async void Insert(TEntity obj)
         {
-            _mongoCollection.InsertOne(obj);
+            await _mongoCollection.InsertOneAsync(obj);
         }
 
-        public void Update(TEntity obj, string id)
+        public async void Update(TEntity obj, string id)
         {
-            _mongoCollection.ReplaceOne(Builders<TEntity>.Filter.AnyEq("_id", ObjectId.Parse(id)), obj);
+            await _mongoCollection.ReplaceOneAsync(Builders<TEntity>.Filter.AnyEq("_id", ObjectId.Parse(id)), obj);
         }
     }
 }
