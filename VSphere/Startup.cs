@@ -44,6 +44,7 @@ namespace VSphere
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireLowercase = false;
@@ -81,7 +82,11 @@ namespace VSphere
             customAssemblyContext.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
 
 
-            #region injection dependency
+            #region Dependency Injector
+
+            services.AddHttpContextAccessor();
+            services.AddSingleton<RequestHandler>();
+            services.AddTransient<EmailHelper>();
 
             services.AddSingleton(typeof(IRepositoryBaseGET<>), typeof(RepositoryBaseGET<>));
             services.AddSingleton(typeof(IRepositoryBasePOST<>), typeof(RepositoryBasePOST<>));

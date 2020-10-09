@@ -17,9 +17,14 @@ namespace VSphere.Services
 {
     public class Service : ServiceBase, IService
     {
-        public Service(IOptions<AppSettings> appSetttings, IConverter converter)
+        private readonly RequestHandler _requestHandler;
+        private readonly EmailHelper _emailHelper;
+
+        public Service(IOptions<AppSettings> appSetttings, IConverter converter, RequestHandler requestHandler, EmailHelper emailHelper)
             : base(appSetttings, converter)
         {
+            _requestHandler = requestHandler;
+            _emailHelper = emailHelper;
         }
 
         public async Task<DataStoreConvert> GetDataStoreAPI(string url, string username, string password)
@@ -106,33 +111,6 @@ namespace VSphere.Services
             _converter.Convert(pdf);
 
             return documentName;
-        }
-
-        public void SendEmail(string to, string filename = "")
-        {
-            string emailFrom = _appSetttings.Value.Email;
-
-            using (MailMessage message = new MailMessage(emailFrom, to))
-            {
-                message.Subject = "Email de teste com anexo";
-                message.Body = "Esse e-mail foi enviado diretamente do novo sistema";
-                message.IsBodyHtml = false;
-
-                if (!string.IsNullOrWhiteSpace(filename))
-                    message.Attachments.Add(new Attachment(Path.GetFullPath(String.Format("{0}\\{1}", _appSetttings.Value.OutPDFSave, filename))));
-
-                using (SmtpClient smtp = new SmtpClient())
-                {
-                    smtp.Host = "smtp.gmail.com";
-                    smtp.EnableSsl = true;
-                    NetworkCredential cred = new NetworkCredential(emailFrom, _appSetttings.Value.EmailPassword);
-                    smtp.UseDefaultCredentials = true;
-                    smtp.Credentials = cred;
-                    smtp.Port = 587;
-                    smtp.Send(message);
-                }
-            };
-
         }
 
         public byte[] GetFile(string fileName)

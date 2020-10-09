@@ -11,7 +11,6 @@ namespace VSphere.Services.Inteface
 
         Task<DataStoreConvert> GetDataStoreAPI(string url, string username, string password);
 
-        void SendEmail(string to, string filename = "");
 
         byte[] GetFile(string fileName);
 

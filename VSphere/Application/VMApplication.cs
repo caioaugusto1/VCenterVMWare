@@ -7,7 +7,9 @@ using VSphere.Application.Interface;
 using VSphere.Entities;
 using VSphere.Models;
 using VSphere.Repositories.Interfaces;
+using VSphere.Services;
 using VSphere.Services.Inteface;
+using VSphere.Utils;
 
 namespace VSphere.Application
 {
@@ -17,13 +19,17 @@ namespace VSphere.Application
         private readonly IVMRepository _vmRepository;
         private readonly IService _service;
         private readonly IServerApplication _serverApplication;
+        private readonly RequestHandler _requestHandler;
+        private readonly EmailHelper _emailHelper;
 
-        public VMApplication(IMapper mapper, IVMRepository vmRepository, IService service, IServerApplication serverApplication)
+        public VMApplication(IMapper mapper, IVMRepository vmRepository, IService service, IServerApplication serverApplication, RequestHandler requestHandler, EmailHelper emailHelper)
         {
             _mapper = mapper;
             _vmRepository = vmRepository;
             _service = service;
             _serverApplication = serverApplication;
+            _requestHandler = requestHandler;
+            _emailHelper = emailHelper;
         }
 
         public async Task<List<VMViewModel>> GetAllByApi(string apiId)
@@ -83,7 +89,7 @@ namespace VSphere.Application
         {
             var fileName = _service.PDFGenerator(html);
 
-            _service.SendEmail("lucasletnar1@gmail.com", fileName);
+            SendEmail.Send(_requestHandler, _emailHelper, "", "", "");
 
             return _service.GetFile(fileName);
         }
