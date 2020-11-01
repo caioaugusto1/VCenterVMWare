@@ -1,5 +1,28 @@
 ﻿var userJs = function () {
 
+    var forgotPasswordSave = function (event) {
+
+        var email = $('#email').val();
+        if (email === undefined && email === "" && email === null) {
+            Util.showAlertModal('Email is required!!!!');
+            return;
+        }
+
+        Util.request('/User/ForgotPassword', 'POST', { email: email }, 'json', false, function (data) {
+
+            if (data === 204) {
+
+                Util.showSuccessModal('Email enviado com sucesso!');
+
+                return;
+            } else {
+                Util.showAlertModal('Aconteceu algum erro, por favor, tente novamente!');
+            }
+
+        });
+    };
+
+
     var loading = function () {
 
         $('#deleteButton').click(function () {
@@ -8,7 +31,7 @@
 
                 Util.closeDeleteModal();
 
-                if (data == 409) {
+                if (data === 409) {
 
                     Util.showAlertModal('Aconteceu algum erro, por favor, tente novamente!');
 
@@ -32,6 +55,6 @@
 
     loading();
 
-    return { openPopUpDeleteUser };
+    return { openPopUpDeleteUser, forgotPasswordSave };
 
 }();

@@ -37,13 +37,17 @@ namespace VSphere
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<ApplicationIdentityUser, IdentityRole>()
+              .AddEntityFrameworkStores<VSphereContext>()
+              .AddDefaultTokenProviders()
+              .AddDefaultUI();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -54,7 +58,6 @@ namespace VSphere
                 options.Password.RequiredLength = 2;
                 options.Password.RequiredUniqueChars = 0;
             });
-
 
             var mapperConfiguration = new MapperConfiguration(config =>
             {
@@ -68,7 +71,7 @@ namespace VSphere
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
-            
+
             services.ConfigureApplicationCookie(options =>
             {
                 //options.LoginPath = "/Login";
@@ -105,13 +108,11 @@ namespace VSphere
             services.AddTransient<IDataStoreApplication, DataStoreApplication>();
             services.AddTransient<IDataStoreRepository, DataStoreRepository>();
 
+            services.AddTransient<IUserApplication, UserApplication>();
+
             services.AddTransient<IService, Service>();
 
             #endregion
-
-
-            services.AddIdentity<ApplicationIdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<VSphereContext>();
 
             //var appSettingsSection = Configuration.GetSection("AppSettings");
             //services.Configure<AppSettings>(appSettingsSection);

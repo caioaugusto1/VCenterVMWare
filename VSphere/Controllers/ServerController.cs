@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using VSphere.Application.Interface;
 using VSphere.Models;
 
@@ -15,9 +16,9 @@ namespace VSphere.Controllers
             _serverApplication = serverApplication;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_serverApplication.GetAll());
+            return View(await _serverApplication.GetAll());
         }
 
         [HttpGet]

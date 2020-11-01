@@ -19,14 +19,14 @@ namespace VSphere.Application
             _serverRepository = serverRepository;
         }
 
-        public List<ServerViewModel> GetAll()
+        public async Task<List<ServerViewModel>> GetAll()
         {
-            return _mapper.Map<List<ServerViewModel>>(_serverRepository.GetAll());
+            return _mapper.Map<List<ServerViewModel>>(await _serverRepository.GetAll());
         }
 
-        public ServerViewModel GetById(string id)
+        public async Task<ServerViewModel> GetById(string id)
         {
-            return _mapper.Map<ServerViewModel>(_serverRepository.GetById(id));
+            return _mapper.Map<ServerViewModel>(await _serverRepository.GetById(id));
         }
 
         public void Insert(ServerViewModel obj)

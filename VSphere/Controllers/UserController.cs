@@ -4,26 +4,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using VSphere.Application.Interface;
 using VSphere.Models;
 using VSphere.Models.Identity;
+using VSphere.Models.ViewModels.User;
 using VSphere.Services.Inteface;
 
 namespace VCenter.Controllers
 {
-    [Authorize(Roles = "Admin, Manager")]
+    //[Authorize(Roles = "Admin, Manager")]
     public class UserController : Controller
     {
         private readonly UserManager<ApplicationIdentityUser> _userManager;
         private readonly SignInManager<ApplicationIdentityUser> _singManager;
+        private readonly IUserApplication _userApplication;
         private readonly IService _service;
 
         public UserController(UserManager<ApplicationIdentityUser> userManager,
-            SignInManager<ApplicationIdentityUser> singManager, IService service)
+            SignInManager<ApplicationIdentityUser> singManager, IService service, IUserApplication userApplication)
         {
             _userManager = userManager;
             _singManager = singManager;
             _service = service;
+            _userApplication = userApplication;
         }
 
         // GET: Login
@@ -48,10 +54,18 @@ namespace VCenter.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult MainLogin()
+        public async Task<IActionResult> MainLogin()
         {
-            //_service.SendEmail();
+            var user = await _userManager.GetUserAsync(User);
 
+            if (user == null)
+                return View();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Test(UserResetPasswordViewModel model)
+        {
             return View();
         }
 
@@ -92,6 +106,72 @@ namespace VCenter.Controllers
         {
             await _singManager.SignOutAsync();
             return RedirectToAction("MainLogin", "User");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return Json(HttpStatusCode.BadRequest);
+
+            var result = await _userApplication.ForgotPasswordConfirmation(email);
+
+            if (result)
+                return Json(new { statusCode = HttpStatusCode.NoContent });
+
+            return Json(new { statusCode = HttpStatusCode.NotFound });
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ResetPassword(string userId, string code)
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
+                return View("Error");
+
+            var user = await _userApplication.GetById(userId);
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+
+            var model = new UserResetPasswordViewModel();
+            model.Id = userId;
+            model.Token = code;
+
+            return View("ResetPassword", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(UserResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(ModelState);
+
+            var result = await _userApplication.ResetPassword(model);
+
+            if (result)
+                return Json(result);
+
+            return RedirectToAction("ResetPasswordConfirmation", "User");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ResetPasswordConfirmation()
+        {
+            return View();
         }
 
         [HttpGet]

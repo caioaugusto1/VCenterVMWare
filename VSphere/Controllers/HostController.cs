@@ -19,9 +19,9 @@ namespace VSphere.Controllers
         }
 
         //[ClaimAuthorize("Host", "Index")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            ViewBag.Servers = _serverApplication.GetAll();
+            ViewBag.Servers = await _serverApplication.GetAll();
 
             return View();
         }

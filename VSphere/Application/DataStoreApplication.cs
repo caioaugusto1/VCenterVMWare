@@ -45,7 +45,7 @@ namespace VSphere.Application
 
         public async Task<List<DataStoreViewModel>> GetAllByApi(string apiId)
         {
-            var server = _serverApplication.GetById(apiId);
+            var server = await _serverApplication.GetById(apiId);
 
             if (server == null)
                 return null;

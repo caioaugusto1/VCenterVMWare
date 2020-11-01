@@ -19,9 +19,9 @@ namespace VSphere.Controllers
             _serverApplication = serverApplication;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            ViewBag.Servers = _serverApplication.GetAll();
+            ViewBag.Servers = await _serverApplication.GetAll();
 
             return View();
         }
@@ -38,9 +38,9 @@ namespace VSphere.Controllers
         }
 
         [HttpGet]
-        public IActionResult AllByAPI()
+        public async Task<IActionResult> AllByAPI()
         {
-            ViewBag.Servers = _serverApplication.GetAll();
+            ViewBag.Servers = await _serverApplication.GetAll();
 
             return View();
         }

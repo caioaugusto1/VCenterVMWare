@@ -6,9 +6,9 @@ namespace VSphere.Application.Interface
 {
     public interface IServerApplication
     {
-        List<ServerViewModel> GetAll();
+        Task<List<ServerViewModel>> GetAll();
 
-        ServerViewModel GetById(string id);
+        Task<ServerViewModel> GetById(string id);
 
         void Insert(ServerViewModel obj);
 

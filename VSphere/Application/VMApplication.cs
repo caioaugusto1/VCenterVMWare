@@ -34,7 +34,7 @@ namespace VSphere.Application
 
         public async Task<List<VMViewModel>> GetAllByApi(string apiId)
         {
-            var server = _serverApplication.GetById(apiId);
+            var server = await _serverApplication.GetById(apiId);
 
             if (server == null)
                 return null;
@@ -70,7 +70,7 @@ namespace VSphere.Application
 
         public async Task<List<VMViewModel>> GetAllByDate(string apiId, string from, string to)
         {
-            var server = _serverApplication.GetById(apiId);
+            var server = await _serverApplication.GetById(apiId);
 
             if (server == null)
                 return null;

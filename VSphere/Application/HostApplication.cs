@@ -36,7 +36,7 @@ namespace VSphere.Application
 
         public async Task<List<HostViewModel>> GetAllByApi(string apiId)
         {
-            var server = _serverApplication.GetById(apiId);
+            var server = await _serverApplication.GetById(apiId);
 
             if (server == null)
                 return null;

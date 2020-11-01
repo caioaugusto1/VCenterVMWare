@@ -14,8 +14,6 @@ namespace VCenterVMWare.Controllers
 
         public IActionResult Index()
         {
-
-
             return View();
         }
 

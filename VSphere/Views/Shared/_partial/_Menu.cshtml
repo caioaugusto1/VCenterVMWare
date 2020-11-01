@@ -12,7 +12,7 @@
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
-    <a href="index3.html" class="brand-link">
+    <a href="@Url.Action("Index", "Home")" class="brand-link">
         <img src="~/theme/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
         <span class="brand-text font-weight-light">VSphere</span>
@@ -133,14 +133,14 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+                            @*<li class="nav-item">
+                                    <a href="@Url.Action("Index", "SnapShot")" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>History</p>
+                                    </a>
+                                </li>*@
                             <li class="nav-item">
                                 <a href="@Url.Action("Index", "SnapShot")" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>History</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="@Url.Action("AllByAPI", "SnapShot")" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Online</p>
                                 </a>
@@ -150,28 +150,28 @@
                 }
 
                 @*<li class="nav-item has-shopware">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-table"></i>
-                <p>
-                    Snapshot
-                    <i class="fas fa-angle-left right"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>History</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Online</p>
-                    </a>
-                </li>
-            </ul>
-        </li>*@
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-table"></i>
+                            <p>
+                                Snapshot
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>History</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Online</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>*@
 
 
                 @if (roles.Contains(RolesTypes.HealthCheck.ToString()) || roles.Contains(RolesTypes.Admin.ToString()) || roles.Contains(RolesTypes.Manager.ToString()))
