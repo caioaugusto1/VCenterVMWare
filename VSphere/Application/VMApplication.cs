@@ -75,10 +75,8 @@ namespace VSphere.Application
             if (server == null)
                 return null;
 
-            DateTime dateFrom = Convert.ToDateTime(from);
-            DateTime dateTo = Convert.ToDateTime(to);
-            dateFrom = dateFrom.AddMinutes(-1);
-            dateTo = dateTo.AddMinutes(1);
+            var dateFrom = Convert.ToDateTime(DateTime.Parse(from).AddHours(00).AddMinutes(00).AddSeconds(00));
+            var dateTo = Convert.ToDateTime(DateTime.Parse(to).AddHours(23).AddMinutes(59).AddSeconds(59));
 
             var vmsViewModel = await _vmRepository.GetByDate(server.IP, dateFrom, dateTo);
 
