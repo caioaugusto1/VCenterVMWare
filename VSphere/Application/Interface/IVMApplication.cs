@@ -14,6 +14,8 @@ namespace VSphere.Application.Interface
 
         Task<HttpStatusCode> Delete(string apiId, string name);
 
+        Task<HttpStatusCode> TurnOnOrTurnOff(string apiId, string name, bool turnOn);
+
         byte[] PDFGenerator(string html);
     }
 }

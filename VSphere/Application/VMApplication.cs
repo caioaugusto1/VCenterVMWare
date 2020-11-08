@@ -100,6 +100,18 @@ namespace VSphere.Application
             return vmsVM;
         }
 
+        public async Task<HttpStatusCode> TurnOnOrTurnOff(string apiId, string name, bool turnOn)
+        {
+            var server = await _serverApplication.GetById(apiId);
+
+            if (server == null)
+                return HttpStatusCode.NotFound;
+
+            var deleteResult = await _service.TurnOnOrTurnOffVMAPI("https://" + server.IP, server.UserName, server.Password, name, turnOn);
+
+            return deleteResult;
+        }
+
         public byte[] PDFGenerator(string html)
         {
             var fileName = _service.PDFGenerator(html);
@@ -108,5 +120,7 @@ namespace VSphere.Application
 
             return _service.GetFile(fileName);
         }
+
+
     }
 }

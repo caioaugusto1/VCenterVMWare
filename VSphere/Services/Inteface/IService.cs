@@ -14,6 +14,8 @@ namespace VSphere.Services.Inteface
 
         Task<HttpStatusCode> DeleteVMAPI(string url, string username, string password, string name);
 
+        Task<HttpStatusCode> TurnOnOrTurnOffVMAPI(string url, string username, string password, string name, bool turnOn);
+
         byte[] GetFile(string fileName);
 
         string PDFGenerator(string html);

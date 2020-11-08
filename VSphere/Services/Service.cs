@@ -78,6 +78,24 @@ namespace VSphere.Services
                 return null;
         }
 
+
+        public async Task<HttpStatusCode> TurnOnOrTurnOffVMAPI(string url, string username, string password, string name, bool turnOn)
+        {
+            ClientCreate(url);
+            GetSession(username, password);
+
+            var _restRequest = new RestRequest(Method.POST);
+
+            if (turnOn)
+                AddDefaultHeader(_restRequest, string.Format("{0}{1}{2}", "rest/vcenter/vm/", name, "/power/start"), username, password);
+            else
+                AddDefaultHeader(_restRequest, string.Format("{0}{1}{2}", "rest/vcenter/vm/", name, "/power/stop"), username, password);
+
+            IRestResponse response = _httpClient.Execute(_restRequest);
+
+            return response.StatusCode;
+        }
+
         public async Task<HttpStatusCode> DeleteVMAPI(string url, string username, string password, string name)
         {
             ClientCreate(url);
@@ -130,7 +148,6 @@ namespace VSphere.Services
         {
             return File.ReadAllBytes(_appSetttings.Value.OutPDFSave + fileName);
         }
-
 
     }
 }

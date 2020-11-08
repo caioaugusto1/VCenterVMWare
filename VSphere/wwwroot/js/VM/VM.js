@@ -20,7 +20,8 @@
         });
 
         $('#btn-clean').click(function () {
-            $("#dropDownServers ").val($("#dropDownServers  option:first").val());
+            $("#dropDownServers").val($("#dropDownServers  option:first").val());
+            $('#tbody-tableInformation>tr').remove()
         });
 
         $('#btn-search').click(function () {
@@ -37,6 +38,7 @@
 
             if ($('#pageValueIdentity').val() === "GetByAPI") {
 
+                $('#tbody-tableInformation>tr').remove()
                 $('#btn-export').removeAttr("disabled");
 
                 getAllByAPI(ip);
@@ -50,6 +52,8 @@
     };
 
     var getAllByHistory = function (apiId) {
+
+        $('#list-vms-table').remove();
 
         var rangeDate = $('#rangeDateTime').val().split('-');
         var datetimeFrom = rangeDate[0].trim();
@@ -78,16 +82,28 @@
 
                 $.each(data.data, function (index, value) {
 
+                    var tr = "";
                     var power = "OFF";
 
                     if (value.power == "POWERED_ON") {
                         power = "ON";
-                        totalOn++;
-                    };
-                    debugger;
-                    var tr = `<tr><td>${value.name}</td><td>${value.memory}</td><td>${value.cpu}</td><td>${power}</td>
-                                    <td><label class="custom-control-label" for="customSwitch3"></label><button type="button" class="btn btn-danger" onclick="VMjs.deleteVM('${value.vm}', '${apiId}')">Apagar</button><td>
+
+                        tr = `<tr><td>${value.name}</td><td>${value.memory}</td><td>${value.cpu}</td><td>${power}</td>
+                                    <td><input type="checkbox" checked class="turnOnOrTurnOff" onchange="VMjs.turnOnOrTurnOff('${value.vm}', '${apiId}', true)" /></br><button type="button" class="btn btn-danger" onclick="VMjs.deleteVM('${value.vm}', '${apiId}')">Apagar</button><td>
                                 </tr>`;
+
+                        totalOn++;
+                    } else {
+
+                        tr = `<tr><td>${value.name}</td><td>${value.memory}</td><td>${value.cpu}</td><td>${power}</td>
+                                    <td><input type="checkbox" class="turnOnOrTurnOff" onchange="VMjs.turnOnOrTurnOff('${value.vm}', '${apiId}', false)" /></br><button type="button" class="btn btn-danger" onclick="VMjs.deleteVM('${value.vm}', '${apiId}')">Apagar</button><td>
+                                </tr>`;
+                    }
+
+                    //<div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                    //    <input type="checkbox" class="custom-control-input" id="customSwitch3">
+                    //        <label class="custom-control-label" for="customSwitch3">Toggle this custom switch element with custom colors danger/success</label>
+                    //</div>
 
                     $('#tbody-tableInformation').append(tr);
                 });
@@ -96,7 +112,7 @@
                 $('#totalOff').text(countTotal - totalOn);
                 $('#totalVMS').text(countTotal);
 
-                $('#list-vms-table').DataTable();
+                $('#list-vms-table-allbyapi').DataTable();
 
                 Util.closeLoadingModal();
 
@@ -148,7 +164,7 @@
             if (result.isConfirmed) {
 
                 Util.request('/VM/Delete', 'DELETE', { 'apiId': apiId, 'name': vmName }, 'json', true, function (data) {
-                    debugger;
+
                     if (data.statusCode == 200) {
                         Util.showSuccessModal('Requisição feita com sucesso', `A máquina foi deletada com sucesso ${vmName}!`);
                     } else {
@@ -163,8 +179,69 @@
 
     };
 
+    var turnOnOrTurnOff = function (vmName, apiId, beTurnedOn) {
+
+        if (beTurnedOn) {
+
+            Swal.fire({
+                title: `Você tem certeza que deseja desligar a máquina ${vmName}?`,
+                text: 'Você não poderá reverter essa ação!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, desligar!'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    Util.request('/VM/TurnONorTurnOff', 'POST', { 'apiId': apiId, 'name': vmName, 'turnOn': false }, 'json', true, function (data) {
+
+                        if (data.statusCode == 200) {
+                            Util.showSuccessModal('Requisição feita com sucesso', `A máquina foi desligada com sucesso ${vmName}!`);
+                        } else {
+                            Util.showAlertModal('Ocorreu um erro ao tentar fazer a requisição', 'Por favor, tente novamente!');
+                        }
+
+                    }, function (request, status, error) {
+
+                    });
+                }
+            });
+
+        } else {
+
+            Swal.fire({
+                title: `Você tem certeza que deseja ligar a máquina ${vmName}?`,
+                text: 'Você não poderá reverter essa ação!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, ligar!'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    Util.request('/VM/TurnONorTurnOff', 'POST', { 'apiId': apiId, 'name': vmName, 'turnOn': true }, 'json', true, function (data) {
+
+                        if (data.statusCode == 200) {
+                            Util.showSuccessModal('Requisição feita com sucesso', `A máquina foi ligada com sucesso ${vmName}!`);
+                        } else {
+                            Util.showAlertModal('Ocorreu um erro ao tentar fazer a requisição', 'Por favor, tente novamente!');
+                        }
+
+                    }, function (request, status, error) {
+
+                    });
+                }
+            });
+
+        }
+    }
+
     loadingPage();
 
-    return { deleteVM };
+    return { deleteVM, turnOnOrTurnOff };
 
 }();

@@ -56,6 +56,17 @@ namespace VSphere.Controllers
             return Json(new { data = dataFromAPI, statusCode = HttpStatusCode.OK });
         }
 
+        [HttpPost]
+        public async Task<JsonResult> TurnONorTurnOff(string apiId, string name, bool turnOn)
+        {
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(apiId))
+                return Json(new { statusCode = HttpStatusCode.BadRequest });
+
+            var statusCodeResult = await _vmApplication.TurnOnOrTurnOff(apiId, name, turnOn);
+
+            return Json(new { statusCode = statusCodeResult });
+        }
+
         [HttpDelete]
         public async Task<JsonResult> Delete(string apiId, string name)
         {
