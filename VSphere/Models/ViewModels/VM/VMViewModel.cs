@@ -20,5 +20,7 @@ namespace VSphere.Models
 
         public DateTime Insert { get; private set; }
 
+        public bool GetOnlinesVM { get; set; } = false;
+
     }
 }

@@ -84,8 +84,10 @@
                         power = "ON";
                         totalOn++;
                     };
-
-                    var tr = `<tr><td>${value.name}</td><td>${value.memory}</td><td>${value.cpu}</td><td>${power}</td></tr>`;
+                    debugger;
+                    var tr = `<tr><td>${value.name}</td><td>${value.memory}</td><td>${value.cpu}</td><td>${power}</td>
+                                    <td><label class="custom-control-label" for="customSwitch3"></label><button type="button" class="btn btn-danger" onclick="VMjs.deleteVM('${value.vm}', '${apiId}')">Apagar</button><td>
+                                </tr>`;
 
                     $('#tbody-tableInformation').append(tr);
                 });
@@ -131,9 +133,38 @@
         });
     };
 
+    var deleteVM = function (vmName, apiId) {
+
+        Swal.fire({
+            title: `Você tem certeza que deseja apagar a máquina ${vmName}?`,
+            text: 'Você não poderá reverter essa ação!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, deletar!'
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+
+                Util.request('/VM/Delete', 'DELETE', { 'apiId': apiId, 'name': vmName }, 'json', true, function (data) {
+                    debugger;
+                    if (data.statusCode == 200) {
+                        Util.showSuccessModal('Requisição feita com sucesso', `A máquina foi deletada com sucesso ${vmName}!`);
+                    } else {
+                        Util.showAlertModal('Ocorreu um erro ao tentar fazer a requisição', 'Por favor, tente novamente!');
+                    }
+
+                }, function (request, status, error) {
+
+                });
+            }
+        });
+
+    };
 
     loadingPage();
 
-    return {};
+    return { deleteVM };
 
 }();

@@ -32,7 +32,9 @@ namespace VSphere.Controllers
             if (string.IsNullOrWhiteSpace(apiId) || string.IsNullOrWhiteSpace(datetimeFrom) || string.IsNullOrWhiteSpace(datetimeTo))
                 return Json(HttpStatusCode.Conflict);
 
-            return PartialView("~/Views/VM/_partial/_List.cshtml", await _vmApplication.GetAllByDate(apiId, datetimeFrom, datetimeTo));
+            var vmsViewModel = await _vmApplication.GetAllByDate(apiId, datetimeFrom, datetimeTo);
+
+            return PartialView("~/Views/VM/_partial/_List.cshtml", vmsViewModel);
         }
 
         [HttpGet]
@@ -52,8 +54,17 @@ namespace VSphere.Controllers
             var dataFromAPI = await _vmApplication.GetAllByApi(apiId);
 
             return Json(new { data = dataFromAPI, statusCode = HttpStatusCode.OK });
+        }
 
-            //return PartialView("~/Views/VM/_partial/_ListByAPI.cshtml", dataFromAPI);
+        [HttpDelete]
+        public async Task<JsonResult> Delete(string apiId, string name)
+        {
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(apiId))
+                return Json(new { statusCode = HttpStatusCode.BadRequest });
+
+            var deleteResult = await _vmApplication.Delete(apiId, name);
+
+            return Json(new { statusCode = deleteResult });
         }
 
         [HttpPost]
@@ -68,5 +79,7 @@ namespace VSphere.Controllers
 
             //return File(file, System.Net.Mime.MediaTypeNames.Application.Octet);
         }
+
+
     }
 }

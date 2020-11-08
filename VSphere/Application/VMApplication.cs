@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNet.Mvc.ViewFeatures;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Net;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using VSphere.Application.Interface;
 using VSphere.Entities;
 using VSphere.Models;
@@ -30,6 +32,18 @@ namespace VSphere.Application
             _serverApplication = serverApplication;
             _requestHandler = requestHandler;
             _emailHelper = emailHelper;
+        }
+
+        public async Task<HttpStatusCode> Delete(string apiId, string name)
+        {
+            var server = await _serverApplication.GetById(apiId);
+
+            if (server == null)
+                return HttpStatusCode.NotFound;
+
+            var deleteResult = await _service.DeleteVMAPI("https://" + server.IP, server.UserName, server.Password, name);
+
+            return deleteResult;
         }
 
         public async Task<List<VMViewModel>> GetAllByApi(string apiId)
@@ -61,7 +75,8 @@ namespace VSphere.Application
                     CPU = x.CPU,
                     Power = x.Power,
                     Name = x.Name,
-                    VM = x.VM
+                    VM = x.VM,
+                    GetOnlinesVM = true
                 });
             });
 
@@ -80,7 +95,9 @@ namespace VSphere.Application
 
             var vmsViewModel = await _vmRepository.GetByDate(server.IP, dateFrom, dateTo);
 
-            return _mapper.Map<List<VMViewModel>>(vmsViewModel);
+            var vmsVM = _mapper.Map<List<VMViewModel>>(vmsViewModel);
+
+            return vmsVM;
         }
 
         public byte[] PDFGenerator(string html)

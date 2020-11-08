@@ -78,6 +78,19 @@ namespace VSphere.Services
                 return null;
         }
 
+        public async Task<HttpStatusCode> DeleteVMAPI(string url, string username, string password, string name)
+        {
+            ClientCreate(url);
+            GetSession(username, password);
+
+            var _restRequest = new RestRequest(Method.DELETE);
+
+            AddDefaultHeader(_restRequest, string.Format("{0}{1}", "rest/vcenter/vm/", name), username, password);
+            IRestResponse response = _httpClient.Execute(_restRequest);
+
+            return response.StatusCode;
+        }
+
         public string PDFGenerator(string html)
         {
             var documentName = String.Format("{0}_{1}.pdf", "PDF_VM_Report", Guid.NewGuid());
@@ -117,5 +130,7 @@ namespace VSphere.Services
         {
             return File.ReadAllBytes(_appSetttings.Value.OutPDFSave + fileName);
         }
+
+
     }
 }
