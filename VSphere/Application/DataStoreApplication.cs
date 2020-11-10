@@ -26,9 +26,9 @@ namespace VSphere.Application
             _serverApplication = serverApplication;
         }
 
-        public List<DataStoreViewModel> GetAll(string apiId, string from, string to)
+        public async Task<List<DataStoreViewModel>> GetAll(string apiId, string from, string to)
         {
-            var server = _serverApplication.GetById(apiId);
+            var server = await _serverApplication.GetById(apiId);
 
             if (server == null)
                 return null;
@@ -38,7 +38,7 @@ namespace VSphere.Application
             dateFrom = dateFrom.AddMinutes(-1);
             dateTo = dateTo.AddMinutes(1);
 
-            return _mapper.Map<List<DataStoreViewModel>>(_dataStoreRepository.GetAll());
+            return _mapper.Map<List<DataStoreViewModel>>(await _dataStoreRepository.GetAll());
 
             //return _mapper.Map<List<DataStoreViewModel>>(_dataStoreRepository.GetByOrigem(server.IP, from, to));
         }

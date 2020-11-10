@@ -43,7 +43,7 @@ namespace VSphere.Services
                 return null;
         }
 
-        public async Task<HostConvert> GetHostsAPI(string url, string username, string password)
+        public async Task<HostConverter> GetHostsAPI(string url, string username, string password)
         {
             ClientCreate(url);
             GetSession(username, password);
@@ -57,12 +57,12 @@ namespace VSphere.Services
             IRestResponse response = _httpClient.Execute(_restRequest);
 
             if (response.StatusCode == HttpStatusCode.OK)
-                return JsonConvert.DeserializeObject<HostConvert>(response.Content);
+                return JsonConvert.DeserializeObject<HostConverter>(response.Content);
             else
                 return null;
         }
 
-        public async Task<VMConvert> GetVMsAPI(string url, string username, string password)
+        public async Task<VMConverter> GetVMsAPI(string url, string username, string password)
         {
             ClientCreate(url);
             GetSession(username, password);
@@ -73,11 +73,26 @@ namespace VSphere.Services
             IRestResponse response = _httpClient.Execute(_restRequest);
 
             if (response.StatusCode == HttpStatusCode.OK)
-                return JsonConvert.DeserializeObject<VMConvert>(response.Content);
+                return JsonConvert.DeserializeObject<VMConverter>(response.Content);
             else
                 return null;
         }
 
+        public async Task<FolderConverter> GetFolderAPI(string url, string username, string password)
+        {
+            ClientCreate(url);
+            GetSession(username, password);
+
+            var _restRequest = new RestRequest(Method.GET);
+
+            AddDefaultHeader(_restRequest, "rest/vcenter/folder", username, password);
+            IRestResponse response = _httpClient.Execute(_restRequest);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+                return JsonConvert.DeserializeObject<FolderConverter>(response.Content);
+            else
+                return null;
+        }
 
         public async Task<HttpStatusCode> TurnOnOrTurnOffVMAPI(string url, string username, string password, string name, bool turnOn)
         {

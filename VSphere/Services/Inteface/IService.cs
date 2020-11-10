@@ -6,11 +6,13 @@ namespace VSphere.Services.Inteface
 {
     public interface IService
     {
-        Task<VMConvert> GetVMsAPI(string url, string username, string password);
+        Task<VMConverter> GetVMsAPI(string url, string username, string password);
 
-        Task<HostConvert> GetHostsAPI(string url, string username, string password);
+        Task<HostConverter> GetHostsAPI(string url, string username, string password);
 
         Task<DataStoreConvert> GetDataStoreAPI(string url, string username, string password);
+
+        Task<FolderConverter> GetFolderAPI(string url, string username, string password);
 
         Task<HttpStatusCode> DeleteVMAPI(string url, string username, string password, string name);
 

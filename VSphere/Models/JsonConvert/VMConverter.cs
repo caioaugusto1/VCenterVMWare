@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace VSphere.Models.JsonConvert
 {
-    public class VMConvert
+    public class VMConverter
     {
         [JsonProperty("value")]
         public List<VMValue> Value { get; set; }

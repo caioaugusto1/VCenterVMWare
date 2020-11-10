@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNet.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Threading.Tasks;
 using VSphere.Application.Interface;
+using VSphere.Models.ViewModels.VM;
 
 namespace VSphere.Controllers
 {
@@ -12,11 +14,15 @@ namespace VSphere.Controllers
     {
         private readonly IVMApplication _vmApplication;
         private readonly IServerApplication _serverApplication;
+        private readonly IDataStoreApplication _dataStoreApplication;
+        private readonly IFolderApplication _folderApplication;
 
-        public VMController(IVMApplication vmApplication, IServerApplication serverApplication)
+        public VMController(IVMApplication vmApplication, IServerApplication serverApplication, IDataStoreApplication dataStoreApplication, IFolderApplication folderApplication)
         {
             _vmApplication = vmApplication;
             _serverApplication = serverApplication;
+            _dataStoreApplication = dataStoreApplication;
+            _folderApplication = folderApplication;
         }
 
         public async Task<IActionResult> Index()
@@ -24,6 +30,30 @@ namespace VSphere.Controllers
             ViewBag.Servers = await _serverApplication.GetAll();
 
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> IndexCreate()
+        {
+            ViewBag.Servers = await _serverApplication.GetAll();
+
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Create(string apiId)
+        {
+            ViewBag.Datastores = await _dataStoreApplication.GetAllByApi(apiId);
+            ViewBag.Folder = await _folderApplication.GetAllByApi(apiId);
+            ViewBag.ResoucerPool = new SelectList("Id", "Name", "1234");
+
+            return PartialView("~/Views/VM/_partial/_Create.cshtml");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateSave(CreateVMViewModel model)
+        {
+            return null;
         }
 
         [HttpGet]

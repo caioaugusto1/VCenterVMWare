@@ -1,0 +1,74 @@
+﻿
+<link rel="stylesheet" href="~/theme/plugins/datatables-bs4/css/dataTables.bootstrap4.css" />
+<link rel="stylesheet" href="~/theme/plugins/daterangepicker/daterangepicker.css" />
+
+<div class="content-wrapper" style="min-height: 976.4px;">
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Inventário</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Criar</a></li>
+                        <li class="breadcrumb-item active">Inventário</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+
+                <div class="col-md-4">
+                    @await Html.PartialAsync("~/Views/Shared/_partial/_filter/_ServerDropBox.cshtml", new { servers = ViewBag.Servers })
+                </div>
+
+                <div style="margin-right:5px;">
+                    @await Html.PartialAsync("~/Views/Shared/_partial/_filter/_SearchBtn.cshtml")
+                </div>
+
+                <div style="margin-right:5px;">
+                    @await Html.PartialAsync("~/Views/Shared/_partial/_filter/_cleanBtn.cshtml")
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">VM Create</h3>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <div id="div-crate-body" class="card-body">
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+<input hidden id="pageValueIdentity" value="CreateVM" />
+
+<script src="~/theme/plugins/jquery/jquery.js"></script>
+
+<script src="~/theme/plugins/moment/moment.min.js"></script>
+<script src="~/theme/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<script src="~/theme/plugins/daterangepicker/daterangepicker.js"></script>
+
+<script src="~/js/Ultil/Util.js"></script>
+<script src="~/js/VM/vm.js"></script>

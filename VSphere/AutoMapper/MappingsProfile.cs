@@ -3,6 +3,8 @@ using System;
 using System.Globalization;
 using VSphere.Entities;
 using VSphere.Models;
+using VSphere.Models.JsonConvert;
+using VSphere.Models.ViewModels.Folder;
 
 namespace VSphere.AutoMapper
 {

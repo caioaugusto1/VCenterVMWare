@@ -43,10 +43,11 @@
 
                 getAllByAPI(ip);
 
+            } else if ($('#pageValueIdentity').val() === "CreateVM") {
+                createVM(ip);
+
             } else {
-
                 getAllByHistory(ip);
-
             }
         });
     };
@@ -148,6 +149,31 @@
         }, function (request, status, error) {
         });
     };
+
+    var createVM = function (apiId) {
+
+        Util.request('/VM/Create', 'GET', { "apiId": apiId }, 'html', false, function (data) {
+
+            debugger;
+            if (data != null) {
+                $('#div-crate-body').append(data);
+            }
+
+            //Util.closeDeleteModal();
+
+            //if (data === 409) {
+
+            //    Util.showAlertModal('Aconteceu algum erro, por favor, tente novamente!');
+
+            //    return;
+            //} else {
+            //    Util.closeSuccessModal('Sucesso', 'Usuário deletado');
+            //}
+
+        }, function (request, status, error) {
+
+        });
+    }
 
     var deleteVM = function (vmName, apiId) {
 
