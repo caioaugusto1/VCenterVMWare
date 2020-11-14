@@ -10,7 +10,7 @@
 
         Util.request('/User/ForgotPassword', 'POST', { email: email }, 'json', false, function (data) {
 
-            if (data === 204) {
+            if (data.statusCode === 204) {
 
                 Util.showSuccessModal('Email enviado com sucesso!');
 

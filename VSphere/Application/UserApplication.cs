@@ -48,6 +48,9 @@ namespace VSphere.Application
         {
             var user = await _singManager.UserManager.FindByEmailAsync(email);
 
+            if (user == null)
+                return true;
+
             if (await GenerateCodeResetPasswordAndSendByEmail(user, "User", "ResetPassword", "Forgot Password", string.Empty))
                 return true;
             else

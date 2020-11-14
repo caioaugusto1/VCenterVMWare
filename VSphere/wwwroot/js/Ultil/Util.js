@@ -52,17 +52,17 @@
 
     function showSuccessModal(description, subDescription) {
         
-        if (!description) {
-            $('#description').text('Successo');
-        } else {
-            $('#description').text(description);
-        }
+        //if (!description) {
+        //    $('#description').text('Successo');
+        //} else {
+        //    $('#description').text(description);
+        //}
 
-        if (!subDescription) {
-            $('#sub-description').text('Requesição concluída');
-        } else {
-            $('#sub-description').text(subDescription);
-        }
+        //if (!subDescription) {
+        //    $('#sub-description').text('Requesição concluída');
+        //} else {
+        //    $('#sub-description').text(subDescription);
+        //}
 
         $('#modalSuccess').modal('show');
     }

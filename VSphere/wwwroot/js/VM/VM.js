@@ -229,6 +229,9 @@
 
                         if (data.statusCode == 200) {
                             Util.showSuccessModal('Requisição feita com sucesso', `A máquina foi desligada com sucesso ${vmName}!`);
+
+                            $("#tbody-tableInformation > tr").remove();
+                            $('#btn-search').trigger('click');
                         } else {
                             Util.showAlertModal('Ocorreu um erro ao tentar fazer a requisição', 'Por favor, tente novamente!');
                         }
@@ -257,6 +260,9 @@
 
                         if (data.statusCode == 200) {
                             Util.showSuccessModal('Requisição feita com sucesso', `A máquina foi ligada com sucesso ${vmName}!`);
+
+                            $("#tbody-tableInformation > tr").remove();
+                            $('#btn-search').trigger('click');
                         } else {
                             Util.showAlertModal('Ocorreu um erro ao tentar fazer a requisição', 'Por favor, tente novamente!');
                         }
