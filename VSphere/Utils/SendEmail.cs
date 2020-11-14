@@ -11,9 +11,6 @@ namespace VSphere.Utils
     {
         public static bool Send(RequestHandler _requestHandler, EmailHelper _emailHelper, string email, string subject, string emailbody)
         {
-            var host = _requestHandler._httpContextAccessor.HttpContext.Request.Host;
-            var scheme = _requestHandler._httpContextAccessor.HttpContext.Request.Scheme;
-
             Thread sendEmailThread = new Thread(items => _emailHelper.SendEmail(new EmailHelper.EmailModel(email, subject, emailbody, true)));
             sendEmailThread.Start();
 

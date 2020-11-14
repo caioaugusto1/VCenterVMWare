@@ -14,6 +14,10 @@
 
                 Util.showSuccessModal('Email enviado com sucesso!');
 
+                setTimeout(function () {
+                    location.href = "/";
+                }, 3000);
+
                 return;
             } else {
                 Util.showAlertModal('Aconteceu algum erro, por favor, tente novamente!');

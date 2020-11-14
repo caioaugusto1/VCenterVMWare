@@ -158,12 +158,9 @@ namespace VCenter.Controllers
         public async Task<IActionResult> ResetPassword(UserResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
-                return View(ModelState);
+                return View(model);
 
             var result = await _userApplication.ResetPassword(model);
-
-            if (result)
-                return Json(result);
 
             return RedirectToAction("ResetPasswordConfirmation", "User");
         }

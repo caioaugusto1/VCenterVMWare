@@ -51,28 +51,19 @@ namespace VSphere.Application
             if (user == null)
                 return true;
 
-            if (await GenerateCodeResetPasswordAndSendByEmail(user, "User", "ResetPassword", "Forgot Password", string.Empty))
-                return true;
-            else
-                return false;
-        }
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            code = TokenEncode(code);
 
-        private async Task<bool> GenerateCodeResetPasswordAndSendByEmail(ApplicationIdentityUser user, string urlController, string urlAction, string emailSubject, string emailBody)
-        {
-            try
-            {
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                code = TokenEncode(code);
+            var host = _requestHandler._httpContextAccessor.HttpContext.Request.Host;
+            var scheme = _requestHandler._httpContextAccessor.HttpContext.Request.Scheme;
 
-                var url = urlController + "/" + urlAction + "?userId=" + user.Id + "&code=" + code;
-                SendEmail.Send(_requestHandler, _emailHelper, user.Email, emailSubject, emailBody);
+            var url = string.Format("{0}://{1}/{2}/{3}?userId={4}&code={5}", scheme, host, "User", "ResetPassword", user.Id, code);
 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            var emailBody = string.Format("<p href='{0}'> Clique aqui para recuperação sua conta</p>", url);
+
+            SendEmail.Send(_requestHandler, _emailHelper, user.Email, "Recuperação de Acesso", emailBody);
+
+            return true;
         }
 
         private string TokenEncode(string code)
