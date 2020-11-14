@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using VSphere.Models;
+using VSphere.Models.ViewModels.VM;
 
 namespace VSphere.Application.Interface
 {
     public interface IVMApplication
     {
         Task<List<VMViewModel>> GetAllByDate(string apiId, string from, string to);
+
+        Task<HttpStatusCode> Create(string apiId, CreateVMViewModel model);
 
         Task<List<VMViewModel>> GetAllByApi(string apiId);
 

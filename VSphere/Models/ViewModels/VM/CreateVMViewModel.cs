@@ -7,6 +7,8 @@ namespace VSphere.Models.ViewModels.VM
 {
     public class CreateVMViewModel
     {
+        public string ApiId { get; set; }
+
         public string Name { get; set; }
 
         public int Memory { get; set; }

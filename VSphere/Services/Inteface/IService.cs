@@ -10,9 +10,14 @@ namespace VSphere.Services.Inteface
 
         Task<HostConverter> GetHostsAPI(string url, string username, string password);
 
+        Task<HttpStatusCode> CreateVM(string url, string username, string password, VMPost vmModelConvertered);
+
+
         Task<DataStoreConvert> GetDataStoreAPI(string url, string username, string password);
 
         Task<FolderConverter> GetFolderAPI(string url, string username, string password);
+
+        Task<ResourcePoolConverter> GetResourcePoolAPI(string url, string username, string password);
 
         Task<HttpStatusCode> DeleteVMAPI(string url, string username, string password, string name);
 

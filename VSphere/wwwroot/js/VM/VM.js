@@ -90,7 +90,7 @@
                         power = "ON";
 
                         tr = `<tr><td>${value.name}</td><td>${value.memory}</td><td>${value.cpu}</td><td>${power}</td>
-                                    <td><input type="checkbox" checked class="turnOnOrTurnOff" onchange="VMjs.turnOnOrTurnOff('${value.vm}', '${apiId}', true)" /></br><button type="button" class="btn btn-danger" onclick="VMjs.deleteVM('${value.vm}', '${apiId}')">Apagar</button><td>
+                                    <td><input type="checkbox" checked class="turnOnOrTurnOff" onchange="VMjs.turnOnOrTurnOff('${value.vm}', '${apiId}', true)" /></br><button type="button" class="btn btn-danger" disabled>Apagar</button><td>
                                 </tr>`;
 
                         totalOn++;
@@ -193,6 +193,10 @@
 
                     if (data.statusCode == 200) {
                         Util.showSuccessModal('Requisição feita com sucesso', `A máquina foi deletada com sucesso ${vmName}!`);
+
+                        $("#tbody-tableInformation > tr").remove();
+                        $('#btn-search').trigger('click');
+
                     } else {
                         Util.showAlertModal('Ocorreu um erro ao tentar fazer a requisição', 'Por favor, tente novamente!');
                     }

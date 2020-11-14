@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -16,13 +17,15 @@ namespace VSphere.Controllers
         private readonly IServerApplication _serverApplication;
         private readonly IDataStoreApplication _dataStoreApplication;
         private readonly IFolderApplication _folderApplication;
+        private readonly IResourcePoolApplication _resourcePoolApplication;
 
-        public VMController(IVMApplication vmApplication, IServerApplication serverApplication, IDataStoreApplication dataStoreApplication, IFolderApplication folderApplication)
+        public VMController(IVMApplication vmApplication, IServerApplication serverApplication, IDataStoreApplication dataStoreApplication, IFolderApplication folderApplication, IResourcePoolApplication resourcePoolApplication)
         {
             _vmApplication = vmApplication;
             _serverApplication = serverApplication;
             _dataStoreApplication = dataStoreApplication;
             _folderApplication = folderApplication;
+            _resourcePoolApplication = resourcePoolApplication;
         }
 
         public async Task<IActionResult> Index()
@@ -45,15 +48,30 @@ namespace VSphere.Controllers
         {
             ViewBag.Datastores = await _dataStoreApplication.GetAllByApi(apiId);
             ViewBag.Folder = await _folderApplication.GetAllByApi(apiId);
-            ViewBag.ResoucerPool = new SelectList("Id", "Name", "1234");
+            ViewBag.ResoucerPool = await _resourcePoolApplication.GetAllByApi(apiId);
 
-            return PartialView("~/Views/VM/_partial/_Create.cshtml");
+            CreateVMViewModel model = new CreateVMViewModel();
+            model.ApiId = apiId;
+
+            return PartialView("~/Views/VM/_partial/_Create.cshtml", model);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateSave(CreateVMViewModel model)
         {
-            return null;
+            if (!ModelState.IsValid)
+            {
+                return View(ModelState);
+            }
+
+            var createResult = await _vmApplication.Create(model.ApiId, model);
+
+            if (createResult == HttpStatusCode.OK)
+            {
+                return RedirectToAction("Index", "VM");
+            }
+
+            return View();
         }
 
         [HttpGet]

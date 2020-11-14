@@ -1,8 +1,14 @@
-﻿@using VSphere.Models.ViewModels.VM
+﻿
+
+@using VSphere.Models.ViewModels.VM
 
 @model CreateVMViewModel
 
-<form id="addForm">
+@using (Html.BeginForm("CreateSave", "VM", FormMethod.Post))
+{
+
+    <input type="hidden" asp-for="ApiId" />
+
     <div class="container-fluid">
 
         <div class="row form-group pad-top">
@@ -12,7 +18,7 @@
             <div class="col-sm-9">
                 <div class="input-group inner-addon right-addon">
                     <select asp-for="DataStore" class="form-control" data-style="form-control" title="Nenhum Selecionado"
-                            asp-items="@(new SelectList(ViewBag.Datastores,"Datastore","Name"))">
+                            asp-items="@(new SelectList(ViewBag.Datastores, "Datastore", "Datastore"))">
                     </select>
                     <span class="input-group-append fa fa-pencil"></span>
                 </div>
@@ -27,7 +33,22 @@
             <div class="col-sm-9">
                 <div class="input-group inner-addon right-addon">
                     <select asp-for="Folder" class="form-control" data-style="form-control" title="Nenhum Selecionado"
-                            asp-items="@(new SelectList(ViewBag.Folder,"Folder","Name"))">
+                            asp-items="@(new SelectList(ViewBag.Folder, "Folder", "Folder"))">
+                    </select>
+                    <span class="input-group-append fa fa-pencil"></span>
+                </div>
+                <span asp-validation-for="Folder" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row form-group pad-top">
+            <div class="col-sm-3">
+                <label class="col-form-label label-bold-style" asp-for="ResourcePool"></label>
+            </div>
+            <div class="col-sm-9">
+                <div class="input-group inner-addon right-addon">
+                    <select asp-for="ResourcePool" class="form-control" data-style="form-control" title="Nenhum Selecionado"
+                            asp-items="@(new SelectList(ViewBag.ResoucerPool, "Resource_Pool", "Resource_Pool"))">
                     </select>
                     <span class="input-group-append fa fa-pencil"></span>
                 </div>
@@ -86,4 +107,5 @@
             </div>
         </div>
     </div>
-</form>
+}
+

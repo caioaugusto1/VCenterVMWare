@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using VSphere.Application.Interface;
 using VSphere.Entities;
 using VSphere.Models;
+using VSphere.Models.JsonConvert;
+using VSphere.Models.ViewModels.VM;
 using VSphere.Repositories.Interfaces;
 using VSphere.Services;
 using VSphere.Services.Inteface;
@@ -121,6 +123,34 @@ namespace VSphere.Application
             return _service.GetFile(fileName);
         }
 
+        public async Task<HttpStatusCode> Create(string apiId, CreateVMViewModel model)
+        {
+            var server = await _serverApplication.GetById(apiId);
 
+            if (server == null)
+                return HttpStatusCode.NotFound;
+
+            var vmPostModel = new VMPost();
+            vmPostModel.Spec.Name = model.Name;
+            vmPostModel.Spec.Guest_OS = model.OS;
+            vmPostModel.Spec.Placement.DataStore = model.DataStore;
+            vmPostModel.Spec.Placement.Folder = model.Folder;
+            vmPostModel.Spec.Placement.Resource_Pool = model.ResourcePool;
+            vmPostModel.Spec.Memory.Size = model.Memory;
+
+            vmPostModel.Spec.CDROMS.Add(new VMPost.SpecConverter.CdRoomsConverter()
+            {
+                Type = "IDE"
+            });
+
+            vmPostModel.Spec.DISKS.Add(new VMPost.SpecConverter.DisksConverter()
+            {
+                Type = "IDE"
+            });
+
+            var createResult = await _service.CreateVM("https://" + server.IP, server.UserName, server.Password, vmPostModel);
+
+            return createResult;
+        }
     }
 }

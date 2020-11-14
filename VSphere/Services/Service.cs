@@ -164,5 +164,35 @@ namespace VSphere.Services
             return File.ReadAllBytes(_appSetttings.Value.OutPDFSave + fileName);
         }
 
+        public async Task<ResourcePoolConverter> GetResourcePoolAPI(string url, string username, string password)
+        {
+            ClientCreate(url);
+            GetSession(username, password);
+
+            var _restRequest = new RestRequest(Method.GET);
+
+            AddDefaultHeader(_restRequest, "rest/vcenter/resource-pool", username, password);
+            IRestResponse response = _httpClient.Execute(_restRequest);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+                return JsonConvert.DeserializeObject<ResourcePoolConverter>(response.Content);
+            else
+                return null;
+        }
+
+        public async Task<HttpStatusCode> CreateVM(string url, string username, string password, VMPost vmModelConvertered)
+        {
+            ClientCreate(url);
+            GetSession(username, password);
+
+            var _restRequest = new RestRequest(Method.POST);
+            var body = JsonConvert.SerializeObject(vmModelConvertered);
+            _restRequest.AddJsonBody(body);
+
+            AddDefaultHeader(_restRequest, "rest/vcenter/vm", username, password);
+            IRestResponse response = _httpClient.Execute(_restRequest);
+
+            return response.StatusCode;
+        }
     }
 }

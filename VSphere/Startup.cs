@@ -112,6 +112,9 @@ namespace VSphere
 
             services.AddTransient<IFolderApplication, FolderApplication>();
 
+            services.AddTransient<IResourcePoolApplication, ResourcePoolApplication>();
+
+
             services.AddTransient<IService, Service>();
 
             #endregion
