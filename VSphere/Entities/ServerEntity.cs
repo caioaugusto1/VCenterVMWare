@@ -24,5 +24,15 @@ namespace VSphere.Entities
             Password = password;
             Description = description;
         }
+
+        public ServerEntity Update(string iP, string userName, string password, string description)
+        {
+            this.IP = iP;
+            this.IP = userName;
+            this.IP = password;
+            this.IP = description;
+
+            return this;
+        }
     }
 }

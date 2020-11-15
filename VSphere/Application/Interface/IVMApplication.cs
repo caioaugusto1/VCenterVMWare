@@ -18,6 +18,6 @@ namespace VSphere.Application.Interface
 
         Task<HttpStatusCode> TurnOnOrTurnOff(string apiId, string name, bool turnOn);
 
-        byte[] PDFGenerator(string html);
+        byte[] PDFGenerator(string html, string userEmail);
     }
 }

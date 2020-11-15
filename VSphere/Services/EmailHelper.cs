@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
@@ -31,7 +32,7 @@ namespace VSphere.Services
         {
             try
             {
-                using (SmtpClient client = new SmtpClient(_host))
+                using (SmtpClient smtp = new SmtpClient(_host))
                 {
                     MailMessage mailMessage = new MailMessage();
                     mailMessage.From = new MailAddress(_from, _alias);
@@ -41,11 +42,19 @@ namespace VSphere.Services
                     mailMessage.Subject = emailModel.Subject;
                     mailMessage.IsBodyHtml = emailModel.IsBodyHtml;
 
-                    client.Port = 587;
-                    client.UseDefaultCredentials = true;
-                    client.EnableSsl = true;
-                    client.Credentials = new NetworkCredential(_userName, _password);
-                    client.Send(mailMessage);
+                    if (emailModel.Attachments != null)
+                    {
+                        foreach (var attach in emailModel.Attachments)
+                        {
+                            mailMessage.Attachments.Add(attach);
+                        }
+                    }
+
+                    smtp.Port = 587;
+                    smtp.UseDefaultCredentials = true;
+                    smtp.EnableSsl = true;
+                    smtp.Credentials = new NetworkCredential(_userName, _password);
+                    smtp.Send(mailMessage);
                 }
             }
             catch (Exception ex)
@@ -56,13 +65,15 @@ namespace VSphere.Services
 
         public class EmailModel
         {
-            public EmailModel(string to, string subject, string message, bool isBodyHtml)
+            public EmailModel(string to, string subject, string message, bool isBodyHtml, AttachmentCollection attachment)
             {
                 To = to;
                 Subject = subject;
                 Message = message;
                 IsBodyHtml = isBodyHtml;
+                Attachments = attachment;
             }
+
             public string To
             {
                 get;
@@ -76,6 +87,11 @@ namespace VSphere.Services
                 get;
             }
             public bool IsBodyHtml
+            {
+                get;
+            }
+
+            public AttachmentCollection Attachments
             {
                 get;
             }

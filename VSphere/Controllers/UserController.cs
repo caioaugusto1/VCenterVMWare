@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using VSphere.Application.Interface;
+using VSphere.Enums;
 using VSphere.Models;
 using VSphere.Models.Identity;
 using VSphere.Models.ViewModels.User;
@@ -38,17 +40,22 @@ namespace VCenter.Controllers
             var usersFromDatabase = await _userManager.Users.ToListAsync();
 
             var users = new List<UserViewModel>();
-            usersFromDatabase.ForEach(x =>
+            foreach (var user in usersFromDatabase)
             {
-                users.Add(new UserViewModel()
+                var roles = await _userManager.GetRolesAsync(user);
+
+                if (!roles.Contains(RolesTypes.Admin.ToString()))
                 {
-                    Id = x.Id,
-                    FullName = x.FullName,
-                    Email = x.Email,
-                    Insert = x.Insert,
-                    Enable = x.LockoutEnabled
-                });
-            });
+                    users.Add(new UserViewModel()
+                    {
+                        Id = user.Id,
+                        FullName = user.FullName,
+                        Email = user.Email,
+                        Insert = user.Insert,
+                        Enable = user.LockoutEnabled
+                    });
+                }
+            }
 
             return View(users);
         }
@@ -86,8 +93,8 @@ namespace VCenter.Controllers
 
             if (user.LockoutEnabled)
             {
-                //ModelState.AddModelError("UserBlocked", "Seu usário está bloqueado, por favor, falar com o Administrador!");
-                //return View(userLoginViewModel);
+                ModelState.AddModelError("UserBlocked", "Seu usário está bloqueado, por favor, falar com o Administrador!");
+                return View(userLoginViewModel);
             }
 
             var result = await _singManager.PasswordSignInAsync(user.UserName, userLoginViewModel.Password, false, true);
@@ -275,23 +282,24 @@ namespace VCenter.Controllers
         public async Task<IActionResult> Edit(string id, UserViewModel user)
         {
             if (string.IsNullOrWhiteSpace(id))
-                return null;
-
-            if (user.Id != id)
-                return null;
-
-            var userIdentity = new ApplicationIdentityUser
             {
-                UserName = user.Email,
-                FullName = user.FullName,
-                Email = user.Email,
-                LockoutEnabled = user.Enable
-            };
+                ModelState.AddModelError(string.Empty, "Id do Usuário não encontrado");
+                return View(user);
+            }
 
-            if (!String.IsNullOrWhiteSpace(user.Password))
-                userIdentity.PasswordHash = user.Password;
+            //var userIdentity = new ApplicationIdentityUser
+            //{
+            //    UserName = user.Email,
+            //    FullName = user.FullName,
+            //    Email = user.Email,
+            //    LockoutEnabled = user.Enable
+            //};
 
-            await _singManager.UserManager.UpdateAsync(userIdentity);
+            var userById = await _userManager.FindByIdAsync(id);
+            userById.FullName = user.FullName;
+            userById.LockoutEnabled = user.Enable;
+
+            await _userManager.UpdateAsync(userById);
 
             return RedirectToAction("Index", "User");
         }

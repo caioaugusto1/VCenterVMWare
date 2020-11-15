@@ -35,9 +35,11 @@ namespace VSphere.Repositories.Base
             _mongoCollection = Connection(_configuration, collectionName);
         }
 
-        public void Delete(string id)
+        public async Task<bool> Delete(string id)
         {
-            _mongoCollection.DeleteOne(Builders<TEntity>.Filter.AnyEq("_id", ObjectId.Parse(id)));
+            var deleteResult = await _mongoCollection.DeleteOneAsync(Builders<TEntity>.Filter.AnyEq("_id", ObjectId.Parse(id)));
+
+            return deleteResult.DeletedCount > 1;
         }
 
         public void Dispose()
@@ -66,9 +68,13 @@ namespace VSphere.Repositories.Base
             await _mongoCollection.InsertOneAsync(obj);
         }
 
-        public async void Update(TEntity obj, string id)
+        public async Task<bool> Update(TEntity obj, string id)
         {
-            await _mongoCollection.ReplaceOneAsync(Builders<TEntity>.Filter.AnyEq("_id", ObjectId.Parse(id)), obj);
+            var result = await _mongoCollection.ReplaceOneAsync(Builders<TEntity>.Filter.AnyEq("_id", ObjectId.Parse(id)), obj, new UpdateOptions() { IsUpsert = true });
+
+            //var result = await _mongoCollection.ReplaceOneAsync(Builders<TEntity>.Filter.AnyEq("_id", ObjectId.Parse(id)), obj, new UpdateOptions { IsUpsert = true });
+
+            return result.ModifiedCount > 1;
         }
     }
 }

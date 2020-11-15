@@ -19,6 +19,13 @@ namespace VSphere.Application
             _serverRepository = serverRepository;
         }
 
+        public async Task<bool> Delete(string id)
+        {
+            var result = await _serverRepository.Delete(id);
+
+            return result;
+        }
+
         public async Task<List<ServerViewModel>> GetAll()
         {
             return _mapper.Map<List<ServerViewModel>>(await _serverRepository.GetAll());
@@ -34,6 +41,17 @@ namespace VSphere.Application
             var serverEntity = new ServerEntity(obj.IP, obj.UserName, obj.Password, obj.Description);
 
             _serverRepository.Insert(_mapper.Map<ServerEntity>(serverEntity));
+        }
+
+        public async Task<bool> Update(string id, ServerViewModel obj)
+        {
+            var serverEntity = await _serverRepository.GetById(id);
+
+            serverEntity.Update(obj.IP, obj.UserName, obj.Password, obj.Description);
+
+            var result = await _serverRepository.Update(serverEntity, id);
+
+            return result;
         }
     }
 }

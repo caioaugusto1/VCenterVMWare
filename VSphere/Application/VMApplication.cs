@@ -3,6 +3,7 @@ using Microsoft.AspNet.Mvc.ViewFeatures;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using VSphere.Application.Interface;
@@ -114,11 +115,18 @@ namespace VSphere.Application
             return deleteResult;
         }
 
-        public byte[] PDFGenerator(string html)
+        public byte[] PDFGenerator(string html, string userEmail)
         {
             var fileName = _service.PDFGenerator(html);
 
-            SendEmail.Send(_requestHandler, _emailHelper, "", "", "");
+            var body = "<p> Olá, Tudo bem? </p><p> Como solicitado, segue relatório em anexo</p><p> Obrigado, Att </p>";
+
+            userEmail = "caiio_augustto@hotmail.com";
+
+            //List<Attachment> attachment = new List<Attachment>();
+            //attachment.Add(new Attachment(fileName, ))
+
+            SendEmail.Send(_requestHandler, _emailHelper, userEmail, "Relatório", body, null);
 
             return _service.GetFile(fileName);
         }

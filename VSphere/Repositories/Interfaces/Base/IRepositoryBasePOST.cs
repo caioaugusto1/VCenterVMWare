@@ -6,8 +6,8 @@ namespace VSphere.Repositories.Interfaces.Base
     {
         void Insert(TEntity obj);
 
-        void Update(TEntity obj, string id);
+        Task<bool> Update(TEntity obj, string id);
 
-        void Delete(string id);
+        Task<bool> Delete(string id);
     }
 }

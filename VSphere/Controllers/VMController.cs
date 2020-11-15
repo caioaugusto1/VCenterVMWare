@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using System;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using VSphere.Application.Interface;
+using VSphere.Models.Identity;
 using VSphere.Models.ViewModels.VM;
 
 namespace VSphere.Controllers
@@ -18,14 +21,16 @@ namespace VSphere.Controllers
         private readonly IDataStoreApplication _dataStoreApplication;
         private readonly IFolderApplication _folderApplication;
         private readonly IResourcePoolApplication _resourcePoolApplication;
+        private readonly UserManager<ApplicationIdentityUser> _userManager;
 
-        public VMController(IVMApplication vmApplication, IServerApplication serverApplication, IDataStoreApplication dataStoreApplication, IFolderApplication folderApplication, IResourcePoolApplication resourcePoolApplication)
+        public VMController(IVMApplication vmApplication, IServerApplication serverApplication, IDataStoreApplication dataStoreApplication, IFolderApplication folderApplication, IResourcePoolApplication resourcePoolApplication, UserManager<ApplicationIdentityUser> userManager)
         {
             _vmApplication = vmApplication;
             _serverApplication = serverApplication;
             _dataStoreApplication = dataStoreApplication;
             _folderApplication = folderApplication;
             _resourcePoolApplication = resourcePoolApplication;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -132,13 +137,11 @@ namespace VSphere.Controllers
             if (string.IsNullOrWhiteSpace(html))
                 return Json(Conflict());
 
-            var file = _vmApplication.PDFGenerator(html);
+            var user = await _userManager.GetUserAsync(User);
 
-            //return Json(Ok());
+            var file = _vmApplication.PDFGenerator(html, user.Email);
 
             return File(file, System.Net.Mime.MediaTypeNames.Application.Octet);
         }
-
-
     }
 }

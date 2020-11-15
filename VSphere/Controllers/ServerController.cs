@@ -41,16 +41,18 @@ namespace VSphere.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(string id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
                 return null;
 
-            return View(_serverApplication.GetById(id));
+            var server = await _serverApplication.GetById(id);
+
+            return View(server);
         }
 
         [HttpPost]
-        public IActionResult Edit(string id, ServerViewModel serverViewModel)
+        public async Task<IActionResult> Edit(string id, ServerViewModel serverViewModel)
         {
             if (string.IsNullOrWhiteSpace(id))
                 return null;
@@ -58,7 +60,31 @@ namespace VSphere.Controllers
             if (serverViewModel.Id != id)
                 return null;
 
-            return View();
+            var result = await _serverApplication.Update(id, serverViewModel);
+
+            return RedirectToAction("Index", "Server");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return null;
+
+            var server = await _serverApplication.GetById(id);
+
+            return View(server);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteSave(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return null;
+
+            var result = await _serverApplication.Delete(id);
+
+            return RedirectToAction("Index", "Server");
         }
     }
 }

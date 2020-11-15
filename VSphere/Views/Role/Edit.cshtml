@@ -6,12 +6,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Role</h1>
+                    <h1>Permissão - @Model.Role.Name</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Edit</li>
+                        <li class="breadcrumb-item active">Editar</li>
                     </ol>
                 </div>
             </div>
@@ -24,16 +24,13 @@
             <input type="hidden" name="RoleId" value="@Model.Role.Id" />
             <input type="hidden" name="RoleName" value="@Model.Role.Name" />
 
-
-            <h1 class="h3 mb-2 text-gray-800">Role Name: @Model.Role.Name</h1>
-
             @await Html.PartialAsync("~/Views/Role/_partial/_ListRoleToAdd.cshtml", Model)
 
             @await Html.PartialAsync("~/Views/Role/_partial/_ListRoleToRemove.cshtml", Model)
 
-            <button type="submit" class="btn btn-primary">Save</button>
-            <button type="reset" class="btn btn-warning">Reset</button>
-            <a class="btn btn-secondary" asp-controller="Role" asp-action="Index">Cancel</a>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="reset" class="btn btn-warning">Resetar</button>
+            <a class="btn btn-secondary" asp-controller="Role" asp-action="Index">Voltar</a>
 
         </form>
 

@@ -201,34 +201,37 @@
                     </li>
                 }
 
-                @if (roles.Contains(RolesTypes.Admin.ToString()) || roles.Contains(RolesTypes.Manager.ToString()))
+                @if ((roles.Contains(RolesTypes.Server.ToString())) && (!roles.Contains(RolesTypes.Admin.ToString())) && (!roles.Contains(RolesTypes.Manager.ToString())))
                 {
-                    <li class="nav-header">CONFIGURATION</li>
-
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon far fa-user"></i>
+                            <i class="nav-icon fas fa-server"></i>
                             <p>
-                                User
+                                Server
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="@Url.Action("Index", "User")" class="nav-link">
+                                <a href="@Url.Action("Index", "Server")" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Index</p>
                                 </a>
                             </li>
-
                             <li class="nav-item">
-                                <a href="@Url.Action("InCreateUser", "User")" class="nav-link">
+                                <a href="@Url.Action("Create", "Server")" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Criar</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
+                }
+
+
+                @if (roles.Contains(RolesTypes.Admin.ToString()) || roles.Contains(RolesTypes.Manager.ToString()))
+                {
+                    <li class="nav-header">CONFIGURATION</li>
 
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
@@ -253,11 +256,36 @@
                             </li>
                         </ul>
                     </li>
+
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>
+                                Usuários
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "User")" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Index</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="@Url.Action("InCreateUser", "User")" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Criar</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon far fa-map"></i>
                             <p>
-                                Role
+                                Permissões
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
@@ -270,28 +298,31 @@
                             </li>
                         </ul>
                     </li>
+
+
+
                 }
 
 
                 @*<li class="nav-header">LABELS</li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-circle text-danger"></i>
-                        <p class="text">Important</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-circle text-warning"></i>
-                        <p>Warning</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-circle text-info"></i>
-                        <p>Informational</p>
-                    </a>
-                </li>*@
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-circle text-danger"></i>
+                            <p class="text">Important</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-circle text-warning"></i>
+                            <p>Warning</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-circle text-info"></i>
+                            <p>Informational</p>
+                        </a>
+                    </li>*@
             </ul>
         </nav>
     </div>
