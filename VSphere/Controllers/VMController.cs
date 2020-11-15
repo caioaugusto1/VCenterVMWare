@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -54,6 +55,67 @@ namespace VSphere.Controllers
             ViewBag.Datastores = await _dataStoreApplication.GetAllByApi(apiId);
             ViewBag.Folder = await _folderApplication.GetAllByApi(apiId);
             ViewBag.ResoucerPool = await _resourcePoolApplication.GetAllByApi(apiId);
+            ViewBag.OS = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Text= "Windows Server 2012 R2",
+                    Value = "RHEL_7_64"
+                },
+                new SelectListItem
+                {
+                    Text= "Linux - FEDORA 7",
+                    Value = "RHEL_7_64"
+                }
+            });
+
+            ViewBag.Memory = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Text= "4 GB",
+                    Value = "4"
+                },
+                new SelectListItem
+                {
+                    Text= "8 GB",
+                    Value = "8"
+                },
+                new SelectListItem
+                {
+                    Text= "16 GB",
+                    Value = "16"
+                }
+            });
+
+            ViewBag.CPU = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Text= "1 - CPU",
+                    Value = "1"
+                },
+                new SelectListItem
+                {
+                    Text= "2 - CPU",
+                    Value = "2"
+                },
+                new SelectListItem
+                {
+                    Text= "4 - CPU",
+                    Value = "4"
+                }
+            });
+
+            var networkingSelectList = new List<SelectListItem>();
+
+            networkingSelectList.Add(new SelectListItem()
+            {
+                Text = "VM - Networking",
+                Value = "1"
+            });
+
+            ViewBag.Networking = new SelectList(networkingSelectList, "Value", "Text");
 
             CreateVMViewModel model = new CreateVMViewModel();
             model.ApiId = apiId;
@@ -73,7 +135,7 @@ namespace VSphere.Controllers
 
             if (createResult == HttpStatusCode.OK)
             {
-                return RedirectToAction("Index", "VM");
+                return RedirectToAction("AllByAPI", "VM");
             }
 
             return View();
