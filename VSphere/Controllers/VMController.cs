@@ -134,9 +134,9 @@ namespace VSphere.Controllers
 
             var file = _vmApplication.PDFGenerator(html);
 
-            return Json(Ok());
+            //return Json(Ok());
 
-            //return File(file, System.Net.Mime.MediaTypeNames.Application.Octet);
+            return File(file, System.Net.Mime.MediaTypeNames.Application.Octet);
         }
 
 

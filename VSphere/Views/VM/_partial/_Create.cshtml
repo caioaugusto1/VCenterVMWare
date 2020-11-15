@@ -7,9 +7,9 @@
 @using (Html.BeginForm("CreateSave", "VM", FormMethod.Post))
 {
 
-    <input type="hidden" asp-for="ApiId" />
+    <div class="container-fluid" id="create_partial_view">
 
-    <div class="container-fluid">
+        <input type="hidden" asp-for="ApiId" />
 
         <div class="row form-group pad-top">
             <div class="col-sm-3">
@@ -95,17 +95,19 @@
             </div>
         </div>
 
-    </div>
 
-    <div class="row form-group pad-top">
-        <div class="offset-3 col-7">
-            <div class="col-sm-2 btn-group pad-bottom">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" style="float:right"><i class="fa fa-times pr-2"></i>Cancelar</button>
-            </div>
-            <div class="col-sm-2 btn-group pull-right">
-                <button type="submit" class="btn btn-primary col-xs-12" id="addSubmitButton" style="float:right"><i class="fa fa-check pr-2"></i>Criar</button>
+
+        <div class="row form-group pad-top">
+            <div class="offset-3 col-7">
+                <div class="col-sm-2 btn-group pad-bottom">
+                    <button type="button" class="btn btn-danger" onclick="VMjs.cancelCreate()" data-dismiss="modal" style="float:right"><i class="fa fa-times pr-2"></i>Cancelar</button>
+                </div>
+                <div class="col-sm-2 btn-group pull-right">
+                    <button type="submit" class="btn btn-primary col-xs-12" id="addSubmitButton" style="float:right"><i class="fa fa-check pr-2"></i>Criar</button>
+                </div>
             </div>
         </div>
+
     </div>
 }
 

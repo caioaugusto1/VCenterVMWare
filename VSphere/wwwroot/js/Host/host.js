@@ -3,7 +3,8 @@
     function loadingPage() {
 
         $('#btn-clean').click(function () {
-            $("#dropDownServers ").val($("#dropDownServers  option:first").val());
+            $("#dropDownServers ").val($("#dropDownServers option:first").val());
+            $('#dataTable_wrapper').remove()
         });
 
         $('#btn-search').click(function () {

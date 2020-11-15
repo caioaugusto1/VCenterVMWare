@@ -20,8 +20,18 @@
         });
 
         $('#btn-clean').click(function () {
-            $("#dropDownServers").val($("#dropDownServers  option:first").val());
-            $('#tbody-tableInformation>tr').remove()
+
+            $("#dropDownServers").val($("#dropDownServers option:first").val());
+
+            if ($('#pageValueIdentity').val() === "CreateVM") {
+                $('#create_partial_view').remove();
+
+                return;
+            } else if ($('#pageValueIdentity').val() === "History") {
+                $('#list-vms-table_wrapper').remove();
+            } else {
+                $('#tbody-tableInformation>tr').remove();
+            }
         });
 
         $('#btn-search').click(function () {
@@ -134,6 +144,8 @@
 
             Util.closeLoadingModal();
 
+
+            debugger;
             if (data == 409) {
 
                 Util.showAlertModal('Requisição não foi finalizada', 'O PDF não foi enviado, por favor, tente novamente!');
@@ -154,7 +166,6 @@
 
         Util.request('/VM/Create', 'GET', { "apiId": apiId }, 'html', false, function (data) {
 
-            debugger;
             if (data != null) {
                 $('#div-crate-body').append(data);
             }
@@ -174,6 +185,11 @@
 
         });
     }
+
+    var cancelCreate = function () {
+
+        $('#create_partial_view').remove();
+    };
 
     var deleteVM = function (vmName, apiId) {
 
@@ -278,6 +294,6 @@
 
     loadingPage();
 
-    return { deleteVM, turnOnOrTurnOff };
+    return { deleteVM, turnOnOrTurnOff, cancelCreate };
 
 }();

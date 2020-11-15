@@ -4,7 +4,7 @@
 
         var email = $('#email').val();
         if (email === undefined && email === "" && email === null) {
-            Util.showAlertModal('Email is required!!!!');
+            Util.showAlertModal('Email é obrigatório!!!!');
             return;
         }
 

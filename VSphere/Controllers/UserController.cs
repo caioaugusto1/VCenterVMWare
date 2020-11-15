@@ -80,7 +80,7 @@ namespace VCenter.Controllers
 
             if (user == null)
             {
-                ModelState.AddModelError("UserNotFound", "Usuário não encontrado!");
+                ModelState.AddModelError("UserNotFound", "Usuário ou senha inválidos!");
                 return View(userLoginViewModel);
             }
 
@@ -199,7 +199,7 @@ namespace VCenter.Controllers
 
             if (findByEmail != null)
             {
-                ModelState.AddModelError("UserFound", "User has already created!");
+                ModelState.AddModelError("UserFound", "Usuário já foi criado!");
                 return View(user);
             }
 
@@ -242,7 +242,7 @@ namespace VCenter.Controllers
 
             if (findByEmail != null)
             {
-                ModelState.AddModelError("UserFound", "User has already created!");
+                ModelState.AddModelError("UserFound", "Esse usuário já foi criado!");
                 return View(user);
             }
 

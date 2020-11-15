@@ -3,12 +3,12 @@
     function loadingPage() {
 
         $('#rangeDateTime').daterangepicker({
-            timePicker: true,
-            timePicker24Hour: true,
-            minDate: new Date(Util.getCurrentDate().getFullYear(), Util.getCurrentDate().getMonth(), Util.getCurrentDate().getDate() - 10),
-            maxDate: new Date(Util.getCurrentDate().getFullYear(), Util.getCurrentDate().getMonth(), Util.getCurrentDate().getDate()),
+            timePicker: false,
+            timePicker24Hour: false,
+            minDate: new Date(Util.getCurrentDate().getFullYear(), Util.getCurrentDate().getMonth() - 1, Util.getCurrentDate().getDate() - 10),
+            maxDate: new Date(Util.getCurrentDate().getFullYear(), Util.getCurrentDate().getMonth() - 1, Util.getCurrentDate().getDate()),
             locale: {
-                format: 'DD/MM/YYYY HH:mm'
+                format: 'DD/MM/YYYY'
             }
         });
 

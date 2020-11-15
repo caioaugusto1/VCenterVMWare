@@ -21,6 +21,26 @@
     </section>
 
     <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col-md-4">
+                    @await Html.PartialAsync("~/Views/Shared/_partial/_filter/_ServerDropBox.cshtml", new { servers = ViewBag.Servers })
+                </div>
+
+                <div style="margin-right:5px;">
+                    @await Html.PartialAsync("~/Views/Shared/_partial/_filter/_SearchBtn.cshtml")
+                </div>
+
+                <div style="margin-right:5px;">
+                    @await Html.PartialAsync("~/Views/Shared/_partial/_filter/_cleanBtn.cshtml")
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
         <div class="row">
             <div class="col-12">
 
@@ -30,35 +50,17 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="list-servers-datatable" class="table table-bordered table-striped">
+                        <table id="list-snapsshot-datatable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Nome</th>
                                     <th>Nome da VM</th>
                                     <th>Data de Criação</th>
                                     <th>De Memória?</th>
-                                    <th>Actions</th>
+                                    @*<th>Actions</th>*@
                                 </tr>
                             </thead>
                             <tbody>
-
-                                @foreach (var server in Model)
-                                {
-                                    <tr>
-                                        <td>@server.Name</td>
-                                        <td>@server.VmName</td>
-                                        <td>@server.CreatedDate</td>
-                                        <td>@server.MemorySnapshot</td>
-                                        <td>
-                                            <a asp-action="Edit" asp-route-id="@server.Id" class="btn btn-info btn-circle btn-sm"><i class="fas fa-edit"></i></a>
-
-                                            <a asp-action="Details" asp-route-id="@server.Id" class="btn btn-facebook btn-circle btn-sm"><i class="fas fa-info"></i></a>
-
-                                            <a asp-action="Delete" asp-route-id="@server.Id" class="btn btn-light btn-circle btn-sm"><i class="fas fa-plus"></i></a>
-
-                                        </td>
-                                    </tr>
-                                }
                             </tbody>
 
                         </table>
@@ -71,12 +73,16 @@
     </section>
 </div>
 
+@await Html.PartialAsync("~/Views/Shared/_partial/_modalAlert.cshtml")
+
+<input hidden id="pageValueIdentity" value="GetByAPI" />
+
 <script src="~/theme/plugins/jquery/jquery.js"></script>
 
 @await Html.PartialAsync("~/Views/Shared/_partial/_scriptDataTables.cshtml")
 
 <script src="~/js/Ultil/Util.js"></script>
-<script src="~/js/Server/server.js"></script>
+<script src="~/js/Snapshot/Snapshot.js"></script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
