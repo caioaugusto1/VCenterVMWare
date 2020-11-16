@@ -65,13 +65,13 @@ namespace VSphere.Services
 
         public class EmailModel
         {
-            public EmailModel(string to, string subject, string message, bool isBodyHtml, AttachmentCollection attachment)
+            public EmailModel(string to, string subject, string message, bool isBodyHtml, List<Attachment> attachments)
             {
                 To = to;
                 Subject = subject;
                 Message = message;
                 IsBodyHtml = isBodyHtml;
-                Attachments = attachment;
+                Attachments = attachments;
             }
 
             public string To
@@ -91,7 +91,7 @@ namespace VSphere.Services
                 get;
             }
 
-            public AttachmentCollection Attachments
+            public List<Attachment> Attachments
             {
                 get;
             }

@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Mvc.ViewFeatures;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -119,16 +120,17 @@ namespace VSphere.Application
         {
             var fileName = _service.PDFGenerator(html);
 
-            var body = "<p> Olá, Tudo bem? </p><p> Como solicitado, segue relatório em anexo</p><p> Obrigado, Att </p>";
+            var body = "<p> Olá, Tudo bem? </p><p> Como solicitado, segue relatório em anexo</p><p> Obrigado,</p> <p>Att </p>";
 
-            userEmail = "caiio_augustto@hotmail.com";
+            var file = _service.GetFile(fileName);
 
-            //List<Attachment> attachment = new List<Attachment>();
-            //attachment.Add(new Attachment(fileName, ))
+            List<Attachment> attachment = new List<Attachment>();
+            Attachment att = new Attachment(new MemoryStream(file), fileName);
+            attachment.Add(att);
 
-            SendEmail.Send(_requestHandler, _emailHelper, userEmail, "Relatório", body, null);
+            SendEmail.Send(_requestHandler, _emailHelper, userEmail, "Relatório", body, attachment);
 
-            return _service.GetFile(fileName);
+            return file;
         }
 
         public async Task<HttpStatusCode> Create(string apiId, CreateVMViewModel model)

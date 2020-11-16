@@ -104,6 +104,11 @@ namespace VCenter.Controllers
                 //var token = await JwtCreate(user.Email);
                 return RedirectToAction("Index", "Home");
             }
+            else
+            {
+                ModelState.AddModelError("UserNotFound", "Usuário ou senha inválidos!");
+                return View(userLoginViewModel);
+            }
 
             return View(userLoginViewModel);
         }

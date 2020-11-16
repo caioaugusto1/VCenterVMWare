@@ -10,7 +10,7 @@ namespace VSphere.Utils
 {
     public static class SendEmail
     {
-        public static bool Send(RequestHandler _requestHandler, EmailHelper _emailHelper, string email, string subject, string emailbody, AttachmentCollection attachments = null)
+        public static bool Send(RequestHandler _requestHandler, EmailHelper _emailHelper, string email, string subject, string emailbody, List<Attachment> attachments = null)
         {
             Thread sendEmailThread = new Thread(items => _emailHelper.SendEmail(new EmailHelper.EmailModel(email, subject, emailbody, true, attachments)));
             sendEmailThread.Start();
