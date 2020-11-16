@@ -49,9 +49,9 @@ namespace VSphere.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(string apiId)
         {
-            //ViewBag.Datastores = await _dataStoreApplication.GetAllByApi(apiId);
-            //ViewBag.Folder = await _folderApplication.GetAllByApi(apiId);
-            //ViewBag.ResoucerPool = await _resourcePoolApplication.GetAllByApi(apiId);
+            ViewBag.Datastores = await _dataStoreApplication.GetAllByApi(apiId);
+            ViewBag.Folder = await _folderApplication.GetAllByApi(apiId);
+            ViewBag.ResoucerPool = await _resourcePoolApplication.GetAllByApi(apiId);
 
             #region SelectsList
 

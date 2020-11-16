@@ -59,7 +59,7 @@ namespace VSphere.Application
 
             var url = string.Format("{0}://{1}/{2}/{3}?userId={4}&code={5}", scheme, host, "User", "ResetPassword", user.Id, code);
 
-            var emailBody = string.Format("<p href='{0}'> Clique aqui para recuperação sua conta</p>", url);
+            var emailBody = string.Format("<p><a href='{0}'> Clique aqui</a> para recuperação sua conta</p>", url);
 
             SendEmail.Send(_requestHandler, _emailHelper, user.Email, "Recuperação de Acesso", emailBody);
 

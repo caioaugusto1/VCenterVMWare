@@ -99,6 +99,21 @@
 
         <div class="row form-group">
             <div class="col-sm-3">
+                <label class="col-form-label label-bold-style" asp-for="CPU"></label>
+            </div>
+            <div class="col-sm-5">
+                <div class="input-group inner-addon right-addon">
+                    <select asp-for="CPU" class="form-control" asp-items="@ViewBag.CPU">
+                        <option value="0">Nenhum Selecionado</option>
+                    </select>
+                    <span class="input-group-append fa fa-pencil"></span>
+                </div>
+                <span asp-validation-for="CPU" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-sm-3">
                 <label class="col-form-label label-bold-style" asp-for="Networking"></label>
             </div>
             <div class="col-sm-5">

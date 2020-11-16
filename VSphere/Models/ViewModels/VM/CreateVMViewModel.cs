@@ -26,5 +26,8 @@ namespace VSphere.Models.ViewModels.VM
 
         [Display(Name = "Rede")]
         public string Networking { get; set; }
+
+        [Display(Name = "CPU")]
+        public string CPU { get; set; }
     }
 }
