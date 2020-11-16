@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNet.Mvc.Rendering;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
-using System;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Net;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using VSphere.Application.Interface;
 using VSphere.Models.Identity;
@@ -52,70 +49,35 @@ namespace VSphere.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(string apiId)
         {
-            ViewBag.Datastores = await _dataStoreApplication.GetAllByApi(apiId);
-            ViewBag.Folder = await _folderApplication.GetAllByApi(apiId);
-            ViewBag.ResoucerPool = await _resourcePoolApplication.GetAllByApi(apiId);
-            ViewBag.OS = new SelectList(new List<SelectListItem>
-            {
-                new SelectListItem
-                {
-                    Text= "Windows Server 2012 R2",
-                    Value = "RHEL_7_64"
-                },
-                new SelectListItem
-                {
-                    Text= "Linux - FEDORA 7",
-                    Value = "RHEL_7_64"
-                }
-            });
+            //ViewBag.Datastores = await _dataStoreApplication.GetAllByApi(apiId);
+            //ViewBag.Folder = await _folderApplication.GetAllByApi(apiId);
+            //ViewBag.ResoucerPool = await _resourcePoolApplication.GetAllByApi(apiId);
 
-            ViewBag.Memory = new SelectList(new List<SelectListItem>
-            {
-                new SelectListItem
-                {
-                    Text= "4 GB",
-                    Value = "4"
-                },
-                new SelectListItem
-                {
-                    Text= "8 GB",
-                    Value = "8"
-                },
-                new SelectListItem
-                {
-                    Text= "16 GB",
-                    Value = "16"
-                }
-            });
+            #region SelectsList
 
-            ViewBag.CPU = new SelectList(new List<SelectListItem>
-            {
-                new SelectListItem
-                {
-                    Text= "1 - CPU",
-                    Value = "1"
-                },
-                new SelectListItem
-                {
-                    Text= "2 - CPU",
-                    Value = "2"
-                },
-                new SelectListItem
-                {
-                    Text= "4 - CPU",
-                    Value = "4"
-                }
-            });
+            var OSSelectList = new List<SelectListItem>();
+            OSSelectList.Add(new SelectListItem("Windows Server 2012 R2", "RHEL_7_64"));
+            OSSelectList.Add(new SelectListItem("Linux - FEDORA 7", "RHEL_7_64"));
+            ViewBag.OS = OSSelectList;
+
+            var memorySelectList = new List<SelectListItem>();
+            memorySelectList.Add(new SelectListItem("4 GB", "4"));
+            memorySelectList.Add(new SelectListItem("8 GB", "8"));
+            memorySelectList.Add(new SelectListItem("16 GB", "16"));
+            ViewBag.Memory = memorySelectList;
+
+
+            var cpuSelectList = new List<SelectListItem>();
+            cpuSelectList.Add(new SelectListItem("1 - CPU", "1"));
+            cpuSelectList.Add(new SelectListItem("2 - CPU", "2"));
+            cpuSelectList.Add(new SelectListItem("4 - CPU", "3"));
+            ViewBag.CPU = cpuSelectList;
 
             var networkingSelectList = new List<SelectListItem>();
+            networkingSelectList.Add(new SelectListItem("VM - Networking", "1"));
+            ViewBag.Networking = networkingSelectList;
 
-            networkingSelectList.Add(new SelectListItem()
-            {
-                Text = "VM - Networking",
-                Value = "1"
-            });
-
-            ViewBag.Networking = new SelectList(networkingSelectList, "Value", "Text");
+            #endregion
 
             CreateVMViewModel model = new CreateVMViewModel();
             model.ApiId = apiId;

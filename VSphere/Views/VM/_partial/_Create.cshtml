@@ -1,6 +1,4 @@
-﻿
-
-@using VSphere.Models.ViewModels.VM
+﻿@using VSphere.Models.ViewModels.VM
 
 @model CreateVMViewModel
 
@@ -69,36 +67,35 @@
             </div>
         </div>
 
-        @*<div class="row form-group">
-                <div class="col-sm-3">
-                    <label class="col-form-label label-bold-style" asp-for="Memory"></label>
-                </div>
-                <div class="col-sm-9">
-                    <div class="input-group inner-addon right-addon">
-                        <select asp-for="Memory" class="form-control" data-style="form-control" title="Nenhum Selecionado"
-                                asp-items="ViewBag.Memory">
-                        </select>
-                        <span class="input-group-append fa fa-pencil"></span>
-                    </div>
-                    <span asp-validation-for="Memory" class="text-danger"></span>
-                </div>
+        <div class="row form-group">
+            <div class="col-sm-3">
+                <label class="col-form-label label-bold-style" asp-for="Memory"></label>
             </div>
-
-            <div class="row form-group">
-                <div class="col-sm-3">
-                    <label class="col-form-label label-bold-style" asp-for="OS"></label>
+            <div class="col-sm-5">
+                <div class="input-group inner-addon right-addon">
+                    <select asp-for="Memory" class="form-control" asp-items="@ViewBag.Memory">
+                        <option value="0">Nenhum Selecionado</option>
+                    </select>
+                    <span class="input-group-append fa fa-pencil"></span>
                 </div>
-                <div class="col-sm-5">
-                    <div class="input-group inner-addon right-addon">
-                        <select asp-for="OS" class="form-control" data-style="form-control" title="Nenhum Selecionado"
-                                asp-items="ViewBag.OS">
-                        </select>
-                        <span class="input-group-append fa fa-pencil"></span>
-                    </div>
-                    <span asp-validation-for="OS" class="text-danger"></span>
-                </div>
-            </div>*@
+                <span asp-validation-for="Memory" class="text-danger"></span>
+            </div>
+        </div>
 
+        <div class="row form-group">
+            <div class="col-sm-3">
+                <label class="col-form-label label-bold-style" asp-for="OS"></label>
+            </div>
+            <div class="col-sm-5">
+                <div class="input-group inner-addon right-addon">
+                    <select asp-for="OS" class="form-control" asp-items="@ViewBag.OS">
+                        <option value="0">Nenhum Selecionado</option>
+                    </select>
+                    <span class="input-group-append fa fa-pencil"></span>
+                </div>
+                <span asp-validation-for="OS" class="text-danger"></span>
+            </div>
+        </div>
 
         <div class="row form-group">
             <div class="col-sm-3">
@@ -106,14 +103,12 @@
             </div>
             <div class="col-sm-5">
                 <div class="input-group inner-addon right-addon">
-                    @Html.DropDownList("Networking", (SelectList)ViewBag.Networking, new { @class = "form-control" })
-
-                    @*<select asp-for="Networking" class="form-control" data-style="form-control" title="Nenhum Selecionado"
-                                asp-items="ViewBag.Networking">
-                        </select>*@
+                    <select asp-for="Networking" class="form-control" asp-items="@ViewBag.Networking">
+                        <option value="0">Nenhum Selecionado</option>
+                    </select>
                     <span class="input-group-append fa fa-pencil"></span>
                 </div>
-                <span asp-validation-for="OS" class="text-danger"></span>
+                <span asp-validation-for="Networking" class="text-danger"></span>
             </div>
         </div>
 
