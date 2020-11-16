@@ -100,7 +100,7 @@ namespace VSphere.Controllers
                 return RedirectToAction("AllByAPI", "VM");
             }
 
-            return View();
+            return RedirectToAction("IndexCreate", "VM");
         }
 
         [HttpGet]
