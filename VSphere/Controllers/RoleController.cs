@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using VSphere.Enums;
 using VSphere.Models;
 using VSphere.Models.Identity;
 
@@ -45,10 +46,13 @@ namespace VSphere.Controllers
 
             foreach (ApplicationIdentityUser user in getAllUser)
             {
-                var list = await _userManager.IsInRoleAsync(user, role.Name)
-                    ? members
-                    : nonMember;
-                list.Add(user);
+                var roles = await _userManager.GetRolesAsync(user);
+
+                if (!roles.Contains(RolesTypes.Admin.ToString()))
+                {
+                    var list = await _userManager.IsInRoleAsync(user, role.Name) ? members : nonMember;
+                    list.Add(user);
+                }
             }
 
             return View("Edit", new EditRoleViewModel
