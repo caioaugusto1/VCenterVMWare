@@ -52,7 +52,7 @@ namespace VCenter.Controllers
                         FullName = user.FullName,
                         Email = user.Email,
                         Insert = user.Insert,
-                        Enable = user.LockoutEnabled
+                        LockoutEnabled = user.LockoutEnabled
                     });
                 }
             }
@@ -247,7 +247,7 @@ namespace VCenter.Controllers
                 Email = user.Email,
                 Insert = DateTime.Now,
                 PasswordHash = user.Password,
-                LockoutEnabled = user.Enable
+                LockoutEnabled = user.LockoutEnabled
             };
 
             var findByEmail = await _userManager.FindByEmailAsync(user.Email);
@@ -277,7 +277,7 @@ namespace VCenter.Controllers
             userViewModel.FullName = user.FullName;
             userViewModel.Email = user.Email;
             userViewModel.Insert = user.Insert;
-            userViewModel.Enable = user.LockoutEnabled;
+            userViewModel.LockoutEnabled = user.LockoutEnabled;
 
             return View(userViewModel);
         }
@@ -302,7 +302,7 @@ namespace VCenter.Controllers
 
             var userById = await _userManager.FindByIdAsync(id);
             userById.FullName = user.FullName;
-            userById.LockoutEnabled = user.Enable;
+            userById.LockoutEnabled = user.LockoutEnabled;
 
             await _userManager.UpdateAsync(userById);
 
@@ -313,14 +313,14 @@ namespace VCenter.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
-                return Json(Conflict());
+                return Json(new { StatusCode = HttpStatusCode.Conflict });
 
             var user = await _singManager.UserManager.FindByIdAsync(id);
 
             if (user != null)
                 await _singManager.UserManager.DeleteAsync(user);
 
-            return Json(Ok());
+            return Json(new { StatusCode = HttpStatusCode.OK });
         }
 
         [HttpGet]
@@ -337,7 +337,7 @@ namespace VCenter.Controllers
             userViewModel.FullName = user.FullName;
             userViewModel.Email = user.Email;
             userViewModel.Insert = user.Insert;
-            userViewModel.Enable = user.LockoutEnabled;
+            userViewModel.LockoutEnabled = user.LockoutEnabled;
 
             return View(userViewModel);
         }

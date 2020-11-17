@@ -6,26 +6,29 @@ namespace VSphere.Models
 {
     public class UserViewModel : BaseViewModel
     {
-        [Required(ErrorMessage = "Fullname is required")]
-        [MaxLength(40, ErrorMessage = "Max length is: {0}")]
-        [MinLength(5, ErrorMessage = "Min length is: {0}")]
+        [Required(ErrorMessage = "Nome Completo")]
+        [MaxLength(40, ErrorMessage = "Max permitido: {0}")]
+        [MinLength(5, ErrorMessage = "Min permitido: {0}")]
+        [Display(Name = "Nome Completo")]
         public string FullName { get; set; }
 
-        [EmailAddress(ErrorMessage = "Email address is incorrect format")]
-        [MaxLength(40, ErrorMessage = "Max length is: {0}")]
-        [MinLength(5, ErrorMessage = "Min length is: {0}")]
-        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Endereço de E-mail está no formato incorreto")]
+        [MaxLength(40, ErrorMessage = "Max permitido: {0}")]
+        [MinLength(5, ErrorMessage = "Min permitido: {0}")]
+        [Required(ErrorMessage = "E-mail é obrigatório")]
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Password is required")]
-        [MaxLength(15, ErrorMessage = "Max length is: {0}")]
-        [MinLength(3, ErrorMessage = "Min length is: {0}")]
+        [Required(ErrorMessage = "Senha é obrigatório")]
+        [MaxLength(15, ErrorMessage = "Max permitido: {0}")]
+        [MinLength(3, ErrorMessage = "Min permitido: {0}")]
+        [Display(Name = "Senha")]
         public string Password { get; set; }
 
-        [Display(Name = "Insert Date")]
+        [Display(Name = "Data de Inserção")]
         public DateTime Insert { get; set; }
 
-        [Display(Name = "Enable")]
-        public bool Enable { get; set; }
+        [Display(Name = "LockoutEnabled")]
+        public bool LockoutEnabled { get; set; }
     }
 }

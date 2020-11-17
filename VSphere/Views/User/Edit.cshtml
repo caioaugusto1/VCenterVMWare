@@ -63,14 +63,14 @@
 
                             <div class="form-group">
                                 <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                    @Html.EditorFor(model => model.Enable, new { htmlAttributes = new { @id = "Enable", @class = "custom-control-input", @type = "checkbox", @checked = "checked" } })
+                                    @Html.EditorFor(model => model.LockoutEnabled, new { htmlAttributes = new { @id = "Enable", @class = "custom-control-input", @type = "checkbox", @checked = "checked" } })
                                     <label class="custom-control-label" for="Enable">Bloqueado</label>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-4">
-                                    <button type="submit" class="btn btn-primary btn-block">Edit</button>
+                                    <button type="submit" class="btn btn-primary btn-block">Editar</button>
                                 </div>
                                 <!-- /.col -->
                             </div>
