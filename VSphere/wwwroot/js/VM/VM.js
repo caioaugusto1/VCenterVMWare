@@ -144,8 +144,6 @@
 
             Util.closeLoadingModal();
 
-
-            debugger;
             if (data == 409) {
 
                 Util.showAlertModal('Requisição não foi finalizada', 'O PDF não foi enviado, por favor, tente novamente!');
@@ -185,6 +183,27 @@
 
         });
     }
+
+    var createSaveVM = function () {
+  
+        Util.request('/VM/CreateSave', 'POST', $('#formCreateVM').serialize(), 'json', false, function (data) {
+
+            if (data.statusCode === 200) {
+                $('#modalSuccess').modal('show');
+
+                setTimeout(function () {
+                    location.href = '/VM/AllByAPI';
+                }, 3000);
+
+            } else {
+                $('#modalAlert').modal('show');
+
+            }
+
+        }, function (request, status, error) {
+
+        });
+    };
 
     var cancelCreate = function () {
 
@@ -294,6 +313,6 @@
 
     loadingPage();
 
-    return { deleteVM, turnOnOrTurnOff, cancelCreate };
+    return { deleteVM, turnOnOrTurnOff, cancelCreate, createSaveVM };
 
 }();

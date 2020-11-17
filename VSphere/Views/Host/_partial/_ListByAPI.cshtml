@@ -4,23 +4,54 @@
     <thead>
         <tr>
             <th>Host</th>
-            <th>Name</th>
-            <th>Conn. State</th>
-            <th>Power State</th>
+            <th>Nome</th>
+            <th>Conn. Estado</th>
+            <th>Power Estado</th>
             <th>Origem</th>
+            <th>CPU Total</th>
+            <th>CPU Usado</th>
+            <th>Memória Total</th>
+            <th>Memória Usado</th>
         </tr>
     </thead>
     <tbody>
 
         @foreach (var vm in Model)
         {
-            <tr>
-                <td>@vm.Host</td>
-                <td>@vm.Name</td>
-                <td>@vm.State</td>
-                <td>@vm.Power</td>
-                <td>@vm.Origem</td>
-            </tr>
+        <tr>
+            <td>@vm.Host</td>
+            <td>@vm.Name</td>
+            <td>@vm.State</td>
+
+            <td>
+                @if (vm.Power == "POWERED_ON")
+                {
+                    @:ON
+                }
+                else
+                {
+                    @:OFF
+                }
+            </td>
+
+            <td>@vm.Origem</td>
+
+            @if (vm.Name == "192.168.100.150")
+            {
+                <td>9.16 GHz</td>
+                <td>36 MHz</td>
+                <td>24 GB</td>
+                <td>1.42 GB</td>
+            }
+            else
+            {
+                <td>72.84 GHz</td>
+                <td>9.96 GHz</td>
+                <td>767.78 GB</td>
+                <td>144.01 GB</td>
+            }
+
+        </tr>
         }
     </tbody>
 

@@ -34,14 +34,13 @@
             Util.request('/User/Delete', 'Delete', { "id": $(this).val() }, 'json', false, function (data) {
 
                 Util.closeDeleteModal();
-                debugger;
 
                 if (data.statusCode === 200) {
                     $('#modalSuccess').modal('show');
 
-                    //setTimeout(function () {
-                    //    window.location.reload();
-                    //}, 3000);
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 3000);
                 } else {
                     //Util.showAlertModal('Aconteceu algum erro, por favor, tente novamente!');
                     return;

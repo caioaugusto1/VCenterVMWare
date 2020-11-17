@@ -2,7 +2,7 @@
 
 @model CreateVMViewModel
 
-@using (Html.BeginForm("CreateSave", "VM", FormMethod.Post))
+@using (Html.BeginForm("CreateSave", "VM", FormMethod.Post, new { id = "formCreateVM" }))
 {
 
     <div class="container-fluid" id="create_partial_view">
@@ -133,7 +133,7 @@
                     <button type="button" class="btn btn-danger" onclick="VMjs.cancelCreate()" data-dismiss="modal" style="float:right"><i class="fa fa-times pr-2"></i>Cancelar</button>
                 </div>
                 <div class="col-sm-2 btn-group pull-right">
-                    <button type="submit" class="btn btn-primary col-xs-12" id="addSubmitButton" style="float:right"><i class="fa fa-check pr-2"></i>Criar</button>
+                    <button type="button" class="btn btn-primary col-xs-12" id="addSubmitButton" onclick="VMjs.createSaveVM()" style="float:right"><i class="fa fa-check pr-2"></i>Criar</button>
                 </div>
             </div>
         </div>

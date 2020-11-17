@@ -97,10 +97,12 @@ namespace VSphere.Controllers
 
             if (createResult == HttpStatusCode.OK)
             {
-                return RedirectToAction("AllByAPI", "VM");
+                return Json(new { statusCode = HttpStatusCode.OK });
             }
-
-            return RedirectToAction("IndexCreate", "VM");
+            else
+            {
+                return Json(new { statusCode = HttpStatusCode.Conflict });
+            }
         }
 
         [HttpGet]
