@@ -54,10 +54,19 @@
 
                 var used = value.capacity - value.freeSpace;
                 var result = (used * 100) / value.capacity;
-                debugger;
+
                 buildDivSpeedDataStore(result, idCount, value.name, value.type);
-                
-                $('#tbody-datatable').append(`<tr><td>${value.dataStore}</td><td>${value.name}</td><td>${value.type}</td><td>${used.toFixed(2)}</td><td>${result.toFixed(1)}</td>`);
+
+                var capacityTotal = 0;
+                if (value.capacity.length === 13) {
+                    capacityTotal = value.capacity.charAt(0) + "." + value.capacity.charAt(1) + value.capacity.charAt(2) + "TB"
+                } else if (value.capacity.length === 12) {
+                    capacityTotal = value.capacity.charAt(0) + value.capacity.charAt(1) + value.capacity.charAt(2) + "GB"
+                } else if (value.capacity.length === 9 || value.capacity.length === 10 || value.capacity.length === 11) {
+                    capacityTotal = value.capacity.charAt(0) + value.capacity.charAt(1) + "GB"
+                }
+
+                $('#tbody-datatable').append(`<tr><td>${value.name}</td><td>${value.type}</td><td>${capacityTotal}</td><td>${result.toFixed(1)} % </td>`);
 
             });
 
